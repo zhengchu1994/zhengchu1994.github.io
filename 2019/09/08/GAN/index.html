@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="generator" content="Hexo 4.2.1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon-moon_32px.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-moon_32px.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-moon_16px.png?v=7.3.0">
+  <link rel="mask-icon" href="/images/favicon-moon_32px.png?v=7.3.0" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.3.0">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.3.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    save_scroll: false,
+    copycode: {"enable":false,"show_result":false,"style":"mac"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: 'Copy',
+      copy_success: 'Copied',
+      copy_failure: 'Copy failed'
+    }
+  };
+</script>
+
+  <meta name="description" content="原始GAN训练过程： 初始化generator和discriminator 在每一轮迭代中： 首先固定生成器 $G$，然后更新判别器$D$；这时候，$D$学会对真实目标打高分，生成目标打低分； 固定判别器$D$，然后更新生成器$G$；这时候，生成器（通过梯度上升）学习如何欺骗判别器；   训练过程公式版：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="GAN">
+<meta property="og:url" content="http://yoursite.com/2019/09/08/GAN/index.html">
+<meta property="og:site_name" content="Zheng Chu&#39;s Blog">
+<meta property="og:description" content="原始GAN训练过程： 初始化generator和discriminator 在每一轮迭代中： 首先固定生成器 $G$，然后更新判别器$D$；这时候，$D$学会对真实目标打高分，生成目标打低分； 固定判别器$D$，然后更新生成器$G$；这时候，生成器（通过梯度上升）学习如何欺骗判别器；   训练过程公式版：">
+<meta property="og:image" content="http://yoursite.com/2019/09/08/GAN/%E8%AE%AD%E7%BB%83%E7%94%9F%E6%88%90%E5%99%A8.png">
+<meta property="og:image" content="http://yoursite.com/2019/09/08/GAN/%E6%9B%B4%E6%96%B0%E7%94%9F%E6%88%90%E5%99%A8.png">
+<meta property="og:image" content="http://yoursite.com/2019/09/08/GAN/%E7%AE%97%E6%B3%95%E6%B5%81%E7%A8%8B.png">
+<meta property="og:image" content="http://yoursite.com/2019/09/08/GAN/LSGAN.png">
+<meta property="og:image" content="http://yoursite.com/2019/09/08/GAN/movingPlan.png">
+<meta property="og:image" content="http://yoursite.com/2019/09/08/GAN/wgan%E7%AE%97%E6%B3%95%E6%B5%81%E7%A8%8B.png">
+<meta property="article:published_time" content="2019-09-08T09:17:09.000Z">
+<meta property="article:modified_time" content="2019-09-08T10:42:58.293Z">
+<meta property="article:author" content="Zheng Chu">
+<meta property="article:tag" content="DeepLearning">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2019/09/08/GAN/%E8%AE%AD%E7%BB%83%E7%94%9F%E6%88%90%E5%99%A8.png">
+  <link rel="canonical" href="http://yoursite.com/2019/09/08/GAN/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>GAN | Zheng Chu's Blog</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?<622a1a023f2bb8cdefcf61e3855bf317>";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <div class="container sidebar-position-left">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Zheng Chu's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">让希望永驻</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-主页">
+      
+    
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home  //"></i> <br>主页</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-所有专栏">
+      
+    
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th //"></i> <br>所有专栏</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-历史文章">
+      
+    
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive //"></i> <br>历史文章</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-标签">
+      
+    
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags  //"></i> <br>标签</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-关于我">
+      
+    
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user //"></i> <br>关于我</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+
+  <a href="https://github.com/zhengchu1994" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+            
+
+          <div id="content" class="content page-post-detail">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/08/GAN/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zheng Chu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar/jojo3.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zheng Chu's Blog">
+    </span>
+      <header class="post-header">
+
+        
+          <h1 class="post-title" itemprop="name headline">GAN
+
+            
+          </h1>
+        
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              
+                
+              
+
+              <time title="Created: 2019-09-08 17:17:09 / Modified: 18:42:58" itemprop="dateCreated datePublished" datetime="2019-09-08T17:17:09+08:00">2019-09-08</time>
+            </span>
+          
+            
+
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">深度学习</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            <span class="post-meta-item" title="Views">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h4 id="原始GAN"><a href="#原始GAN" class="headerlink" title="原始GAN"></a>原始GAN</h4><p>训练过程：</p><ol>
+<li>初始化generator和discriminator</li>
+<li>在每一轮迭代中：<ul>
+<li>首先固定生成器 $G$，然后更新判别器$D$；这时候，$D$学会对真实目标打高分，生成目标打低分；</li>
+<li>固定判别器$D$，然后更新生成器$G$；这时候，生成器（通过梯度上升）学习如何欺骗判别器；</li>
+</ul>
+</li>
+</ol><p>训练过程公式版：</p><a id="more"></a>
+
+
+<ol>
+<li><p>Initialize：初始化$D: \theta_d$，$G:\theta_g$；</p>
+</li>
+<li><p>Each Iteration：</p>
+<ul>
+<li>Learning $D$ ：1. 采样$m$个实例样本；2. 采样$m$个噪声样本$z^{(1…i)}$；3. 得到生成数据$\tilde x^i = G(z^i)$；4. 更新判别器$D$的参数来最大化：<script type="math/tex; mode=display">
+\tilde V = \frac{1}{m}\sum_{i=1}^m\log D(x^i)  + \frac{1}{m}\sum_{i=1}^m\log (1 - D(\tilde x^i))  \\\\
+\theta_d \leftarrow \theta_d + \eta \nabla \tilde V(\theta_d)</script></li>
+</ul>
+</li>
+</ol>
+<ul>
+<li>Learning $G$ ：1.采样$m$个噪声样本；2.更新生成器参数$\theta_g$ 来最大化：<script type="math/tex; mode=display">
+   \tilde V  = \frac{1}{m} \sum_{i=1}^m \log (D(G(z^i))) \\\\
+   \theta_g \leftarrow \theta_g - \eta\nabla \tilde V(\theta_g)</script></li>
+</ul>
+<h5 id="Structured-Learning"><a href="#Structured-Learning" class="headerlink" title="Structured Learning"></a>Structured Learning</h5><p>含义：机器学习是找到一个函数$f:X \rightarrow Y$，回归输出一个标量，分类输出一个类别，而结构化学习输出一个序列，一个矩阵，一个图或树等，这些输出由具有依赖性的组件（<strong>component</strong>）组成。</p>
+<p>带来的学习挑战：机器学习算法需要学会做规划（<strong>planning</strong>），因为输出组件之间具有依赖性，所以应该全局地去考虑生成它们。</p>
+<p>从这个角度去分析的话，生成器像自底向上的方式，学习在组件级别上生成目标；判别器像自顶向下的方式，学习评价全部的对象，找到最好的那一个。</p>
+<p>生成器$G$：是一个神经网络，它定义了一个分布$P<em>G(x)$，分布中的数据由此组成$x=G(z)$；为了拟合真实数据分布$P</em>{data}$,我们可以写：</p>
+<script type="math/tex; mode=display">
+G^{\ast} = \arg\min_G \mathrm{Div}(P_G,P_{data})</script><p>虽然不知道分布$P<em>G(x)$还有$P</em>{data}$，但是我们可以从中采样来近似它们。上面的目标函数与训练线性回归二分类器完全相同。</p>
+<p>判别器$D$：目标函数如下，但是$G$已经固定：</p>
+<script type="math/tex; mode=display">
+V(G,D) = E_{x\sim P_{data}}[\log D(x)] + E_{x\sim P_G}[\log (1 - D(x))]</script><p>训练$D$，当散度越小，越难判断出真伪：</p>
+<script type="math/tex; mode=display">
+D^{\ast} =\arg \max_D V(D, G)</script><ul>
+<li>生成器的优点：即使使用深度模型也很容易生成</li>
+<li>生成器的缺点：组件之间的相关性很难学习；模仿的是外观；</li>
+<li>判别器的优点：从大局考虑</li>
+<li>判别器的缺点：生成并不总是可行的，尤其是当您的模型很深入时；如何生成比较真的负样本，因为过于假的样本通常得分很低；</li>
+</ul>
+<h4 id="Conditional-GAN"><a href="#Conditional-GAN" class="headerlink" title="Conditional GAN"></a>Conditional GAN</h4><p>原始GAN：输入：条件$c$还有噪声$Z$，得到伪造图片$x=G(c,z)$，$x$作为判别器$D$的输入得到该$x$是真假的一个判断值，但看到上面的这个过程没有利用输入的条件$c$。</p>
+<p>条件GAN：不同在于输入判别器$D$的为：条件$c$还有$x$，判断$x$是否为真 + 判断$c$还有$x$是否匹配。比如输入判别器的为（文本：”火车”，图像： 火车的照片）。有的其他论文也通过把$x$输入$D$，然后把$D$的输出与条件$c$作为另一个神经网络的输入，两个网络输出同时来做判断。</p>
+<h4 id="Stack-GAN"><a href="#Stack-GAN" class="headerlink" title="Stack GAN"></a>Stack GAN</h4><p>17年的ICCV工作，输入一段文本向量，它朝着两个网络输入：第一个：在第一层通过条件增强（CA：conditional augmentation）后输入生成器$G_1$做摘要（sketch），上游采样（upsampling）后得到伪造图片，然后输出判别器$D_1$。第二个：输入生成器$G_2$做提纯（refinement）,上游采样后得到伪造图片，结合真实图片输入到判别器$D_2$.</p>
+<h4 id="Patch-GAN"><a href="#Patch-GAN" class="headerlink" title="Patch GAN"></a>Patch GAN</h4><p>对图片的一个小局部做生成对抗。</p>
+<h4 id="Unsupervised-Conditional-Generation"><a href="#Unsupervised-Conditional-Generation" class="headerlink" title="Unsupervised Conditional Generation"></a>Unsupervised Conditional Generation</h4><p>使用特点：在没有成对数据的情况下将对象从一个域转换到另一个域，如style transfer。</p>
+<p>李老师介绍了很多论文中GAN的设计结构，下面记录下。</p>
+<p>这通常有两种方法：</p>
+<ol>
+<li><p>第一类方法：直接从定义域$X$到$Y$的迁移$G_{X\rightarrow Y}$；</p>
+</li>
+<li><p>第二类方法：编码的方法，去投影到隐层只保留语义信息,$X\rightarrow \mathrm{Encoder}_X\rightarrow \mathrm{AttributeLayer}\rightarrow \mathrm{Decoder}_Y \rightarrow Y$</p>
+</li>
+</ol>
+<p>第一类方法：</p>
+<p>最早的直接做法：把$X$直接输入$G_{X\rightarrow Y}$里产生一个类似的$\hat Y$，结合一个真正来自$Y$域的输入，一起放到判别器$D_Y$做训练。</p>
+<p>缺点：$\hat Y$ 完全把$X$的特征消除了，太过于类似$Y$了。</p>
+<p>发现简单的生成器$G$更容易保持原来的域特性，而根本的解决办法是新的GAN架构，比如CycleGAN，多域迁移的starGAN。</p>
+<h5 id="Cycle-GAN"><a href="#Cycle-GAN" class="headerlink" title="Cycle GAN"></a>Cycle GAN</h5><p>结构是$X\rightarrow G<em>{X \rightarrow Y} \rightarrow \hat Y \rightarrow G</em>{Y\rightarrow X} \rightarrow \hat X$，然后重构损失 ：$L=\mathrm{(\hat X，X)}$。</p>
+<p>同时$\hat Y$ 会输入判别器$D_Y$ ；</p>
+<p>同时对于域$Y$的样本，有$Y\rightarrow G<em>{Y \rightarrow X} \rightarrow \hat X \rightarrow G</em>{X\rightarrow Y} \rightarrow \hat Y$，然后重构损失 ：$L=\mathrm{(\hat Y，Y)}$。</p>
+<p>同时$\hat X$会输入判别器$D_X$；</p>
+<p>总的来看，从开始到结束，是遵从所谓的周期一致性（Cycle Consisitency）。</p>
+<p>第二类方法：</p>
+<p>基本上是编码器的使用，如双层编码器，输入$X<em>1$经过上层编码器$\mathrm{Encoder}_X$编码后会放到下一层解码器$\mathrm{Decoder}_Y$，然后输出结果在输入下层判别器$D</em>{Y}$。</p>
+<h4 id="GAN-Theory"><a href="#GAN-Theory" class="headerlink" title="GAN Theory"></a>GAN Theory</h4><p>给定一个数据分布$P<em>{data}(x)$（可以从里面采样），设一个带参分布$P_G(x;\theta)$，目的是为了找到$\theta$使得$P_G(x;\theta)\approx P</em>{data}(x)$ ；比如可以假设$P_G(X;\theta)$是一个混合高斯分布。</p>
+<p>推理的flow是这样的：先从$P_{data}(x)$中采样${x^1,x^2,…,x^m}$，由此计算$P_G(x^i;\theta)$，生成样本的似然函数为：</p>
+<script type="math/tex; mode=display">
+L(\theta) =\prod_{i=1}^nP_{G}(x^i;\theta)</script><p>最大化似然函数来找寻$\theta^{\ast}$：</p>
+<script type="math/tex; mode=display">
+\begin{align*}
+\theta^{\ast} &= \arg\max_{\theta}\prod_{i=1}^mP_G(x^i;\theta) =\arg\max_{\theta} \log\prod_{i=1}^mP_G(x^i;\theta) \\\\
+& =\arg\max_{\theta} \sum_{i=1}^m\log P_G(x^i;\theta) \\\\
+& \approx  \arg\max_{\theta} E_{x\sim P_{data}}[\log P_{G}(x;\theta)] \\\\
+&= \arg\max_{\theta} \int_{x}P_{data}(x) \log P_{G}(x;\theta)\mathrm{dx} -\int_{x}P_{data}(x)\log P_{data}(x)\mathrm{dx} \\\\
+&= \arg \min_{\theta} KL(P_{data} \Vert P_G)
+\end{align*}</script><p>生成器$G$用神经网络来定义概率分布$P_G$，最优的$G^{\ast}$目标函数是：</p>
+<script type="math/tex; mode=display">
+\arg \min _G \mathrm{Div}(P_G,P_{data})</script><p>怎么计算这个散度？</p>
+<p>虽然不知道$P<em>G$与$P</em>{data}$，但是可以先从这里面采样，其中$P<em>{data}$采集于训练样本，$P</em>{G}$采集于正态分布，</p>
+<p>这些样本输入到判别器$D$，用sigmoid函数对输出做二分类，目标函数是一个二分类损失函数（binary cross-entropy），其中$G$已经固定了：</p>
+<script type="math/tex; mode=display">
+V(G,D) = E_{x \sim P_{data}}[\log D(x)] + E_{x\sim P_G}[\log (1- D(x))]</script><ul>
+<li>给定了$G$,也就有了负样本，这时候训练判别器$\max_{D}V(G, D)$</li>
+</ul>
+<script type="math/tex; mode=display">
+\begin{align*}
+V &= E_{x\sim P_{data}}[\log D(x)] + E_{x \sim P_G}[\log (1-D(x))] \\\\
+&= \int_{x}P_{data}(x)\log D(x) \mathrm{dx} +  \int_xP_G(x)\log(1-D(x))\mathrm{dx} \\\\
+&= \int_x \big[P_{data}(x)\log D(x) + P_G(x) \log (1-D(x))\big] \mathrm{dx}
+\end{align*}</script><p>因此可以看出来,给了$x$，最后的$D^{\ast}$最大化$f(D)$：</p>
+<script type="math/tex; mode=display">
+f(D) = P_{data}(x)\log D(x) + P_G(x) \log (1-D(x))</script><p>求导得到如下：</p>
+<script type="math/tex; mode=display">
+D^{\ast}(x) =  \frac{P_{data}(x)}{P_{data}(x) +P_G(x)}</script><p>把这个公式带入原来的$V(G, D)$得到：</p>
+<script type="math/tex; mode=display">
+\begin{align*}
+&\max_{D}V(G,D)  \\\\
+&= V(G, D^{\ast}) \\\\
+&= E_{x\sim P_{data}}\bigg[\log \frac{P_{data}(x)}{P_{data}(x) +P_G(x)} \bigg] + 
+E_{x \sim P_{G}}\bigg[\log \frac{P_{G}(x)}{P_{data}(x) +P_G(x)} \bigg] \\\\
+&=-2\log 2 + \int_x P_{data}(x)\bigg[\log \frac{P_{data}(x)}{(P_{data}(x) +P_G(x))/2} \bigg] +  
+\int _xP_{G}(x)\bigg[\log \frac{P_{G}(x)}{(P_{data}(x) +P_G(x))/2} \bigg] \\\\
+&=-2\log2 + \mathrm{KL}(P_{data}(x) \Vert \frac{P_{data}(x) +P_G(x)}{2}) + \mathrm{KL}(P_{G}(x) \Vert \frac{P_{data}(x) +P_G(x)}{2}) \\\\
+&=-2\log 2 + 2\mathrm{JSD}(P_{data}\Vert P_G)
+\end{align*}</script><p>其中用的的$JS$散度公式为：</p>
+<script type="math/tex; mode=display">
+\mathrm{JSD}(P\Vert Q) = \frac{1}{2}D(P \Vert M) +  \frac{1}{2}D(Q \Vert M) \\\\
+M = \frac{1}{2}(P+Q)</script><p>更新完了一轮判别器，开始更新生成器的参数 ：</p>
+<script type="math/tex; mode=display">
+G^{\ast}=\arg \min_{G}\max_DV(G,D)</script><p>其中判别器部分可以视为关于$G$的函数： $L(G)=\max_DV(G,D)$，由此得到训练GAN的过程如下：</p>
+<p><img src="/2019/09/08/GAN/训练生成器.png" alt="训练生成器"></p>
+<p>最小化损失函数$L(G)$，其中这里的$L(G)$是带有$\max$ 运算符号的，它的每次求解都是把对应最大函数值的函数段拿来做损失更新计算：</p>
+<script type="math/tex; mode=display">
+\theta_G \longleftarrow \theta_G -\eta\partial L(G)/\partial \theta_G</script><ul>
+<li>给定初始的$G<em>0$，找到$D_0^{\ast}$，梯度上升最大化$V(G_0,D)$：得到$V(G_0,D_0^{\ast})$是$P</em>{data}(x)$与$P_{G_0}(x)$的JS散度；</li>
+<li>利用$\theta<em>G \longleftarrow \theta_G -\eta\partial V(G_0,D_0^{\ast})/\partial \theta_G$ 得到$G_1$；存在的问题是当更新为$G_1$后，$V(G_1,D_0^{\ast})$ 函数下的$D^{\ast}$已经不再是$P</em>{data}(x)$与$P_{G_0}(x)$的JS散度，由下图可知：</li>
+</ul>
+<p><img src="/2019/09/08/GAN/更新生成器.png" alt="更新生成器"></p>
+<p>训练$D$要求的是最小化JS散度，当更新为$G_1$后，它的JS散度位置变了，此时再做更新$D_1^{\ast}$若想在上一轮的JS散度处，那么必须假设$D_0^{\ast}=D_1^{\ast}$，换句话说，要先训练判别器$D$多次，再去训练$G$.</p>
+<p>下面是整个算法流程图：</p>
+<p><img src="/2019/09/08/GAN/算法流程.png" alt="算法流程"></p>
+<p>在实际使用的论文代码中，不是用的$V=E<em>{x\sim P</em>{G}}[\log (1-D(x))]$更新生成器，而是用$V=E<em>{x\sim P</em>{G}}[-\log (D(x))]$来更新生成器，此时把来源于$P_G$的标签$x$作为正样本便可。</p>
+<h3 id="Tips-for-Improving-GAN"><a href="#Tips-for-Improving-GAN" class="headerlink" title="Tips for Improving GAN"></a>Tips for Improving GAN</h3><p>结论是原始GAN的JS散度并不适用，因为真实数据分布，比如图片的分布，实际上是高维空间中的一个低维manifold，因此对整个高维空间中的两个分布$P<em>{G}$还有$P</em>{data}$ ，它们一开始就很大可能一点都不重合（overlap），就算它们会有部分的重合，但实际我们是sampling的方式来近似$P<em>{G}$还有$P</em>{data}$ 的，我们的采样数目也使得我们得不到它们的重合。</p>
+<p>造成的结果就是我们的JS度量一直是$\log 2$，也就是一个常数，也就是如果两个分布不重叠，二分类器可以达到100%的准确率。如下图，这样的话，对于sigmoid函数，蓝色点为生成样本，我们想要的是它沿着sigmoid函数变成绿色训练数据样本点，但是因为它一直被完全判断为负样本，它的更新梯度几乎没有，所以达不到我们想要的效果。</p>
+<p>对此有人提出LSGAN(Least Square GAN)：把sigmoid分类函数去掉，用线性回归取代。</p>
+<p> <img src="/2019/09/08/GAN/LSGAN.png" alt="LSGAN"></p>
+<h4 id="WGAN"><a href="#WGAN" class="headerlink" title="WGAN"></a>WGAN</h4><p>这是一个更好的对GAN的改进方法，它用的是Earth Mover Distance来度量数据分布$P<em>{data}$还有$P</em>{G}$之间的距离。</p>
+<h5 id="Earth-Mover’s-Distance"><a href="#Earth-Mover’s-Distance" class="headerlink" title="Earth Mover’s Distance"></a>Earth Mover’s Distance</h5><p>把分布$P$推成分布$Q$的最小平均距离就是推土机距离，其中有很多推土方案(moving plan),记为$\gamma$,推土方案是可以用一个矩阵表示如下，矩阵中每个元素表示有多少土从$P$移动到$Q$，移动的越多的位置颜色越亮：</p>
+<p><img src="/2019/09/08/GAN/movingPlan.png" alt></p>
+<p>其中一个方案$\gamma$的平均距离为：</p>
+<script type="math/tex; mode=display">
+B(\gamma) = \sum_{x_p, x_q} =\gamma(x_p, x_q)\Vert x_p - x_q \Vert</script><p>推土机距离是最下移动距离（最优）方案：</p>
+<script type="math/tex; mode=display">
+W(P,Q) =\min_{\gamma\in \prod} B(\gamma)</script><p>该wasserstein distance之所以比JS好，是因为$P<em>{G}$与$P</em>{data}$即使没有overlap，我也可以从这个距离看到，它们之间的差异是在降低的，但是对JS的话，可能就会一直是一个常数。</p>
+<p>具体添加W距离到GAN的目标函数里：</p>
+<script type="math/tex; mode=display">
+V(G,D) = \max_{D\in \mathrm{1-Lipschitz}}\big\{E_{x\sim P_{data}}[D(x)] -E_{x\sim P_{G}}[D(x)]  \big \}</script><p>上面的$\mathrm{1-Lipschitz}$是在说$D$必须是足够smooth的，否则，训练$D$的时候不会拟合，上面的左边会趋向无穷，右边会趋向负无穷。</p>
+<p>Lipschitz函数的定义是：</p>
+<script type="math/tex; mode=display">
+\Vert f(x_1) -f(x_2) \Vert \le K \Vert x_1 -x_2\Vert</script><p>当$K=1$时，上式为$\mathrm{1-Lipschitz}$函数，左边代表的是输出的改变，右边代表的是输入的改变，$\mathrm{1-Lipschitz}$的意思是输出的改变不能太快，应该是不大于输入的改变。</p>
+<h5 id="weight-clipping"><a href="#weight-clipping" class="headerlink" title="weight clipping"></a>weight clipping</h5><p>但是这个约束并不好实现，当时的方案称为权重剪裁：强制$D$的权重$W$范围为$|W|&lt;c$便可以了，但是这个并不保证上面的约束成立。</p>
+<h5 id="Improved-WGAN-WGAN-GP"><a href="#Improved-WGAN-WGAN-GP" class="headerlink" title="Improved WGAN (WGAN-GP)"></a>Improved WGAN (WGAN-GP)</h5><blockquote>
+<p>A differentiable function is 1-Lipschitz if and only if it has gradients with norm less than or equal to 1 everywhere.</p>
+</blockquote>
+<p>也就是下面的式子等价：</p>
+<script type="math/tex; mode=display">
+D\in \mathrm{1-Lipschitz} \iff \Vert \nabla_xD(x) \Vert \le 1 ,\text{for all x}</script><p>通过在训练$D$的时候添加一个惩罚因子达到这一点：</p>
+<script type="math/tex; mode=display">
+V(G, D) \max_D\big\{E_{x\sim P_{data}}[D(x)] - E_{x\sim P_G}[D(x)] - \\\\
+\lambda E_x\sim P_{penalty}[\max(0,\Vert \nabla_xD(x)\Vert-1)]\big\}</script><p>其中得到分布$P<em>{penalty}$的方式是从$P</em>{data}$与$P<em>{G}$中采样，然后在它们连线上作为分布$P</em>{penalty}$，为什么这样做的原因是：</p>
+<blockquote>
+<p>Given that enforcing the Lipschitz constraint everywhere is intractable, enforcing it only along these straight lines seems sufficient and experimentally results in good performance</p>
+</blockquote>
+<p>而实现的时候采用的是：$(\Vert \nabla_xD(x)\Vert-1)^2$，也就是使得梯度值小于大于1都会有惩罚，而上面的只对大于1的梯度做惩罚。</p>
+<p>WGAN的算法流程如下：</p>
+<p><img src="/2019/09/08/GAN/wgan算法流程.png" alt="wgan算法流程"></p>
+<p>此外还有Spectrum Norm方法。</p>
+<blockquote>
+<p>Spectral Normalization → Keep gradient norm smaller than 1 everywhere。</p>
+</blockquote>
+<p>Energy-based GAN (EBGAN)：替换了判别器$D$的架构，换成了autoencoder。利用自动编码器的负构误差来确定图片的好坏，好处是判别器可以先做预训练。此方法对判别来时$G$的图片不会给出太大的负值。</p>
+<p>Loss-sensitive GAN (LSGAN)，每次计算$G$更新的好坏程度。</p>
+
+    </div>
+
+    
+    
+    
+        
+      
+
+      <footer class="post-footer">
+          
+            
+          
+          <div class="post-tags">
+            
+              <a href="/tags/DeepLearning/" rel="tag"># DeepLearning</a>
+            
+          </div>
+        
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/2019/09/05/EM/" rel="next" title="EM">
+                  <i class="fa fa-chevron-left"></i> EM
+                </a>
+              
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+                <a href="/2019/09/08/DeepLearning/KL%E6%95%A3%E5%BA%A6%E4%B8%8E%E8%B4%9F%E5%AF%B9%E6%95%B0%E4%BC%BC%E7%84%B6%E5%87%BD%E6%95%B0/" rel="prev" title="KL散度与负对数似然函数">
+                  KL散度与负对数似然函数 <i class="fa fa-chevron-right"></i>
+                </a>
+              
+            </div>
+          </div>
+        
+      </footer>
+    
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+    
+    <div class="comments" id="gitalk-container"></div>
+  
+
+        </div>
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image"
+      src="/images/avatar/jojo3.jpg"
+      alt="Zheng Chu">
+  <p class="site-author-name" itemprop="name">Zheng Chu</p>
+  <div class="site-description motion-element" itemprop="description"></div>
+</div>
+  <nav class="site-state motion-element">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives">
+        
+          <span class="site-state-item-count">61</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-name">categories</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-name">tags</span>
+        </a>
+      </div>
+    
+  </nav>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://github.com/zhengchu1994" title="GitHub &rarr; https://github.com/zhengchu1994" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://www.jianshu.com/u/d4875c485cff" title="简书 &rarr; https://www.jianshu.com/u/d4875c485cff" rel="noopener" target="_blank"><i class="fa fa-fw fa-heartbeat"></i>简书</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://blog.csdn.net/NockinOnHeavensDoor" title="CSDN &rarr; https://blog.csdn.net/NockinOnHeavensDoor" rel="noopener" target="_blank"><i class="fa fa-fw fa-globe"></i>CSDN</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="mailto:zhengchu@tju.edu.cn" title="E-Mail &rarr; mailto:zhengchu@tju.edu.cn" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+    
+  </div>
+
+
+
+        </div>
+      </div>
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#原始GAN"><span class="nav-number">1.</span> <span class="nav-text">原始GAN</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Structured-Learning"><span class="nav-number">1.1.</span> <span class="nav-text">Structured Learning</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Conditional-GAN"><span class="nav-number">2.</span> <span class="nav-text">Conditional GAN</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Stack-GAN"><span class="nav-number">3.</span> <span class="nav-text">Stack GAN</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Patch-GAN"><span class="nav-number">4.</span> <span class="nav-text">Patch GAN</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Unsupervised-Conditional-Generation"><span class="nav-number">5.</span> <span class="nav-text">Unsupervised Conditional Generation</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Cycle-GAN"><span class="nav-number">5.1.</span> <span class="nav-text">Cycle GAN</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#GAN-Theory"><span class="nav-number">6.</span> <span class="nav-text">GAN Theory</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Tips-for-Improving-GAN"><span class="nav-number"></span> <span class="nav-text">Tips for Improving GAN</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#WGAN"><span class="nav-number">1.</span> <span class="nav-text">WGAN</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Earth-Mover’s-Distance"><span class="nav-number">1.1.</span> <span class="nav-text">Earth Mover’s Distance</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#weight-clipping"><span class="nav-number">1.2.</span> <span class="nav-text">weight clipping</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Improved-WGAN-WGAN-GP"><span class="nav-number">1.3.</span> <span class="nav-text">Improved WGAN (WGAN-GP)</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Zheng Chu</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.2.1</div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.3.0</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="Total Visitors">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+    <span class="post-meta-divider">|</span>
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="Total Views">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+      </div>
+
+    
+
+  </div>
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+<script src="/js/utils.js?v=7.3.0"></script>
+  <script src="/js/motion.js?v=7.3.0"></script>
+
+
+  <script src="/js/affix.js?v=7.3.0"></script>
+  <script src="/js/schemes/pisces.js?v=7.3.0"></script>
+
+
+<script src="/js/next-boot.js?v=7.3.0"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+    
+      
+<script type="text/x-mathjax-config">
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') {
+          next = next.nextSibling;
+        }
+        if (next && next.nodeName.toLowerCase() === 'br') {
+          next.parentNode.removeChild(next);
+        }
+      }
+    });
+  });
+
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      element = document.getElementById(all[i].inputID + '-Frame').parentNode;
+      if (element.nodeName.toLowerCase() == 'li') {
+        element = element.parentNode;
+      }
+      element.classList.add('has-jax');
+    }
+  });
+</script>
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML', function() {
+    MathJax.Hub.Typeset();
+  }, window.MathJax);
+</script>
+
+    
+  
+
+  
+
+  
+
+
+  
+  <script src="/js/scrollspy.js?v=7.3.0"></script>
+<script src="/js/post-details.js?v=7.3.0"></script>
+
+
+    
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', function() {
+    var gitalk = new Gitalk({
+      clientID: '0911ce8ceab7f12409f0',
+      clientSecret: '6fa693e25bfc0f98e5cc0907c97cb2fe9f54bb5e',
+      repo: 'Gitalk',
+      owner: 'zhengchu1994',
+      admin: ['zhengchu1994'],
+      id: 'f651fabe0ed90cb5e661cf6b386afb3c',
+        language: window.navigator.language || window.navigator.userLanguage,
+      
+      distractionFreeMode: 'true'
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+</script>
+
+</body>
+</html>

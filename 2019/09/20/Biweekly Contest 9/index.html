@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="generator" content="Hexo 4.2.1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon-moon_32px.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-moon_32px.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-moon_16px.png?v=7.3.0">
+  <link rel="mask-icon" href="/images/favicon-moon_32px.png?v=7.3.0" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.3.0">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.3.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    save_scroll: false,
+    copycode: {"enable":false,"show_result":false,"style":"mac"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: 'Copy',
+      copy_success: 'Copied',
+      copy_failure: 'Copy failed'
+    }
+  };
+</script>
+
+  <meta name="description" content="Biweekly Contest 91196. How Many Apples Can You Put into the Basket You have some apples, where arr[i] is the weight of the i-th apple.  You also have a basket that can carry up to 5000 units of weigh">
+<meta property="og:type" content="article">
+<meta property="og:title" content="LeetCode-Biweekly Contest 9">
+<meta property="og:url" content="http://yoursite.com/2019/09/20/Biweekly%20Contest%209/index.html">
+<meta property="og:site_name" content="Zheng Chu&#39;s Blog">
+<meta property="og:description" content="Biweekly Contest 91196. How Many Apples Can You Put into the Basket You have some apples, where arr[i] is the weight of the i-th apple.  You also have a basket that can carry up to 5000 units of weigh">
+<meta property="article:published_time" content="2019-09-20T13:53:32.000Z">
+<meta property="article:modified_time" content="2019-09-23T13:26:57.397Z">
+<meta property="article:author" content="Zheng Chu">
+<meta property="article:tag" content="Algorithm">
+<meta property="article:tag" content="Leetcode">
+<meta name="twitter:card" content="summary">
+  <link rel="canonical" href="http://yoursite.com/2019/09/20/Biweekly%20Contest%209/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>LeetCode-Biweekly Contest 9 | Zheng Chu's Blog</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?<622a1a023f2bb8cdefcf61e3855bf317>";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <div class="container sidebar-position-left">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Zheng Chu's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">让希望永驻</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-主页">
+      
+    
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home  //"></i> <br>主页</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-所有专栏">
+      
+    
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th //"></i> <br>所有专栏</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-历史文章">
+      
+    
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive //"></i> <br>历史文章</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-标签">
+      
+    
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags  //"></i> <br>标签</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-关于我">
+      
+    
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user //"></i> <br>关于我</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+
+  <a href="https://github.com/zhengchu1994" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+            
+
+          <div id="content" class="content page-post-detail">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/20/Biweekly%20Contest%209/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zheng Chu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar/jojo3.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zheng Chu's Blog">
+    </span>
+      <header class="post-header">
+
+        
+          <h1 class="post-title" itemprop="name headline">LeetCode-Biweekly Contest 9
+
+            
+          </h1>
+        
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              
+                
+              
+
+              <time title="Created: 2019-09-20 21:53:32" itemprop="dateCreated datePublished" datetime="2019-09-20T21:53:32+08:00">2019-09-20</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-09-23 21:26:57" itemprop="dateModified" datetime="2019-09-23T21:26:57+08:00">2019-09-23</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" itemprop="url" rel="index"><span itemprop="name">算法与数据结构</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            <span class="post-meta-item" title="Views">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="Biweekly-Contest-9"><a href="#Biweekly-Contest-9" class="headerlink" title="Biweekly Contest 9"></a>Biweekly Contest 9</h2><h4 id="1196-How-Many-Apples-Can-You-Put-into-the-Basket"><a href="#1196-How-Many-Apples-Can-You-Put-into-the-Basket" class="headerlink" title="1196. How Many Apples Can You Put into the Basket"></a>1196. How Many Apples Can You Put into the Basket</h4><blockquote>
+<p>You have some apples, where <code>arr[i]</code> is the weight of the <code>i</code>-th apple.  You also have a basket that can carry up to <code>5000</code> units of weight.</p>
+<p>Return the maximum number of apples you can put in the basket.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt;Input: arr &#x3D; [100,200,150,1000]</span><br><span class="line">&gt;Output: 4</span><br><span class="line">&gt;Explanation: All 4 apples can be carried by the basket since their sum of weights is 1450.</span><br></pre></td></tr></table></figure>
+</blockquote><a id="more"></a>
+<ul>
+<li><p>解析：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">maxNumberOfApples</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; arr)</span> </span>&#123;</span><br><span class="line">        sort(arr.begin(),arr.end());</span><br><span class="line">        <span class="keyword">int</span> res = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> weight = <span class="number">5000</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">auto</span> num : arr)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (weight - num &gt; <span class="number">0</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                res++;</span><br><span class="line">                weight -= num; </span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="1197-Minimum-Knight-Moves"><a href="#1197-Minimum-Knight-Moves" class="headerlink" title="1197. Minimum Knight Moves"></a>1197. Minimum Knight Moves</h4><blockquote>
+<p>In an <strong>infinite</strong> chess board with coordinates from <code>-infinity</code> to <code>+infinity</code>, you have a <strong>knight</strong> at square <code>[0, 0]</code>.</p>
+<p>A knight has 8 possible moves it can make, as illustrated below. Each move is two squares in a cardinal direction, then one square in an orthogonal direction.</p>
+<p>Return the minimum number of steps needed to move the knight to the square <code>[x, y]</code>.  It is guaranteed the answer exists.</p>
+<p><strong>Constraints:</strong></p>
+<ul>
+<li><code>|x| + |y| &lt;= 300</code></li>
+</ul>
+</blockquote>
+<ul>
+<li>解析：到达【x,y】的最小步数，等价于到达 【||x|| ,||y||】，即正值的位置。用图的BFS解。</li>
+</ul>
+<p>我的两个答案都超时：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> queue</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">minKnightMoves</span><span class="params">(self, x: int, y: int)</span> -&gt; int:</span></span><br><span class="line">        x, y = abs(x), abs(y)</span><br><span class="line">        xstep = [<span class="number">2</span>,  <span class="number">2</span>,  <span class="number">1</span>,  <span class="number">1</span>,  <span class="number">-2</span>, <span class="number">-2</span>,  <span class="number">-1</span>, <span class="number">-1</span>]</span><br><span class="line">        ystep = [<span class="number">1</span>, <span class="number">-1</span>,  <span class="number">2</span>, <span class="number">-2</span>,  <span class="number">-1</span>,  <span class="number">1</span>,  <span class="number">-2</span>,  <span class="number">2</span>]</span><br><span class="line">        s = set()</span><br><span class="line">        q = queue.Queue()</span><br><span class="line">        pos = (<span class="number">0</span>, <span class="number">0</span>)</span><br><span class="line">        s.add(pos)</span><br><span class="line">        q.put(list(pos) + [<span class="number">0</span>])</span><br><span class="line">        <span class="keyword">while</span> <span class="keyword">not</span> q.empty():</span><br><span class="line">            out = q.get()</span><br><span class="line">            <span class="keyword">for</span> xs, ys <span class="keyword">in</span> zip(xstep, ystep):</span><br><span class="line">                pos = xs + out[<span class="number">0</span>], ys + out[<span class="number">1</span>]</span><br><span class="line">                <span class="keyword">if</span> <span class="number">-5</span> &lt;= abs(pos[<span class="number">0</span>]) + abs(pos[<span class="number">1</span>]) &lt;= <span class="number">302</span>:</span><br><span class="line">                    <span class="keyword">if</span> pos == (x, y):</span><br><span class="line">                        <span class="keyword">return</span> out[<span class="number">2</span>] + <span class="number">1</span></span><br><span class="line">                    <span class="keyword">if</span> pos <span class="keyword">not</span> <span class="keyword">in</span> s:</span><br><span class="line">                        s.add(pos)</span><br><span class="line">                        q.put(list(pos) + [out[<span class="number">2</span>] + <span class="number">1</span>])</span><br></pre></td></tr></table></figure>
+<p>这个也错误（）：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> MAXL = <span class="number">302</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> STEP = <span class="number">8</span>;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span> </span><br><span class="line">    <span class="comment">//走位</span></span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">int</span> xstep[STEP] = &#123;<span class="number">2</span>,  <span class="number">2</span>,  <span class="number">1</span>,  <span class="number">1</span>,  <span class="number">-2</span>, <span class="number">-2</span>,  <span class="number">-1</span>, <span class="number">-1</span>&#125;;</span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">int</span> ystep[STEP] = &#123;<span class="number">1</span>, <span class="number">-1</span>,  <span class="number">2</span>, <span class="number">-2</span>,  <span class="number">-1</span>,  <span class="number">1</span>,  <span class="number">-2</span>,  <span class="number">2</span>&#125;;</span><br><span class="line">    </span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">edge</span></span></span><br><span class="line"><span class="class">    &#123;</span></span><br><span class="line">        edge(<span class="keyword">int</span> x, <span class="keyword">int</span> y, <span class="keyword">int</span> step): v(x), u(y), steps(step) &#123;&#125;</span><br><span class="line">        <span class="keyword">int</span> v, u;</span><br><span class="line">        <span class="keyword">int</span> steps;</span><br><span class="line">        <span class="keyword">bool</span> <span class="keyword">operator</span>&lt;(<span class="keyword">const</span> edge &amp; y) <span class="keyword">const</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (v &lt; y.v) <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="keyword">int</span> X, Y; <span class="comment">//终点结果</span></span><br><span class="line">    <span class="keyword">int</span> res; <span class="comment">//答案</span></span><br><span class="line">    <span class="comment">//记录边是否已经访问过</span></span><br><span class="line">    <span class="built_in">set</span>&lt;edge&gt; sset;</span><br><span class="line">    <span class="built_in">deque</span>&lt;edge&gt; que;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">BFS</span><span class="params">(<span class="keyword">int</span> x, <span class="keyword">int</span> y, <span class="keyword">int</span> steps = <span class="number">0</span>)</span></span></span><br><span class="line"><span class="function">    </span>&#123;   </span><br><span class="line">        <span class="comment">//从起点开始宽度优先搜索</span></span><br><span class="line">        edge e = &#123;x, y, steps&#125;; </span><br><span class="line">        <span class="keyword">if</span> (sset.count(e) != <span class="number">0</span>) <span class="keyword">return</span>;</span><br><span class="line">        </span><br><span class="line">        que.push_front(e);</span><br><span class="line">        sset.insert(edge(x, y, <span class="number">-1</span>));</span><br><span class="line">        <span class="keyword">if</span> (x == X &amp;&amp; y == Y)</span><br><span class="line">        &#123;</span><br><span class="line">            res = steps;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">while</span>(!que.empty())</span><br><span class="line">        &#123;</span><br><span class="line">            edge t = que.front(); que.pop_front();</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; STEP; i++)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">int</span> v = t.v + xstep[i];</span><br><span class="line">                <span class="keyword">int</span> u = t.u + ystep[i];</span><br><span class="line">                <span class="keyword">int</span> _step = t.steps + <span class="number">1</span>;</span><br><span class="line">                <span class="keyword">if</span> (v == X &amp;&amp; u == Y)</span><br><span class="line">                &#123;</span><br><span class="line">                    res = _step;</span><br><span class="line">                    <span class="keyword">return</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                edge next = &#123;v, u, _step&#125;;</span><br><span class="line">                <span class="keyword">if</span> (sset.count(edge(v, u, <span class="number">-1</span>)) == <span class="number">0</span>)</span><br><span class="line">                &#123;</span><br><span class="line">                    sset.insert(next);</span><br><span class="line">                    que.push_back(next);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">init</span><span class="params">(<span class="keyword">int</span> x, <span class="keyword">int</span> y)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>-&gt;X = x;</span><br><span class="line">        <span class="keyword">this</span>-&gt;Y = y;</span><br><span class="line">        res = <span class="number">17</span>;</span><br><span class="line">        BFS(<span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">minKnightMoves</span><span class="params">(<span class="keyword">int</span> x, <span class="keyword">int</span> y)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> res = init(x, y);</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>别人的方法：不用queue，直接用list更加方便，改了下个别地方：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></span><br><span class="line">    memo = &#123;(<span class="number">0</span>, <span class="number">0</span>): <span class="number">0</span>&#125;</span><br><span class="line">    queue = [(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>)]</span><br><span class="line">    <span class="keyword">for</span> x, y, d <span class="keyword">in</span> queue:</span><br><span class="line">        <span class="keyword">for</span> dx, dy <span class="keyword">in</span> ((<span class="number">2</span>, <span class="number">-1</span>), (<span class="number">2</span>, <span class="number">1</span>), (<span class="number">-2</span>, <span class="number">-1</span>), (<span class="number">-2</span>, <span class="number">1</span>), (<span class="number">1</span>, <span class="number">-2</span>), (<span class="number">1</span>, <span class="number">2</span>), (<span class="number">-1</span>, <span class="number">-2</span>), (<span class="number">-1</span>, <span class="number">2</span>)):</span><br><span class="line">            nx = x+dx</span><br><span class="line">            ny = y+dy</span><br><span class="line">            <span class="keyword">if</span> <span class="number">0</span> &lt;= abs(nx) + abs(ny) &lt;= <span class="number">302</span>: <span class="comment">#加速</span></span><br><span class="line">                <span class="keyword">if</span> (nx, ny) <span class="keyword">not</span> <span class="keyword">in</span> memo:</span><br><span class="line">                    memo[nx,ny] = d+<span class="number">1</span></span><br><span class="line">                    queue.append((nx, ny, d+<span class="number">1</span>))</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">minKnightMoves</span><span class="params">(self, x, y)</span>:</span></span><br><span class="line">        x = abs(x)</span><br><span class="line">        y = abs(y)</span><br><span class="line">        <span class="keyword">return</span> Solution.memo[x,y]</span><br></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> maxn 410</span></span><br><span class="line"><span class="keyword">typedef</span> pair&lt;<span class="keyword">int</span>,<span class="keyword">int</span>&gt; pii;</span><br><span class="line"><span class="keyword">int</span> ret[maxn][maxn];</span><br><span class="line"><span class="keyword">int</span> dx[]=&#123;<span class="number">1</span>,<span class="number">2</span>, <span class="number">2</span>, <span class="number">1</span>,<span class="number">-1</span>,<span class="number">-2</span>,<span class="number">-2</span>,<span class="number">-1</span>&#125;;</span><br><span class="line"><span class="keyword">int</span> dy[]=&#123;<span class="number">2</span>,<span class="number">1</span>,<span class="number">-1</span>,<span class="number">-2</span>,<span class="number">-2</span>,<span class="number">-1</span>, <span class="number">1</span>, <span class="number">2</span>&#125;;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">minKnightMoves</span><span class="params">(<span class="keyword">int</span> x, <span class="keyword">int</span> y)</span> </span>&#123;</span><br><span class="line">        x=<span class="built_in">abs</span>(x),y=<span class="built_in">abs</span>(y);</span><br><span class="line">        <span class="built_in">memset</span>(ret,<span class="number">-1</span>,<span class="keyword">sizeof</span>(ret));</span><br><span class="line">        ret[<span class="number">0</span>][<span class="number">0</span>]=<span class="number">0</span>;</span><br><span class="line">        <span class="built_in">queue</span>&lt;pii&gt; q;</span><br><span class="line">        q.push(make_pair(<span class="number">0</span>,<span class="number">0</span>));</span><br><span class="line">        <span class="keyword">int</span> xL=x+<span class="number">20</span>,yL=y+<span class="number">20</span>;</span><br><span class="line">        <span class="keyword">while</span> (!q.empty())</span><br><span class="line">        &#123;</span><br><span class="line">            pii v=q.front();q.pop();</span><br><span class="line">            <span class="keyword">int</span> px=v.first,py=v.second;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> k=<span class="number">0</span>;k&lt;<span class="number">8</span>;k++)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">int</span> nx=px+dx[k];</span><br><span class="line">                <span class="keyword">int</span> ny=py+dy[k];</span><br><span class="line">                <span class="keyword">if</span> (<span class="number">0</span>&lt;=nx &amp;&amp; nx&lt;=xL &amp;&amp; <span class="number">0</span>&lt;=ny &amp;&amp; ny&lt;=yL)</span><br><span class="line">                &#123;</span><br><span class="line">                  <span class="keyword">if</span> (ret[nx][ny]==<span class="number">-1</span>)</span><br><span class="line">                  &#123;</span><br><span class="line">                      ret[nx][ny]=ret[px][py]+<span class="number">1</span>;</span><br><span class="line">                      q.push(make_pair(nx,ny));</span><br><span class="line">                  &#125;</span><br><span class="line">                    </span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> ret[x][y];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>这个代码是最concise的了：其他的比较看不懂。。 - -</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="keyword">int</span> dx[<span class="number">8</span>]=&#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">1</span>, <span class="number">-1</span>, <span class="number">-2</span>, <span class="number">-2</span>, <span class="number">-1</span>&#125;;</span><br><span class="line">    <span class="keyword">int</span> dy[<span class="number">8</span>]=&#123;<span class="number">-2</span>, <span class="number">-1</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">1</span>, <span class="number">-1</span>, <span class="number">-2</span>&#125;;</span><br><span class="line">    <span class="keyword">int</span> dist[<span class="number">400</span>][<span class="number">400</span>];</span><br><span class="line">    <span class="built_in">queue</span>&lt;pair&lt;<span class="keyword">int</span>, <span class="keyword">int</span>&gt; &gt; que; <span class="comment">//记录成对输入的栈</span></span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">minKnightMoves</span><span class="params">(<span class="keyword">int</span> x, <span class="keyword">int</span> y)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (x&lt;<span class="number">0</span>) x=-x;</span><br><span class="line">        <span class="keyword">if</span> (y&lt;<span class="number">0</span>) y=-y;</span><br><span class="line">        <span class="built_in">memset</span>(dist, <span class="number">-1</span>, <span class="keyword">sizeof</span>(dist));</span><br><span class="line">        <span class="keyword">while</span>(!que.empty()) que.pop(); <span class="comment">//事先想着要弹空栈啊</span></span><br><span class="line">        </span><br><span class="line">        dist[<span class="number">10</span>][<span class="number">10</span>]=<span class="number">0</span>; que.push(make_pair(<span class="number">10</span>, <span class="number">10</span>));</span><br><span class="line">        <span class="keyword">while</span>(!que.empty())&#123;</span><br><span class="line">            <span class="keyword">int</span> x=que.front().first, y=que.front().second;</span><br><span class="line">            que.pop();</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> k=<span class="number">0</span>; k&lt;<span class="number">8</span>; k++)&#123;</span><br><span class="line">                <span class="keyword">int</span> nx=x+dx[k], ny=y+dy[k];</span><br><span class="line">                <span class="keyword">if</span> (nx&lt;<span class="number">0</span> || ny&lt;<span class="number">0</span> || nx&gt;<span class="number">350</span> || ny&gt;<span class="number">350</span>) <span class="keyword">continue</span>;</span><br><span class="line">                <span class="keyword">if</span> (dist[nx][ny]==<span class="number">-1</span>)&#123;</span><br><span class="line">                    dist[nx][ny]=dist[x][y]+<span class="number">1</span>;</span><br><span class="line">                    que.push(make_pair(nx, ny));</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> dist[x+<span class="number">10</span>][y+<span class="number">10</span>];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h4 id="1198-Find-Smallest-Common-Element-in-All-Rows"><a href="#1198-Find-Smallest-Common-Element-in-All-Rows" class="headerlink" title="1198. Find Smallest Common Element in All Rows"></a>1198. Find Smallest Common Element in All Rows</h4><blockquote>
+<p>Given a matrix <code>mat</code> where every row is sorted in <strong>increasing</strong> order, return the <strong>smallest common element</strong> in all rows.</p>
+<p>If there is no common element, return <code>-1</code>.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt;Input: mat &#x3D; [[1,2,3,4,5],[2,4,5,8,10],[3,5,7,9,11],[1,3,5,7,9]]</span><br><span class="line">&gt;Output: 5</span><br></pre></td></tr></table></figure>
+</blockquote>
+<ul>
+<li>复习下集合操作：</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    def smallestCommonElement(self, mat: List[List[int]]) -&gt; int:</span><br><span class="line">        s = <span class="built_in">set</span>(mat[<span class="number">0</span>])</span><br><span class="line">        <span class="keyword">for</span> i in range(<span class="number">1</span>,len(mat)):</span><br><span class="line">            s = s &amp; <span class="built_in">set</span>(mat[i])</span><br><span class="line">            <span class="keyword">if</span> len(s) == <span class="number">0</span>:</span><br><span class="line">                <span class="keyword">return</span> <span class="number">-1</span></span><br><span class="line">        <span class="keyword">return</span> min(s)</span><br></pre></td></tr></table></figure>
+<h4 id="1199-Minimum-Time-to-Build-Blocks"><a href="#1199-Minimum-Time-to-Build-Blocks" class="headerlink" title="1199. Minimum Time to Build Blocks"></a>1199. Minimum Time to Build Blocks</h4><blockquote>
+<p>You are given a list of blocks, where <code>blocks[i] = t</code> means that the <code>i</code>-th block needs <code>t</code> units of time to be built. A block can only be built by exactly one worker.</p>
+<p>A worker can either split into two workers (number of workers increases by one) or build a block then go home. Both decisions cost some time.</p>
+<p>The time cost of spliting one worker into two workers is given as an integer <code>split</code>. Note that if two workers split at the same time, they split in parallel so the cost would be <code>split</code>.</p>
+<p>Output the minimum time needed to build all blocks.</p>
+<p>Initially, there is only <strong>one</strong> worker.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&gt;Input: blocks &#x3D; [1,2,3], split &#x3D; 1</span><br><span class="line">&gt;Output: 4</span><br><span class="line">&gt;Explanation: Split 1 worker into 2, then assign the first worker to the last block and split the second worker into 2.</span><br><span class="line">&gt;Then, use the two unassigned workers to build the first two blocks.</span><br><span class="line">&gt;The cost is 1 + max(3, 1 + max(1, 2)) &#x3D; 4.</span><br></pre></td></tr></table></figure>
+</blockquote>
+<ul>
+<li>workers可以并行分裂，比如 1—-&gt;2，需要一次分裂，1——&gt;2<em>2, 需要2次分裂，1—&gt;2 </em> n，需要n次分裂。</li>
+</ul>
+<p>假设目标blocks数组的大小为M，2个为一段，整个数组被分成小于等于n的小段。</p>
+<p>每一个小段拥有一个split值，如【1,2,3】被分为【1,2】还有【3】，【3】带有一个split值，这个值的意思是花时间找人，所以这个split必须用完，才表示新的工人过来开始干活。新的工人过来</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">minBuildTime</span><span class="params">(self, blocks: List[int], split: int)</span> -&gt; int:</span></span><br><span class="line">        <span class="keyword">while</span> len(blocks) &gt; <span class="number">1</span>:</span><br><span class="line">            blocks.sort()</span><br><span class="line">            a = blocks[<span class="number">0</span>]</span><br><span class="line">            b = blocks[<span class="number">1</span>]</span><br><span class="line">            res = split + max(a, b)</span><br><span class="line">            blocks = [res] + blocks[<span class="number">2</span>:]</span><br><span class="line">        <span class="keyword">return</span> blocks[<span class="number">0</span>]</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">minBuildTime</span><span class="params">(self, blocks: List[int], split: int)</span> -&gt; int:</span></span><br><span class="line">        heapq.heapify(blocks)</span><br><span class="line">        <span class="keyword">while</span> len(blocks) &gt; <span class="number">1</span>:</span><br><span class="line">            block_1 = heapq.heappop(blocks)</span><br><span class="line">            block_2 = heapq.heappop(blocks)</span><br><span class="line">            new_block = max(block_1, block_2) + split</span><br><span class="line">            heapq.heappush(blocks, new_block)</span><br><span class="line">        <span class="keyword">return</span> blocks[<span class="number">0</span>]</span><br></pre></td></tr></table></figure>
+<p>c++:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">minBuildTime</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; blocks, <span class="keyword">int</span> split)</span> </span>&#123;</span><br><span class="line">        priority_queue&lt;<span class="keyword">int</span>, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;, greater&lt;&gt;&gt; pq;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">auto</span> &amp;v: blocks) pq.push(v);</span><br><span class="line">        <span class="keyword">while</span> (pq.size() &gt; <span class="number">1</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">int</span> b1 = pq.top(); pq.pop();</span><br><span class="line">            <span class="keyword">int</span> b2 = pq.top(); pq.pop();</span><br><span class="line">            <span class="keyword">int</span> res = split + max(b1, b2);</span><br><span class="line">            pq.push(res);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> pq.top();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+        
+      
+
+      <footer class="post-footer">
+          
+            
+          
+          <div class="post-tags">
+            
+              <a href="/tags/Algorithm/" rel="tag"># Algorithm</a>
+            
+              <a href="/tags/Leetcode/" rel="tag"># Leetcode</a>
+            
+          </div>
+        
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/2019/09/20/%E8%B4%AA%E5%BF%83/" rel="next" title="算法Basic--贪心">
+                  <i class="fa fa-chevron-left"></i> 算法Basic--贪心
+                </a>
+              
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+                <a href="/2019/09/20/Weekly%20Contest%20155/" rel="prev" title="LeetCode-Weekly Contest 155">
+                  LeetCode-Weekly Contest 155 <i class="fa fa-chevron-right"></i>
+                </a>
+              
+            </div>
+          </div>
+        
+      </footer>
+    
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+    
+    <div class="comments" id="gitalk-container"></div>
+  
+
+        </div>
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image"
+      src="/images/avatar/jojo3.jpg"
+      alt="Zheng Chu">
+  <p class="site-author-name" itemprop="name">Zheng Chu</p>
+  <div class="site-description motion-element" itemprop="description"></div>
+</div>
+  <nav class="site-state motion-element">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives">
+        
+          <span class="site-state-item-count">61</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-name">categories</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-name">tags</span>
+        </a>
+      </div>
+    
+  </nav>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://github.com/zhengchu1994" title="GitHub &rarr; https://github.com/zhengchu1994" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://www.jianshu.com/u/d4875c485cff" title="简书 &rarr; https://www.jianshu.com/u/d4875c485cff" rel="noopener" target="_blank"><i class="fa fa-fw fa-heartbeat"></i>简书</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://blog.csdn.net/NockinOnHeavensDoor" title="CSDN &rarr; https://blog.csdn.net/NockinOnHeavensDoor" rel="noopener" target="_blank"><i class="fa fa-fw fa-globe"></i>CSDN</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="mailto:zhengchu@tju.edu.cn" title="E-Mail &rarr; mailto:zhengchu@tju.edu.cn" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+    
+  </div>
+
+
+
+        </div>
+      </div>
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Biweekly-Contest-9"><span class="nav-number">1.</span> <span class="nav-text">Biweekly Contest 9</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1196-How-Many-Apples-Can-You-Put-into-the-Basket"><span class="nav-number">1.0.1.</span> <span class="nav-text">1196. How Many Apples Can You Put into the Basket</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1197-Minimum-Knight-Moves"><span class="nav-number">1.0.2.</span> <span class="nav-text">1197. Minimum Knight Moves</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1198-Find-Smallest-Common-Element-in-All-Rows"><span class="nav-number">1.0.3.</span> <span class="nav-text">1198. Find Smallest Common Element in All Rows</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1199-Minimum-Time-to-Build-Blocks"><span class="nav-number">1.0.4.</span> <span class="nav-text">1199. Minimum Time to Build Blocks</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Zheng Chu</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.2.1</div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.3.0</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="Total Visitors">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+    <span class="post-meta-divider">|</span>
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="Total Views">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+      </div>
+
+    
+
+  </div>
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+<script src="/js/utils.js?v=7.3.0"></script>
+  <script src="/js/motion.js?v=7.3.0"></script>
+
+
+  <script src="/js/affix.js?v=7.3.0"></script>
+  <script src="/js/schemes/pisces.js?v=7.3.0"></script>
+
+
+<script src="/js/next-boot.js?v=7.3.0"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+    
+      
+<script type="text/x-mathjax-config">
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') {
+          next = next.nextSibling;
+        }
+        if (next && next.nodeName.toLowerCase() === 'br') {
+          next.parentNode.removeChild(next);
+        }
+      }
+    });
+  });
+
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      element = document.getElementById(all[i].inputID + '-Frame').parentNode;
+      if (element.nodeName.toLowerCase() == 'li') {
+        element = element.parentNode;
+      }
+      element.classList.add('has-jax');
+    }
+  });
+</script>
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML', function() {
+    MathJax.Hub.Typeset();
+  }, window.MathJax);
+</script>
+
+    
+  
+
+  
+
+  
+
+
+  
+  <script src="/js/scrollspy.js?v=7.3.0"></script>
+<script src="/js/post-details.js?v=7.3.0"></script>
+
+
+    
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', function() {
+    var gitalk = new Gitalk({
+      clientID: '0911ce8ceab7f12409f0',
+      clientSecret: '6fa693e25bfc0f98e5cc0907c97cb2fe9f54bb5e',
+      repo: 'Gitalk',
+      owner: 'zhengchu1994',
+      admin: ['zhengchu1994'],
+      id: '479d3d67b8ecb445e689e4fb272366b7',
+        language: window.navigator.language || window.navigator.userLanguage,
+      
+      distractionFreeMode: 'true'
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+</script>
+
+</body>
+</html>

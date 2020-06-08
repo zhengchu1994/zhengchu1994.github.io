@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="generator" content="Hexo 4.2.1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon-moon_32px.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-moon_32px.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-moon_16px.png?v=7.3.0">
+  <link rel="mask-icon" href="/images/favicon-moon_32px.png?v=7.3.0" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.3.0">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.3.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    save_scroll: false,
+    copycode: {"enable":false,"show_result":false,"style":"mac"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: 'Copy',
+      copy_success: 'Copied',
+      copy_failure: 'Copy failed'
+    }
+  };
+</script>
+
+  <meta name="description" content="泛型算法：经典算法的公共接口。 泛型的含义：用于不同类型的元素和多种容器类型，以及其他类型的序列。 初识 例子：泛型算法不直接操作容器，而是遍历由两个迭代器指定的一个元素范围，如find:12int val &#x3D; 42;auto result &#x3D; find(vec.cbegin(), vec.cend(), val) 可以看到，find内部使用迭代器进行，这使得迭代器令算法不依">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C++---CHAPTER-10---ALGORITHM">
+<meta property="og:url" content="http://yoursite.com/2019/09/04/Primer/C++---CHAPTER-10--GENERIC-ALGORITHM/index.html">
+<meta property="og:site_name" content="Zheng Chu&#39;s Blog">
+<meta property="og:description" content="泛型算法：经典算法的公共接口。 泛型的含义：用于不同类型的元素和多种容器类型，以及其他类型的序列。 初识 例子：泛型算法不直接操作容器，而是遍历由两个迭代器指定的一个元素范围，如find:12int val &#x3D; 42;auto result &#x3D; find(vec.cbegin(), vec.cend(), val) 可以看到，find内部使用迭代器进行，这使得迭代器令算法不依">
+<meta property="article:published_time" content="2019-09-04T13:53:34.000Z">
+<meta property="article:modified_time" content="2019-09-04T14:02:50.143Z">
+<meta property="article:author" content="Zheng Chu">
+<meta property="article:tag" content="PRIMER">
+<meta name="twitter:card" content="summary">
+  <link rel="canonical" href="http://yoursite.com/2019/09/04/Primer/C++---CHAPTER-10--GENERIC-ALGORITHM/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>C++---CHAPTER-10---ALGORITHM | Zheng Chu's Blog</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?<622a1a023f2bb8cdefcf61e3855bf317>";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <div class="container sidebar-position-left">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Zheng Chu's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">让希望永驻</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-主页">
+      
+    
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home  //"></i> <br>主页</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-所有专栏">
+      
+    
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th //"></i> <br>所有专栏</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-历史文章">
+      
+    
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive //"></i> <br>历史文章</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-标签">
+      
+    
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags  //"></i> <br>标签</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-关于我">
+      
+    
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user //"></i> <br>关于我</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+
+  <a href="https://github.com/zhengchu1994" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+            
+
+          <div id="content" class="content page-post-detail">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/04/Primer/C++---CHAPTER-10--GENERIC-ALGORITHM/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zheng Chu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar/jojo3.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zheng Chu's Blog">
+    </span>
+      <header class="post-header">
+
+        
+          <h1 class="post-title" itemprop="name headline">C++---CHAPTER-10---ALGORITHM
+
+            
+          </h1>
+        
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              
+                
+              
+
+              <time title="Created: 2019-09-04 21:53:34 / Modified: 22:02:50" itemprop="dateCreated datePublished" datetime="2019-09-04T21:53:34+08:00">2019-09-04</time>
+            </span>
+          
+            
+
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/C/" itemprop="url" rel="index"><span itemprop="name">C++</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            <span class="post-meta-item" title="Views">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <ul>
+<li>泛型算法：经典算法的公共接口。</li>
+<li>泛型的含义：用于不同类型的元素和多种容器类型，以及其他类型的序列。</li>
+</ul><h3 id="初识"><a href="#初识" class="headerlink" title="初识"></a>初识</h3><ul>
+<li>例子：<br>泛型算法不直接操作容器，而是遍历由两个迭代器指定的一个元素范围，如<code>find</code>:<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">int val &#x3D; 42;</span><br><span class="line">auto result &#x3D; find(vec.cbegin(), vec.cend(), val)</span><br></pre></td></tr></table></figure>
+可以看到，<code>find</code>内部使用迭代器进行，这使得迭代器令算法不依赖与容器。<br>但是算法依赖于元素类型的操作：比如<code>find</code>要求元素类型支持<code>&lt;</code>云算符。<br>并且多数算法支持我们自定义的操作代替默认的比较运算符。</li>
+</ul><a id="more"></a>
+
+<ul>
+<li>结论：算法运行于迭代器上，执行迭代器的操作，而不会执行容器的操作；算法永远不会改变低层容器的大小。</li>
+</ul>
+<h5 id="只读算法：只会读取范围内的元素，不会改变元素，如find、count。"><a href="#只读算法：只会读取范围内的元素，不会改变元素，如find、count。" class="headerlink" title="只读算法：只会读取范围内的元素，不会改变元素，如find、count。"></a>只读算法：只会读取范围内的元素，不会改变元素，如<code>find</code>、<code>count</code>。</h5><ul>
+<li><code>numeric</code>里面的<code>accumulate</code>,第三个参数的类型决定了函数使用哪个加法运算符和函数值返回类型：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">对vec中的元素求和，和的初值是0 （第三个参数）</span><br><span class="line">int sum &#x3D; accumulate(vec.cbegin(),vec.cend(), 0);</span><br></pre></td></tr></table></figure>
+编程假定：元素类型加到和的类型上的操作必须是可行的。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">连接所有的string元素。</span><br><span class="line">string sum &#x3D; accumulate(v.cbegin(), v.cend(), string(&quot;&quot;));</span><br><span class="line"></span><br><span class="line">错误的，因为const char*上没有定义+运算符</span><br><span class="line">string sum &#x3D; accumulate(v.cbegin(), v.cend(), &quot;&quot;);</span><br></pre></td></tr></table></figure></li>
+<li><code>equal</code>比较两个序列是否保存了一样的值。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">roster2中的元素数目应该至少与roster1一样多</span><br><span class="line">equal(roster1.cbegin(), roster1.cend(), roster2.cbegin());</span><br></pre></td></tr></table></figure>
+上面的<code>equal</code>接受一个单一迭代器表示第二个序列，一般这样的算法都假定了第二个序列至少与第一个序列一样长。</li>
+</ul>
+<h5 id="写容器算法：这类算法要求确保序列大小至少不小于我们要求算法写入的元素数目。"><a href="#写容器算法：这类算法要求确保序列大小至少不小于我们要求算法写入的元素数目。" class="headerlink" title="写容器算法：这类算法要求确保序列大小至少不小于我们要求算法写入的元素数目。"></a>写容器算法：这类算法要求确保序列大小至少不小于我们要求算法写入的元素数目。</h5><ul>
+<li><code>fill</code>算法：接受一对迭代器、一个值：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">将每个元素重置为0</span><br><span class="line">fill(vec.begin(), vec.end(), 0); </span><br><span class="line"></span><br><span class="line">将容器的子序列设置为10</span><br><span class="line">fill(vec.begin(), vec.begin() + vec.size() &#x2F; 2, 10);</span><br></pre></td></tr></table></figure></li>
+<li><p><code>fill_n</code> 接受一个单迭代器、一个计数值、和一个值：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">vector&lt;int&gt; vec;</span><br><span class="line"></span><br><span class="line">将所有元素重置为0</span><br><span class="line">fill_n(vec.begin(), vec.size(), 0); </span><br><span class="line"></span><br><span class="line">fill_n(dest, n, val);</span><br></pre></td></tr></table></figure>
+<p>上面的<code>fill_n</code>假设了<code>dest</code>开始的序列至少有包含了<code>n</code>个元素，可能犯的错误：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">vector&lt;int&gt; vec; &#x2F;&#x2F; 空容器</span><br><span class="line">fill_n(vec, 10, 0);  &#x2F;&#x2F; 错误， 该10个位置都不存在</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>插入迭代器 <code>back_inserter</code>：一种可以向容器添加元素的迭代器。定义在头文件<code>iterator</code>中。接受一个指向容器的引用， 返回一个与该容器绑定的插入迭代器：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">vector&lt;int&gt; vec;</span><br><span class="line">auto it &#x3D; back_iterator(vec);</span><br><span class="line">* it &#x3D; 42; &#x2F;&#x2F; vec中现在多了一个元素42</span><br></pre></td></tr></table></figure>
+<p>可以使用<code>back_iterator</code>作为算法的目的位置使用：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">vector&lt;int&gt; vec; </span><br><span class="line">fill_n(back_inserter(vec), 10, 0); &#x2F;&#x2F;现在添加了10个元素到vec</span><br></pre></td></tr></table></figure></li>
+<li><p><code>copy</code>算法：要求目的序列至少要与输入序列一样多的元素：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">int a1[] &#x3D; &#123;0,1,2&#125;;</span><br><span class="line">int a2[ sizeof(a1) &#x2F; sizeof(*a1)]; &#x2F;&#x2F; 与a1大小一样</span><br><span class="line">auto ret &#x3D; copy(begin(a1), end(a1), a2);  &#x2F;&#x2F;把a1的内容复制给a2；</span><br></pre></td></tr></table></figure>
+<p><code>copy</code>返回目的的位置迭代器，即<code>ret</code>恰好指向<code>a2</code>的尾元素之后的位置。</p>
+</li>
+<li><p><code>replace</code>算法：接受一对迭代器表示输入序列，一个要搜索的值、一个新值。把搜索的值变为新值：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">把所有0元素变为42</span><br><span class="line">replace(ilst.begin(), ilst.end(), 0, 42);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>replace_copy</code>算法：接受额外第三个迭代器参数，指出调整序列的保存位置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">使得原来的ilst序列不变，ivec保存了replace操作的序列</span><br><span class="line">replace_copy(ilst.cbegin(), ilst.end(), back_inserter(ivec), 0, 42);</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h5 id="重排容器元素的算法"><a href="#重排容器元素的算法" class="headerlink" title="重排容器元素的算法"></a>重排容器元素的算法</h5><ul>
+<li><code>unique</code>算法：使得不重复的元素出现在输入序列的开始部分，但是并非删除了重复的元素，只是覆盖了相邻的重复元素。<code>unique</code>返回的迭代器指向最后一个不重复元素之后的位置。</li>
+</ul>
+<p>一个消除重复单词的例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">void elimDups(vector&lt;string&gt; &amp;words)</span><br><span class="line">&#123;</span><br><span class="line">  sort(words.begin(), words.end());</span><br><span class="line">  &#x2F;&#x2F; unique重拍输入范围,使得每一个单词只出现一次</span><br><span class="line">  auto end_unique &#x3D; unique(words.begin(), words.end());</span><br><span class="line">  words.erase(end_unique, words.end());</span><br><span class="line">&#125;</span><br><span class="line">int main() &#123;</span><br><span class="line">  vector&lt;string&gt; words &#x3D; &#123;&quot;the&quot;, &quot;quick&quot;, &quot;red&quot;, &quot;fox&quot;, &quot;jumps&quot;,</span><br><span class="line">  &quot;over&quot;, &quot;the&quot;, &quot;slow&quot;,&quot;red&quot;,&quot;turtle&quot;&#125;;</span><br><span class="line">  elimDups(words);</span><br><span class="line">  for (auto i: words)</span><br><span class="line">    cout &lt;&lt; i &lt;&lt; &quot; &quot;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">fox jumps over quick red slow the turtle</span><br></pre></td></tr></table></figure>
+<h3 id="定制操作"><a href="#定制操作" class="headerlink" title="定制操作"></a>定制操作</h3><p>比如<code>sort</code>算法默认使用<code>&lt;</code>运算符，但我们希望排序顺序与<code>&lt;</code>所定义的顺序不同，或者保存的序列元素未定义<code>&lt;</code>运算符，因此都需要重载<code>sort</code>的默认行为，为此需要定制我们自己的操作。</p>
+<h5 id="传递函数给算法"><a href="#传递函数给算法" class="headerlink" title="传递函数给算法"></a>传递函数给算法</h5><ul>
+<li>谓词（predicate）参数：谓词是一个可调用的表达式，其返回结果是一个能用做条件的值。标准库算法使用的两类谓词：<br>1.一元谓词：只接受单一参数。<ol>
+<li>二元谓词：有两个参数。</li>
+</ol>
+</li>
+</ul>
+<p>接受谓词参数的算法对输入序列中的元素调用谓词。因此，元素类型必须能够转换为谓词的参数类型。</p>
+<ul>
+<li><code>stable_sort</code>：保持等长元素间的字典序。<br>一个新<code>sort</code>例子：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">bool isShorter(const string &amp;s1, const string &amp;s2)</span><br><span class="line">&#123;</span><br><span class="line">  return s1.size() &lt; s2.size();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">elimDups(words);</span><br><span class="line"></span><br><span class="line">这使得短的单词排在长的单词的前面；</span><br><span class="line">stable_sort(words.begin(), words.end(), isShorter);</span><br><span class="line">  for (const auto &amp;s: words) &#x2F;&#x2F;无须拷贝字符串</span><br><span class="line">    cout &lt;&lt; s &lt;&lt; &quot; &quot;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">fox red the over slow jumps quick turtle</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="lambda表达式"><a href="#lambda表达式" class="headerlink" title="lambda表达式"></a>lambda表达式</h4><ul>
+<li>motivation：希望进行的操作需要更多的参数怎么办？</li>
+<li><code>lambda</code>介绍：我们可以向一个算法传递任何类别的可调用对象（<code>callable object</code>）。<br>对于一个对象或一个表达式，可以对其使用调用运算符（圆括号<code>()</code>），则称它为可调用的。<br>比如<code>e</code>是可调用表达式，可以使用<code>e(args)</code>.</li>
+<li>几种可调用对象：函数、函数指针、重载了函数调用运算符的类、<code>lambda</code>表达式。</li>
+</ul>
+<p>一个<code>lambda</code>表达式可理解为一个未命名的内联函数，其形式如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[capture list] (parameter list) -&gt; return type&#123;function body&#125;</span><br></pre></td></tr></table></figure><br><code>capture list</code>是一个<code>lambda</code>所在函数中定义的局部变量的列表（通常为空），其他参数与普通函数类似。<br>与其他函数的不同，<code>lambda</code>必须使用尾置返回来指定返回类型。</p>
+<ul>
+<li>复习尾置返回：尾置返回类型跟在形参列表后面用一个<code>-&gt;</code>符号开头，例子：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">func接受一个int类型的实参，返回一个指针，该指针指向含有是个整数的数组。</span><br><span class="line">auto func(int i) -&gt; int(*)[10];</span><br><span class="line">可以看到，函数的返回类型放在了形式参数列表的后面。</span><br></pre></td></tr></table></figure>
+<p><code>lambda</code>表达式必须永远包含<code>捕获列表</code>和<code>函数体</code>：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">auto f&#x3D; [] &#123;return 42;&#125;;</span><br><span class="line"></span><br><span class="line">调用lambda表达式：</span><br><span class="line">cout &lt;&lt; f() &lt;&lt; endl;</span><br></pre></td></tr></table></figure></p>
+<p>注：如果<code>lambda</code>函数体包含任何单一return语句之外的内容，且未指定返回类型，则返回<code>void</code>。</p>
+<ul>
+<li>向<code>lambda</code>传递参数：不能有默认参数，因此调用<code>lambda</code>的实参数目永远与形参数目相等。<br>与<code>isShorter</code>同样功能的<code>lambda</code>表达式：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[](const string &amp;a, const string &amp;b)&#123;return a.size() &lt; b.size();&#125;</span><br></pre></td></tr></table></figure></li>
+<li>使用捕获列表：<br>Note：一个<code>lambda</code>只有在其捕获列表中捕获一个它所在函数中的局部变量时，才能在函数体中使用该变量。</li>
+</ul>
+<p><code>lambda</code>表达式通过将局部变量包含在捕获列表中来指出将会使用这些变量。</p>
+<p>  一个例子，上述的<code>sort</code>单词，要求出大于等于一个给定长度的单词有多少，修改输出，打印这些单词；<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">定义一个给定长度&#96;sz&#96;，然后把&#96;sz&#96;加入捕获列表,在函数体内使用。</span><br><span class="line">[sz](const string &amp;a)&#123;return a.size() &gt;&#x3D; sz;&#125;;</span><br><span class="line"></span><br><span class="line">错误，sz未捕获</span><br><span class="line">[](const string &amp;a)&#123;return a.size() &gt;&#x3D; sz;&#125;;</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li><p><code>find_if</code>算法：接受一对迭代器，第三个参数是一个谓词。对输入序列中的每个元素调用这个谓词。返回第一个使得谓词返回非0值的元素，不存在这样的元素则返回尾迭代器。</p>
+</li>
+<li><p><code>for_each</code>算法：接受一个可调用对象，并对输入序列中每个元素调用此对象。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">for_each(wc, words.end(), [](const string &amp;s)&#123;cout &lt;&lt; s &lt;&lt; &quot; &quot;;&#125;);</span><br></pre></td></tr></table></figure>
+<p>上面的<code>lambda</code>空捕获列表,但是函数体使用了<code>s</code>、<code>cout</code>，因为：<br>Note: 捕获列表只用于局部非<code>static</code>变量，<code>lambda</code>可以之间直接使用局部<code>static</code>变量还有它所在函数之外声明的名字。</p>
+</li>
+</ul>
+<p>代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">string make_plural(size_t ctr, const string &amp;word, const string &amp;ending)</span><br><span class="line">&#123;</span><br><span class="line">  return (ctr &gt; 1) ? word + ending: word;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">  &#x2F;&#x2F;vector&lt;string&gt; words &#x3D; &#123;&quot;the&quot;, &quot;quick&quot;, &quot;red&quot;, &quot;fox&quot;, &quot;jumps&quot;,&quot;over&quot;, &quot;the&quot;, &quot;slow&quot;, &quot;red&quot;, &quot;turtle&quot;&#125;;</span><br><span class="line"></span><br><span class="line">void biggies(vector&lt;string&gt; &amp;words, vector&lt;string&gt;::size_type sz) &#123;</span><br><span class="line">  elimDups(words);</span><br><span class="line">  stable_sort(words.begin(), words.end(), </span><br><span class="line">  [](const string &amp;a, const string &amp;b)&#123;return a.size() &lt; b.size();&#125;);</span><br><span class="line">  for (const auto &amp;s: words) &#x2F;&#x2F;无须拷贝字符串</span><br><span class="line">    cout &lt;&lt; s &lt;&lt; &quot; &quot;;</span><br><span class="line">  cout &lt;&lt; endl;</span><br><span class="line">  auto wc &#x3D; find_if(words.begin(),words.end(),</span><br><span class="line"> </span><br><span class="line"> &#x2F;&#x2F;sz不在函数体内</span><br><span class="line">  [sz](const string &amp;a)&#123;return a.size() &gt;&#x3D; sz;&#125;);</span><br><span class="line">  &#x2F;&#x2F; wc指向words中第一个string长度大于等于5的位置，用end减去便是剩下都大于等于5的string数目</span><br><span class="line">  auto count &#x3D; words.end() - wc;</span><br><span class="line">  cout &lt;&lt; count &lt;&lt; &quot; &quot; &lt;&lt; make_plural(count, &quot;word&quot;, &quot;s&quot;)</span><br><span class="line">    &lt;&lt; &quot; of length &quot; &lt;&lt; sz &lt;&lt; &quot; or longer &quot; &lt;&lt; endl;</span><br><span class="line">  for_each(wc, words.end(), [](const string &amp;s)&#123;cout &lt;&lt; s &lt;&lt; &quot; &quot;;&#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">fox red the over slow jumps quick turtle</span><br><span class="line">3 words of length 5 or longer</span><br><span class="line">jumps quick turtle</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>lambda的捕获和返回</li>
+</ul>
+<h5 id="参数绑定"><a href="#参数绑定" class="headerlink" title="参数绑定"></a>参数绑定</h5><h3 id="再探迭代器"><a href="#再探迭代器" class="headerlink" title="再探迭代器"></a>再探迭代器</h3><ul>
+<li><p>插入迭代器<br>插入器是一种迭代器适配器：接受一个容器，生成一个迭代器。</p>
+</li>
+<li><p>插入迭代器操作：</p>
+<ul>
+<li><code>it=t</code>：在<code>it</code>指定的当前位置插入值<code>t</code>.</li>
+<li><code>*it, ++it, it++</code>：不会对<code>it</code>做任何事情，都返回<code>it</code>.</li>
+</ul>
+</li>
+<li><p>插入迭代器有三种：</p>
+<ul>
+<li><code>back_inserter</code>：创建一个使用<code>push_back</code>的迭代器。</li>
+<li><code>front_inserter</code>:   创建一个使用<code>push_front</code>的迭代器。</li>
+<li><code>inserter</code>: 创建一个使用<code>inserter</code>的迭代器，接受第二个参数，该参数指定一个给定容器的迭代器。元素被插入到给定迭代器所表示的元素之前。（<code>inserter(c, iter)</code>）</li>
+</ul>
+</li>
+</ul>
+<ol>
+<li><p><code>inserter</code>的例子：设<code>it</code>是由<code>inserter</code>生成的迭代器，则：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">*it &#x3D; val;</span><br><span class="line"></span><br><span class="line">等价于：</span><br><span class="line">it &#x3D; c.insert(it, val); &#x2F;&#x2F;it指向新加入的元素</span><br><span class="line">++it; &#x2F;&#x2F; 递增it使它指向原来的元素</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>front_inserter</code>的例子：</p>
+</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">list&lt;int&gt; lst &#x3D; &#123;1, 2, 3, 4, 5&#125;;</span><br><span class="line">list&lt;int&gt; lst2, lst3; </span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 拷贝完成后， lst2包含4，3，2，1</span><br><span class="line">copy(lst.cbegin(), lst.cend(), front_inserter(lst2));</span><br><span class="line">&#x2F;&#x2F; lst3包含1，2，3，4</span><br><span class="line">copy(lst.cbegin(), lst.cend(), inserter(lst3, lst3.begin()));</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>流迭代器（<code>iostream</code>迭代器）</p>
+</li>
+<li><p>反向迭代器</p>
+</li>
+<li>移动迭代器</li>
+</ul>
+<h3 id="泛型算法结构"><a href="#泛型算法结构" class="headerlink" title="泛型算法结构"></a>泛型算法结构</h3><h3 id="特定容器算法"><a href="#特定容器算法" class="headerlink" title="特定容器算法"></a>特定容器算法</h3>
+    </div>
+
+    
+    
+    
+        
+      
+
+      <footer class="post-footer">
+          
+            
+          
+          <div class="post-tags">
+            
+              <a href="/tags/PRIMER/" rel="tag"># PRIMER</a>
+            
+          </div>
+        
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/2019/09/04/Primer/C++---CHAPTER-9--CONTAINER/" rel="next" title="C++---CHAPTER-9---CONTAINER">
+                  <i class="fa fa-chevron-left"></i> C++---CHAPTER-9---CONTAINER
+                </a>
+              
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+                <a href="/2019/09/04/Primer/C++---CHAPTER-11--ASSOCIATIVE-CONTAINER/" rel="prev" title="C++---CHAPTER-11---ASSOCIATIVE-CONTAINER">
+                  C++---CHAPTER-11---ASSOCIATIVE-CONTAINER <i class="fa fa-chevron-right"></i>
+                </a>
+              
+            </div>
+          </div>
+        
+      </footer>
+    
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+    
+    <div class="comments" id="gitalk-container"></div>
+  
+
+        </div>
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image"
+      src="/images/avatar/jojo3.jpg"
+      alt="Zheng Chu">
+  <p class="site-author-name" itemprop="name">Zheng Chu</p>
+  <div class="site-description motion-element" itemprop="description"></div>
+</div>
+  <nav class="site-state motion-element">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives">
+        
+          <span class="site-state-item-count">61</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-name">categories</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-name">tags</span>
+        </a>
+      </div>
+    
+  </nav>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://github.com/zhengchu1994" title="GitHub &rarr; https://github.com/zhengchu1994" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://www.jianshu.com/u/d4875c485cff" title="简书 &rarr; https://www.jianshu.com/u/d4875c485cff" rel="noopener" target="_blank"><i class="fa fa-fw fa-heartbeat"></i>简书</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://blog.csdn.net/NockinOnHeavensDoor" title="CSDN &rarr; https://blog.csdn.net/NockinOnHeavensDoor" rel="noopener" target="_blank"><i class="fa fa-fw fa-globe"></i>CSDN</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="mailto:zhengchu@tju.edu.cn" title="E-Mail &rarr; mailto:zhengchu@tju.edu.cn" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+    
+  </div>
+
+
+
+        </div>
+      </div>
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#初识"><span class="nav-number">1.</span> <span class="nav-text">初识</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#只读算法：只会读取范围内的元素，不会改变元素，如find、count。"><span class="nav-number">1.0.1.</span> <span class="nav-text">只读算法：只会读取范围内的元素，不会改变元素，如find、count。</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#写容器算法：这类算法要求确保序列大小至少不小于我们要求算法写入的元素数目。"><span class="nav-number">1.0.2.</span> <span class="nav-text">写容器算法：这类算法要求确保序列大小至少不小于我们要求算法写入的元素数目。</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#重排容器元素的算法"><span class="nav-number">1.0.3.</span> <span class="nav-text">重排容器元素的算法</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#定制操作"><span class="nav-number">2.</span> <span class="nav-text">定制操作</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#传递函数给算法"><span class="nav-number">2.0.1.</span> <span class="nav-text">传递函数给算法</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#lambda表达式"><span class="nav-number">2.1.</span> <span class="nav-text">lambda表达式</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#参数绑定"><span class="nav-number">2.1.1.</span> <span class="nav-text">参数绑定</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#再探迭代器"><span class="nav-number">3.</span> <span class="nav-text">再探迭代器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#泛型算法结构"><span class="nav-number">4.</span> <span class="nav-text">泛型算法结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#特定容器算法"><span class="nav-number">5.</span> <span class="nav-text">特定容器算法</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Zheng Chu</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.2.1</div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.3.0</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="Total Visitors">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+    <span class="post-meta-divider">|</span>
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="Total Views">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+      </div>
+
+    
+
+  </div>
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+<script src="/js/utils.js?v=7.3.0"></script>
+  <script src="/js/motion.js?v=7.3.0"></script>
+
+
+  <script src="/js/affix.js?v=7.3.0"></script>
+  <script src="/js/schemes/pisces.js?v=7.3.0"></script>
+
+
+<script src="/js/next-boot.js?v=7.3.0"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+    
+      
+<script type="text/x-mathjax-config">
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') {
+          next = next.nextSibling;
+        }
+        if (next && next.nodeName.toLowerCase() === 'br') {
+          next.parentNode.removeChild(next);
+        }
+      }
+    });
+  });
+
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      element = document.getElementById(all[i].inputID + '-Frame').parentNode;
+      if (element.nodeName.toLowerCase() == 'li') {
+        element = element.parentNode;
+      }
+      element.classList.add('has-jax');
+    }
+  });
+</script>
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML', function() {
+    MathJax.Hub.Typeset();
+  }, window.MathJax);
+</script>
+
+    
+  
+
+  
+
+  
+
+
+  
+  <script src="/js/scrollspy.js?v=7.3.0"></script>
+<script src="/js/post-details.js?v=7.3.0"></script>
+
+
+    
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', function() {
+    var gitalk = new Gitalk({
+      clientID: '0911ce8ceab7f12409f0',
+      clientSecret: '6fa693e25bfc0f98e5cc0907c97cb2fe9f54bb5e',
+      repo: 'Gitalk',
+      owner: 'zhengchu1994',
+      admin: ['zhengchu1994'],
+      id: 'ee45ebf00436e14701dbab62a3d7d59b',
+        language: window.navigator.language || window.navigator.userLanguage,
+      
+      distractionFreeMode: 'true'
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+</script>
+
+</body>
+</html>
