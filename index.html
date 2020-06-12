@@ -246,6 +246,340 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/12/Scala/Scala--Part3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zheng Chu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar/jojo3.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zheng Chu's Blog">
+    </span>
+      <header class="post-header">
+
+        
+          <h1 class="post-title" itemprop="name headline">
+              
+              <a href="/2020/06/12/Scala/Scala--Part3/" class="post-title-link" itemprop="url">Scala-part3</a>
+            
+          </h1>
+        
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              
+                
+              
+
+              <time title="Created: 2020-06-12 13:43:00 / Modified: 09:51:02" itemprop="dateCreated datePublished" datetime="2020-06-12T13:43:00+08:00">2020-06-12</time>
+            </span>
+          
+            
+
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Scala/" itemprop="url" rel="index"><span itemprop="name">Scala</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="Scala-Part3"><a href="#Scala-Part3" class="headerlink" title="Scala-Part3"></a>Scala-Part3</h1><h2 id="gt-集合-lt"><a href="#gt-集合-lt" class="headerlink" title="&gt;集合&lt;"></a>&gt;集合&lt;</h2><ul>
+<li><p><code>Nil</code>是<code>Nothing</code>类型实例，<code>Nothing</code>类型是所有其他<code>Scala</code>类型的一个不可实例化的子类型。</p>
+</li>
+<li><p><code>List</code>： 空的表等于<code>Nil</code>，表尾部后一个是<code>Nil</code>。</p>
+<ul>
+<li>头尾取不一样：</li>
+</ul>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">scala&gt; primes</span><br><span class="line"><span class="keyword">val</span> res3: <span class="type">List</span>[<span class="type">Int</span>] = <span class="type">List</span>(<span class="number">2</span>, <span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>, <span class="number">11</span>, <span class="number">13</span>)</span><br><span class="line"></span><br><span class="line">scala&gt; primes.head</span><br><span class="line"><span class="keyword">val</span> res5: <span class="type">Int</span> = <span class="number">2</span></span><br><span class="line"></span><br><span class="line">scala&gt; primes.tail</span><br><span class="line"><span class="keyword">val</span> res6: <span class="type">List</span>[<span class="type">Int</span>] = <span class="type">List</span>(<span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>, <span class="number">11</span>, <span class="number">13</span>)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>foreach</code>、<code>map</code>、<code>reduce</code>( 两个参数)</p>
+</li>
+<li><p><code>::</code>右操作符是<code>List</code>的放法：</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">scala&gt; <span class="keyword">val</span> first = <span class="type">Nil</span>.::(<span class="number">1</span>)</span><br><span class="line"><span class="keyword">val</span> first: <span class="type">List</span>[<span class="type">Int</span>] = <span class="type">List</span>(<span class="number">1</span>)</span><br><span class="line"><span class="comment">//生成List</span></span><br><span class="line">scala&gt; <span class="keyword">val</span> first = <span class="number">1</span>:: <span class="type">Nil</span></span><br><span class="line"><span class="keyword">val</span> first: <span class="type">List</span>[<span class="type">Int</span>] = <span class="type">List</span>(<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">//用::在List前面增加元素</span></span><br><span class="line">scala&gt; <span class="keyword">val</span> second = <span class="number">2</span> :: first</span><br><span class="line"><span class="keyword">val</span> second: <span class="type">List</span>[<span class="type">Int</span>] = <span class="type">List</span>(<span class="number">2</span>, <span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">scala&gt; second.tail == first</span><br><span class="line"><span class="keyword">val</span> res39: <span class="type">Boolean</span> = <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>其他操作符：</p>
+<ul>
+<li><code>操作符记法</code>：<code>List drop 2</code></li>
+<li>点记法：<code>List.flatten</code></li>
+<li>差别：没有参数时，必须采用点记法。</li>
+</ul>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//空List前面加元素</span></span><br><span class="line">scala&gt; <span class="keyword">val</span> first = <span class="number">1</span>:: <span class="type">Nil</span></span><br><span class="line"><span class="keyword">val</span> first: <span class="type">List</span>[<span class="type">Int</span>] = <span class="type">List</span>(<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">//List合并List</span></span><br><span class="line">scala&gt; <span class="type">List</span>(<span class="number">1</span>, <span class="number">2</span>) ::: <span class="type">List</span>(<span class="number">2</span>, <span class="number">3</span>)</span><br><span class="line"><span class="keyword">val</span> res40: <span class="type">List</span>[<span class="type">Int</span>] = <span class="type">List</span>(<span class="number">1</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">3</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">//List合并集合</span></span><br><span class="line">scala&gt; <span class="type">List</span>(<span class="number">1</span>, <span class="number">2</span>)  ++ <span class="type">Set</span>(<span class="number">3</span>, <span class="number">4</span>, <span class="number">3</span>)</span><br><span class="line"><span class="keyword">val</span> res41: <span class="type">List</span>[<span class="type">Int</span>] = <span class="type">List</span>(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">//List比较</span></span><br><span class="line">scala&gt; <span class="type">List</span>(<span class="number">1</span>, <span class="number">2</span>) == <span class="type">List</span>(<span class="number">1</span>, <span class="number">2</span>)</span><br><span class="line"><span class="keyword">val</span> res42: <span class="type">Boolean</span> = <span class="literal">true</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//取唯一元素</span></span><br><span class="line">scala&gt; <span class="type">List</span>(<span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">3</span>).distinct</span><br><span class="line"><span class="keyword">val</span> res43: <span class="type">List</span>[<span class="type">Int</span>] = <span class="type">List</span>(<span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">//丢带前k个元素</span></span><br><span class="line">scala&gt; <span class="type">List</span>('a', 'b', 'c', 'd') drop <span class="number">2</span></span><br><span class="line"><span class="keyword">val</span> res44: <span class="type">List</span>[<span class="type">Char</span>] = <span class="type">List</span>(c, d)</span><br><span class="line"></span><br><span class="line"><span class="comment">//谓词函数塞选</span></span><br><span class="line">scala&gt; <span class="type">List</span>(<span class="number">23</span>, <span class="number">8</span>, <span class="number">14</span>, <span class="number">21</span>) filter (_ &gt; <span class="number">18</span>)</span><br><span class="line"><span class="keyword">val</span> res45: <span class="type">List</span>[<span class="type">Int</span>] = <span class="type">List</span>(<span class="number">23</span>, <span class="number">21</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">//归并List</span></span><br><span class="line">scala&gt; <span class="type">List</span>(<span class="type">List</span>(<span class="number">1</span>, <span class="number">2</span>), <span class="type">List</span>(<span class="number">3</span>, <span class="number">4</span>)).flatten</span><br><span class="line"><span class="keyword">val</span> res46: <span class="type">List</span>[<span class="type">Int</span>] = <span class="type">List</span>(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">//按条件分割List</span></span><br><span class="line">scala&gt; <span class="type">List</span>(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>) partition ( _ &lt; <span class="number">3</span>)</span><br><span class="line"><span class="keyword">val</span> res48: (<span class="type">List</span>[<span class="type">Int</span>], <span class="type">List</span>[<span class="type">Int</span>]) = (<span class="type">List</span>(<span class="number">1</span>, <span class="number">2</span>),<span class="type">List</span>(<span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment">//切割[i，j）內的元素</span></span><br><span class="line">scala&gt; <span class="type">List</span>(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>) slice (<span class="number">1</span>, <span class="number">3</span>)</span><br><span class="line"><span class="keyword">val</span> res49: <span class="type">List</span>[<span class="type">Int</span>] = <span class="type">List</span>(<span class="number">2</span>, <span class="number">3</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">//谓词函数排序</span></span><br><span class="line">scala&gt; <span class="type">List</span>(<span class="string">"apple"</span>, <span class="string">"to"</span>) sortBy (_.size)</span><br><span class="line"><span class="keyword">val</span> res51: <span class="type">List</span>[<span class="type">String</span>] = <span class="type">List</span>(to, apple)</span><br><span class="line"></span><br><span class="line"><span class="comment">//字典顺序排序</span></span><br><span class="line">scala&gt; <span class="type">List</span>(<span class="string">"apple"</span>, <span class="string">"to"</span>).sorted</span><br><span class="line"><span class="keyword">val</span> res52: <span class="type">List</span>[<span class="type">String</span>] = <span class="type">List</span>(apple, to)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 在位置做切割</span></span><br><span class="line">scala&gt; <span class="type">List</span>(<span class="number">2</span>, <span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>) splitAt <span class="number">2</span></span><br><span class="line"><span class="keyword">val</span> res53: (<span class="type">List</span>[<span class="type">Int</span>], <span class="type">List</span>[<span class="type">Int</span>]) = (<span class="type">List</span>(<span class="number">2</span>, <span class="number">3</span>),<span class="type">List</span>(<span class="number">5</span>, <span class="number">7</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment">//取出前k个</span></span><br><span class="line">scala&gt; <span class="type">List</span>(<span class="number">2</span>, <span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>, <span class="number">11</span>, <span class="number">13</span>) take <span class="number">3</span></span><br><span class="line"><span class="keyword">val</span> res54: <span class="type">List</span>[<span class="type">Int</span>] = <span class="type">List</span>(<span class="number">2</span>, <span class="number">3</span>, <span class="number">5</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">//zip</span></span><br><span class="line">scala&gt; <span class="type">List</span>(<span class="number">1</span>, <span class="number">2</span>) zip <span class="type">List</span> (<span class="string">"a"</span>, <span class="string">"b"</span>)</span><br><span class="line"><span class="keyword">val</span> res55: <span class="type">List</span>[(<span class="type">Int</span>, <span class="type">String</span>)] = <span class="type">List</span>((<span class="number">1</span>,a), (<span class="number">2</span>,b))</span><br><span class="line"></span><br><span class="line"><span class="comment">// List尾部追加元素</span></span><br><span class="line">scala&gt; <span class="keyword">val</span> appended = <span class="type">List</span>(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>) :+ <span class="number">5</span></span><br><span class="line"><span class="keyword">val</span> appended: <span class="type">List</span>[<span class="type">Int</span>] = <span class="type">List</span>(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 取右边k个值</span></span><br><span class="line">scala&gt; <span class="keyword">val</span> suffix = appended takeRight <span class="number">3</span></span><br><span class="line"><span class="keyword">val</span> suffix: <span class="type">List</span>[<span class="type">Int</span>] = <span class="type">List</span>(<span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">//丢弃右边k个值</span></span><br><span class="line">scala&gt; <span class="keyword">val</span> middle = suffix dropRight <span class="number">2</span></span><br><span class="line"><span class="keyword">val</span> middle: <span class="type">List</span>[<span class="type">Int</span>] = <span class="type">List</span>(<span class="number">3</span>)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+          <!--noindex-->
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/2020/06/12/Scala/Scala--Part3/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+          <div class="post-eof"></div>
+        
+      </footer>
+  </div>
+  
+  
+  
+  </article>
+
+     
+    
+     
+       
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/12/Pytorch/Mxnet-Pytorch-part1---LR-Minist/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zheng Chu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar/jojo3.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zheng Chu's Blog">
+    </span>
+      <header class="post-header">
+
+        
+          <h1 class="post-title" itemprop="name headline">
+              
+              <a href="/2020/06/12/Pytorch/Mxnet-Pytorch-part1---LR-Minist/" class="post-title-link" itemprop="url">Mxnet-Pytorch-part1---LR-Minist</a>
+            
+          </h1>
+        
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              
+                
+              
+
+              <time title="Created: 2020-06-12 09:54:03 / Modified: 09:49:22" itemprop="dateCreated datePublished" datetime="2020-06-12T09:54:03+08:00">2020-06-12</time>
+            </span>
+          
+            
+
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Pytorch/" itemprop="url" rel="index"><span itemprop="name">Pytorch</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="LR"><a href="#LR" class="headerlink" title="LR"></a>LR</h3><ul>
+<li>$y = \mathbf{w}^\top \mathbf{x} + b + \epsilon \text{ where } \epsilon \sim \mathcal{N}(0, \sigma^2).$</li>
+</ul><ul>
+<li>$p(y|\mathbf{x}) = \frac{1}{\sqrt{2 \pi \sigma^2}} \exp\left(-\frac{1}{2 \sigma^2} (y - \mathbf{w}^\top \mathbf{x} - b)^2\right).$</li>
+</ul>
+          <!--noindex-->
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/2020/06/12/Pytorch/Mxnet-Pytorch-part1---LR-Minist/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+          <div class="post-eof"></div>
+        
+      </footer>
+  </div>
+  
+  
+  
+  </article>
+
+     
+    
+     
+       
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/11/Scala/Scala--Part2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zheng Chu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar/jojo3.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zheng Chu's Blog">
+    </span>
+      <header class="post-header">
+
+        
+          <h1 class="post-title" itemprop="name headline">
+              
+              <a href="/2020/06/11/Scala/Scala--Part2/" class="post-title-link" itemprop="url">Scala-part2</a>
+            
+          </h1>
+        
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              
+                
+              
+
+              <time title="Created: 2020-06-11 13:43:00 / Modified: 13:43:52" itemprop="dateCreated datePublished" datetime="2020-06-11T13:43:00+08:00">2020-06-11</time>
+            </span>
+          
+            
+
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Scala/" itemprop="url" rel="index"><span itemprop="name">Scala</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="Scala-part2"><a href="#Scala-part2" class="headerlink" title="Scala-part2"></a>Scala-part2</h1><h2 id="gt-函数-lt"><a href="#gt-函数-lt" class="headerlink" title="&gt;函数&lt;"></a>&gt;函数&lt;</h2><ul>
+<li>在scala中，函数是可重用的命名表达式。</li>
+<li>尽可能构建纯函数，类似数学意义上的函数。</li>
+</ul><ol>
+<li>无输出函数：</li>
+</ol><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 无输出函数</span></span><br><span class="line">scala&gt; <span class="function"><span class="keyword">def</span> <span class="title">hi</span> </span>= <span class="string">"hi"</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">hi</span></span>: <span class="type">String</span></span><br><span class="line"></span><br><span class="line">scala&gt; hi</span><br><span class="line"><span class="keyword">val</span> res75: <span class="type">String</span> = hi</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">scala&gt; <span class="function"><span class="keyword">def</span> <span class="title">multiplier</span></span>(x: <span class="type">Int</span>, y: <span class="type">Int</span>): <span class="type">Int</span> = &#123;x * y&#125;</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">multiplier</span></span>(x: <span class="type">Int</span>, y: <span class="type">Int</span>): <span class="type">Int</span></span><br><span class="line"></span><br><span class="line">scala&gt; multiplier(<span class="number">6</span>, <span class="number">7</span>)</span><br><span class="line"><span class="keyword">val</span> res77: <span class="type">Int</span> = <span class="number">42</span></span><br><span class="line"></span><br><span class="line">scala&gt; <span class="function"><span class="keyword">def</span> <span class="title">safeTrim</span></span>(s: <span class="type">String</span>): <span class="type">String</span>=&#123;</span><br><span class="line">     | <span class="keyword">if</span>(s == <span class="literal">null</span>) <span class="keyword">return</span> <span class="literal">null</span></span><br><span class="line">     | s.trim()</span><br><span class="line">     | &#125;</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">safeTrim</span></span>(s: <span class="type">String</span>): <span class="type">String</span></span><br><span class="line"></span><br><span class="line">scala&gt; <span class="keyword">val</span> t = safeTrim(<span class="string">"   abc  "</span>)</span><br><span class="line"><span class="keyword">val</span> t: <span class="type">String</span> = abc</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/2020/06/11/Scala/Scala--Part2/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+          <div class="post-eof"></div>
+        
+      </footer>
+  </div>
+  
+  
+  
+  </article>
+
+     
+    
+     
+       
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/09/%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -434,120 +768,6 @@
           
             <div class="post-button text-center">
               <a class="btn" href="/2020/06/08/Scala/Scala--Part1/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-          <div class="post-eof"></div>
-        
-      </footer>
-  </div>
-  
-  
-  
-  </article>
-
-     
-    
-     
-       
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/08/Scala/Scala--Part2/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Zheng Chu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar/jojo3.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Zheng Chu's Blog">
-    </span>
-      <header class="post-header">
-
-        
-          <h1 class="post-title" itemprop="name headline">
-              
-              <a href="/2020/06/08/Scala/Scala--Part2/" class="post-title-link" itemprop="url">Scala-part2</a>
-            
-          </h1>
-        
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              
-                
-              
-
-              <time title="Created: 2020-06-08 16:00:00" itemprop="dateCreated datePublished" datetime="2020-06-08T16:00:00+08:00">2020-06-08</time>
-            </span>
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-06-10 00:03:44" itemprop="dateModified" datetime="2020-06-10T00:03:44+08:00">2020-06-10</time>
-              </span>
-            
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Scala/" itemprop="url" rel="index"><span itemprop="name">Scala</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="Scala-part2"><a href="#Scala-part2" class="headerlink" title="Scala-part2"></a>Scala-part2</h1><h2 id="gt-函数-lt"><a href="#gt-函数-lt" class="headerlink" title="&gt;函数&lt;"></a>&gt;函数&lt;</h2><ul>
-<li>在scala中，函数是可重用的命名表达式。</li>
-<li>尽可能构建纯函数，类似数学意义上的函数。</li>
-</ul><ol>
-<li>无输出函数：</li>
-</ol><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 无输出函数</span></span><br><span class="line">scala&gt; <span class="function"><span class="keyword">def</span> <span class="title">hi</span> </span>= <span class="string">"hi"</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">hi</span></span>: <span class="type">String</span></span><br><span class="line"></span><br><span class="line">scala&gt; hi</span><br><span class="line"><span class="keyword">val</span> res75: <span class="type">String</span> = hi</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">scala&gt; <span class="function"><span class="keyword">def</span> <span class="title">multiplier</span></span>(x: <span class="type">Int</span>, y: <span class="type">Int</span>): <span class="type">Int</span> = &#123;x * y&#125;</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">multiplier</span></span>(x: <span class="type">Int</span>, y: <span class="type">Int</span>): <span class="type">Int</span></span><br><span class="line"></span><br><span class="line">scala&gt; multiplier(<span class="number">6</span>, <span class="number">7</span>)</span><br><span class="line"><span class="keyword">val</span> res77: <span class="type">Int</span> = <span class="number">42</span></span><br><span class="line"></span><br><span class="line">scala&gt; <span class="function"><span class="keyword">def</span> <span class="title">safeTrim</span></span>(s: <span class="type">String</span>): <span class="type">String</span>=&#123;</span><br><span class="line">     | <span class="keyword">if</span>(s == <span class="literal">null</span>) <span class="keyword">return</span> <span class="literal">null</span></span><br><span class="line">     | s.trim()</span><br><span class="line">     | &#125;</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">safeTrim</span></span>(s: <span class="type">String</span>): <span class="type">String</span></span><br><span class="line"></span><br><span class="line">scala&gt; <span class="keyword">val</span> t = safeTrim(<span class="string">"   abc  "</span>)</span><br><span class="line"><span class="keyword">val</span> t: <span class="type">String</span> = abc</span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-          
-            <div class="post-button text-center">
-              <a class="btn" href="/2020/06/08/Scala/Scala--Part2/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
@@ -1115,231 +1335,6 @@ P(X) = \sum_{Z}p(X,Z) = \sum_{Z}p(X|Z)p(Z)</script><p>通常，通过$Z$是类�
 
      
     
-     
-       
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/08/%E5%9B%BE%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%9C%A8%E7%BA%BF%E7%A0%94%E8%AE%A8%E4%BC%9A%E7%AC%94%E8%AE%B0/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Zheng Chu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar/jojo3.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Zheng Chu's Blog">
-    </span>
-      <header class="post-header">
-
-        
-          <h1 class="post-title" itemprop="name headline">
-              
-              <a href="/2020/04/08/%E5%9B%BE%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%9C%A8%E7%BA%BF%E7%A0%94%E8%AE%A8%E4%BC%9A%E7%AC%94%E8%AE%B0/" class="post-title-link" itemprop="url">图卷积神经网络研讨会笔记</a>
-            
-          </h1>
-        
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              
-                
-              
-
-              <time title="Created: 2020-04-08 16:00:00" itemprop="dateCreated datePublished" datetime="2020-04-08T16:00:00+08:00">2020-04-08</time>
-            </span>
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-06-08 21:20:09" itemprop="dateModified" datetime="2020-06-08T21:20:09+08:00">2020-06-08</time>
-              </span>
-            
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Deeplearning/" itemprop="url" rel="index"><span itemprop="name">Deeplearning</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>地址：<a href="https://www.bilibili.com/video/BV1zp4y117bB/?p=1" target="_blank" rel="noopener">https://www.bilibili.com/video/BV1zp4y117bB/?p=1</a></p><h2 id="图卷积神经网络—中科院沈华伟老师"><a href="#图卷积神经网络—中科院沈华伟老师" class="headerlink" title="图卷积神经网络—中科院沈华伟老师"></a>图卷积神经网络—中科院沈华伟老师</h2><p>The power of CNN lies in : 优势是平移不变性（translation- or shift-invariant）：识别目标独有的特征，尽管其特征的空间位置发生变化。</p>
-          <!--noindex-->
-          
-            <div class="post-button text-center">
-              <a class="btn" href="/2020/04/08/%E5%9B%BE%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%9C%A8%E7%BA%BF%E7%A0%94%E8%AE%A8%E4%BC%9A%E7%AC%94%E8%AE%B0/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-          <div class="post-eof"></div>
-        
-      </footer>
-  </div>
-  
-  
-  
-  </article>
-
-     
-    
-     
-       
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/08/IELTS/Actual%20Speaking/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Zheng Chu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar/jojo3.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Zheng Chu's Blog">
-    </span>
-      <header class="post-header">
-
-        
-          <h1 class="post-title" itemprop="name headline">
-              
-              <a href="/2020/04/08/IELTS/Actual%20Speaking/" class="post-title-link" itemprop="url">Actual Speaking</a>
-            
-          </h1>
-        
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              
-                
-              
-
-              <time title="Created: 2020-04-08 16:00:00" itemprop="dateCreated datePublished" datetime="2020-04-08T16:00:00+08:00">2020-04-08</time>
-            </span>
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-04-12 20:14:42" itemprop="dateModified" datetime="2020-04-12T20:14:42+08:00">2020-04-12</time>
-              </span>
-            
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/English/" itemprop="url" rel="index"><span itemprop="name">English</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="Actual-Speaking"><a href="#Actual-Speaking" class="headerlink" title="Actual Speaking"></a>Actual Speaking</h1><h2 id="LESSON-3：occupation"><a href="#LESSON-3：occupation" class="headerlink" title="LESSON 3：occupation"></a>LESSON 3：occupation</h2><p>ads <a href="https://www.bilibili.com/video/BV1fE411R7qZ?p=3" target="_blank" rel="noopener">https://www.bilibili.com/video/BV1fE411R7qZ?p=3</a></p><p>句子：</p><blockquote>
-<p>I’ ve got fingers in lots of different pies.</p>
-<p>I do like what I do.</p>
-<p>I absolutely loved it.</p>
-<p>I think in any walk of life, you like some people, you don’t like some people, but I’ m fortunate enough</p>
-<p>I was getting paid to learn. I was reading about the news, current events and I was learning about the world while I was getting paid to do it.</p>
-<p>I don’t think there are too many people who are like us. Maybe people watching this will be saying, “I hate my job”, but just stick with it, and something will come of it.</p>
-</blockquote>
-          <!--noindex-->
-          
-            <div class="post-button text-center">
-              <a class="btn" href="/2020/04/08/IELTS/Actual%20Speaking/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-          <div class="post-eof"></div>
-        
-      </footer>
-  </div>
-  
-  
-  
-  </article>
-
-     
-    
   </section>
 
   
@@ -1380,7 +1375,7 @@ P(X) = \sum_{Z}p(X,Z) = \sum_{Z}p(X|Z)p(Z)</script><p>通常，通过$Z$是类�
         
           <a href="/archives">
         
-          <span class="site-state-item-count">61</span>
+          <span class="site-state-item-count">63</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -1423,7 +1418,9 @@ P(X) = \sum_{Z}p(X,Z) = \sum_{Z}p(X|Z)p(Z)</script><p>通常，通过$Z$是类�
         
           
         
-        <span class="site-state-item-count">14</span>
+          
+        
+        <span class="site-state-item-count">15</span>
         <span class="site-state-item-name">categories</span>
         </a>
       </div>
@@ -1478,7 +1475,9 @@ P(X) = \sum_{Z}p(X,Z) = \sum_{Z}p(X|Z)p(Z)</script><p>通常，通过$Z$是类�
         
           
         
-        <span class="site-state-item-count">20</span>
+          
+        
+        <span class="site-state-item-count">21</span>
         <span class="site-state-item-name">tags</span>
         </a>
       </div>

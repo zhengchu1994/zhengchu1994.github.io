@@ -55,14 +55,14 @@
   };
 </script>
 
-  <meta name="description" content="前言由于c++的语言特性，底层内存暴露给程序员，因此在操作内存时，容易犯错，为此我先提早做个记录，慢慢在过程中消化完善；这样的情况很常见，往往一些书籍翻看前面20遍的时候都索然无味，但后面再看一看的时候，就会突然茅塞顿开，因此，就算此时不太容易记住这个细节知识，或者深刻理解某些算法，但是提早存着，长久翻回更新记录，一定也有新的收获。">
+  <meta name="description" content="面向对象 组合(Composition )用于表示类的 “整体&#x2F;部分”关系。例如主机、显示器、键盘、 鼠标组合成一台计算机。继承则表示类的 “一般 &#x2F;特殊 ”关系。  虚函数，那么其派生类的对应函数也成为虚函数，派生类重定义该函数： 12345678910class Shape &amp;#123;public:virtual void Draw(void);&amp;#125;;class Rectangle">
 <meta property="og:type" content="article">
 <meta property="og:title" content="《c++内存管理》">
 <meta property="og:url" content="http://yoursite.com/2019/08/16/c++%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/c++%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/index.html">
 <meta property="og:site_name" content="Zheng Chu&#39;s Blog">
-<meta property="og:description" content="前言由于c++的语言特性，底层内存暴露给程序员，因此在操作内存时，容易犯错，为此我先提早做个记录，慢慢在过程中消化完善；这样的情况很常见，往往一些书籍翻看前面20遍的时候都索然无味，但后面再看一看的时候，就会突然茅塞顿开，因此，就算此时不太容易记住这个细节知识，或者深刻理解某些算法，但是提早存着，长久翻回更新记录，一定也有新的收获。">
+<meta property="og:description" content="面向对象 组合(Composition )用于表示类的 “整体&#x2F;部分”关系。例如主机、显示器、键盘、 鼠标组合成一台计算机。继承则表示类的 “一般 &#x2F;特殊 ”关系。  虚函数，那么其派生类的对应函数也成为虚函数，派生类重定义该函数： 12345678910class Shape &amp;#123;public:virtual void Draw(void);&amp;#125;;class Rectangle">
 <meta property="article:published_time" content="2019-08-16T11:54:03.000Z">
-<meta property="article:modified_time" content="2019-08-23T13:14:41.490Z">
+<meta property="article:modified_time" content="2020-06-11T15:06:45.490Z">
 <meta property="article:author" content="Zheng Chu">
 <meta property="article:tag" content="C++">
 <meta name="twitter:card" content="summary">
@@ -293,7 +293,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2019-08-23 21:14:41" itemprop="dateModified" datetime="2019-08-23T21:14:41+08:00">2019-08-23</time>
+                <time title="Modified: 2020-06-11 23:06:45" itemprop="dateModified" datetime="2020-06-11T23:06:45+08:00">2020-06-11</time>
               </span>
             
           
@@ -330,8 +330,19 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>由于c++的语言特性，底层内存暴露给程序员，因此在操作内存时，容易犯错，为此我先提早做个记录，慢慢在过程中消化完善；这样的情况很常见，往往一些书籍翻看前面20遍的时候都索然无味，但后面再看一看的时候，就会突然茅塞顿开，因此，就算此时不太容易记住这个细节知识，或者深刻理解某些算法，但是提早存着，长久翻回更新记录，一定也有新的收获。</p><a id="more"></a>
-<h3 id="内存分配方式"><a href="#内存分配方式" class="headerlink" title="内存分配方式"></a>内存分配方式</h3><p>（1） 静态存储区域分配。编译的时候已经分配好，如<code>static</code>变量。</p>
+        <h2 id="面向对象"><a href="#面向对象" class="headerlink" title="面向对象"></a>面向对象</h2><ul>
+<li><p>组合(Composition )用于表示类的 “整体/部分”关系。例如主机、显示器、键盘、 鼠标组合成一台计算机。继承则表示类的 “一般 /特殊 ”关系。</p>
+</li>
+<li><p>虚函数，那么其派生类的对应函数也成为虚函数，派生类重定义该函数：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Shape</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line"><span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">Draw</span><span class="params">(<span class="keyword">void</span>)</span></span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Rectangle</span> :</span> <span class="keyword">public</span> Shape &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line"><span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">Draw</span><span class="params">(<span class="keyword">void</span>)</span></span>;</span><br><span class="line">...</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>如果将基类的虚函数声明为<strong>纯虚函数</strong>，那么该类就成为抽象基类。纯虚函数是在声 明时其 “初始化值 ”为 0 的函数，例如:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Shape</span> // <span class="title">Shape</span> 是抽象基类 &#123;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line"> <span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">Draw</span><span class="params">(<span class="keyword">void</span>)</span></span>=<span class="number">0</span>; <span class="comment">// Draw 为纯虚函数</span></span><br><span class="line"></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>个派生类的对象都可以被当成基类的对象来使用，这就是<strong>多态</strong>。</p>
+</li>
+</ul><a id="more"></a>
+<h2 id="文件结构"><a href="#文件结构" class="headerlink" title="文件结构"></a>文件结构</h2><h3 id="内存分配方式"><a href="#内存分配方式" class="headerlink" title="内存分配方式"></a>内存分配方式</h3><p>（1） 静态存储区域分配。编译的时候已经分配好，如<code>static</code>变量。</p>
 <p>（2）栈上创建的内存，如函数内的局部变量。</p>
 <p>（3）堆上分配的动态内存。如运行时用<code>malloc</code>或者<code>new</code>申请的内存，这时候程序员负责使用<code>free</code>或<code>delete</code>销毁。</p>
 <h3 id="防止内存报错的几个规则"><a href="#防止内存报错的几个规则" class="headerlink" title="防止内存报错的几个规则"></a>防止内存报错的几个规则</h3><p>（1）用<code>malloc</code>或<code>new</code>申请内存后，立即检查是否为<code>nullptr</code>;</p>
@@ -436,7 +447,7 @@
         
           <a href="/archives">
         
-          <span class="site-state-item-count">61</span>
+          <span class="site-state-item-count">63</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -479,7 +490,9 @@
         
           
         
-        <span class="site-state-item-count">14</span>
+          
+        
+        <span class="site-state-item-count">15</span>
         <span class="site-state-item-name">categories</span>
         </a>
       </div>
@@ -534,7 +547,9 @@
         
           
         
-        <span class="site-state-item-count">20</span>
+          
+        
+        <span class="site-state-item-count">21</span>
         <span class="site-state-item-name">tags</span>
         </a>
       </div>
@@ -601,7 +616,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#内存分配方式"><span class="nav-number">2.</span> <span class="nav-text">内存分配方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#防止内存报错的几个规则"><span class="nav-number">3.</span> <span class="nav-text">防止内存报错的几个规则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#指针与数组的对比"><span class="nav-number">4.</span> <span class="nav-text">指针与数组的对比</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#面向对象"><span class="nav-number">1.</span> <span class="nav-text">面向对象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#文件结构"><span class="nav-number">2.</span> <span class="nav-text">文件结构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#内存分配方式"><span class="nav-number">2.1.</span> <span class="nav-text">内存分配方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#防止内存报错的几个规则"><span class="nav-number">2.2.</span> <span class="nav-text">防止内存报错的几个规则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#指针与数组的对比"><span class="nav-number">2.3.</span> <span class="nav-text">指针与数组的对比</span></a></li></ol></li></ol></div>
             
 
           </div>

@@ -58,15 +58,15 @@
   <meta name="description" content="Scala-part2&gt;函数&lt; 在scala中，函数是可重用的命名表达式。 尽可能构建纯函数，类似数学意义上的函数。  无输出函数： 12345678910111213141516171819202122&#x2F;&#x2F; 无输出函数scala&gt; def hi &#x3D; &quot;hi&quot;def hi: Stringscala&gt; hival res75: String &#x3D; hiscala&gt; def">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Scala-part2">
-<meta property="og:url" content="http://yoursite.com/2020/06/08/Scala/Scala--Part2/index.html">
+<meta property="og:url" content="http://yoursite.com/2020/06/11/Scala/Scala--Part2/index.html">
 <meta property="og:site_name" content="Zheng Chu&#39;s Blog">
 <meta property="og:description" content="Scala-part2&gt;函数&lt; 在scala中，函数是可重用的命名表达式。 尽可能构建纯函数，类似数学意义上的函数。  无输出函数： 12345678910111213141516171819202122&#x2F;&#x2F; 无输出函数scala&gt; def hi &#x3D; &quot;hi&quot;def hi: Stringscala&gt; hival res75: String &#x3D; hiscala&gt; def">
-<meta property="article:published_time" content="2020-06-08T08:00:00.000Z">
-<meta property="article:modified_time" content="2020-06-09T16:03:44.429Z">
+<meta property="article:published_time" content="2020-06-11T05:43:00.000Z">
+<meta property="article:modified_time" content="2020-06-11T05:43:52.145Z">
 <meta property="article:author" content="Zheng Chu">
 <meta property="article:tag" content="Scala">
 <meta name="twitter:card" content="summary">
-  <link rel="canonical" href="http://yoursite.com/2020/06/08/Scala/Scala--Part2/">
+  <link rel="canonical" href="http://yoursite.com/2020/06/11/Scala/Scala--Part2/">
 
 
 <script id="page-configurations">
@@ -251,7 +251,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/08/Scala/Scala--Part2/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/11/Scala/Scala--Part2/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Zheng Chu">
@@ -282,19 +282,11 @@
                 
               
 
-              <time title="Created: 2020-06-08 16:00:00" itemprop="dateCreated datePublished" datetime="2020-06-08T16:00:00+08:00">2020-06-08</time>
+              <time title="Created: 2020-06-11 13:43:00 / Modified: 13:43:52" itemprop="dateCreated datePublished" datetime="2020-06-11T13:43:00+08:00">2020-06-11</time>
             </span>
           
             
 
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-06-10 00:03:44" itemprop="dateModified" datetime="2020-06-10T00:03:44+08:00">2020-06-10</time>
-              </span>
             
           
             <span class="post-meta-item">
@@ -363,7 +355,35 @@
 <figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">scala&gt; <span class="function"><span class="keyword">def</span> <span class="title">max</span></span>(a: <span class="type">Int</span>, b: <span class="type">Int</span>) = <span class="keyword">if</span> (a &gt; b) a <span class="keyword">else</span> b</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">max</span></span>(a: <span class="type">Int</span>, b: <span class="type">Int</span>): <span class="type">Int</span></span><br><span class="line"><span class="comment">//(输入参数类型) =&gt;输出参数类型 = 函数</span></span><br><span class="line">scala&gt; <span class="keyword">val</span> maximize: (<span class="type">Int</span>, <span class="type">Int</span>) =&gt; <span class="type">Int</span> = max</span><br><span class="line"><span class="keyword">val</span> maximize: (<span class="type">Int</span>, <span class="type">Int</span>) =&gt; <span class="type">Int</span> = $<span class="type">Lambda</span>$<span class="number">1189</span>/<span class="number">0x0000000801138840</span>@<span class="number">4</span>a1bb556</span><br><span class="line"></span><br><span class="line">scala&gt; maximize(<span class="number">9</span>, <span class="number">9</span>)</span><br><span class="line"><span class="keyword">val</span> res10: <span class="type">Int</span> = <span class="number">9</span></span><br></pre></td></tr></table></figure>
 <h4 id="高阶函数"><a href="#高阶函数" class="headerlink" title="高阶函数"></a>高阶函数</h4><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">scala&gt; <span class="function"><span class="keyword">def</span> <span class="title">safeStringOp</span></span>(s: <span class="type">String</span>, f: <span class="type">String</span> =&gt; <span class="type">String</span>) = &#123;</span><br><span class="line">     | <span class="keyword">if</span>(s != <span class="literal">null</span>) f(s) <span class="keyword">else</span> s</span><br><span class="line">     | &#125;</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">safeStringOp</span></span>(s: <span class="type">String</span>, f: <span class="type">String</span> =&gt; <span class="type">String</span>): <span class="type">String</span></span><br><span class="line"></span><br><span class="line">scala&gt; <span class="function"><span class="keyword">def</span> <span class="title">reverser</span></span>(s: <span class="type">String</span>) = s.reverse</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">reverser</span></span>(s: <span class="type">String</span>): <span class="type">String</span></span><br><span class="line"></span><br><span class="line">scala&gt; safeStringOp(<span class="literal">null</span>, reverser)</span><br><span class="line"><span class="keyword">val</span> res13: <span class="type">String</span> = <span class="literal">null</span></span><br><span class="line"></span><br><span class="line">scala&gt; safeStringOp(<span class="string">"zc2077"</span>, reverser)</span><br><span class="line"><span class="keyword">val</span> res17: <span class="type">String</span> = <span class="number">7702</span>cz</span><br></pre></td></tr></table></figure>
 <h4 id="函数字面量（lambda函数）"><a href="#函数字面量（lambda函数）" class="headerlink" title="函数字面量（lambda函数）"></a>函数字面量（lambda函数）</h4><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">scala&gt; <span class="keyword">val</span> maximize = (a: <span class="type">Int</span>, b: <span class="type">Int</span>) =&gt; <span class="keyword">if</span>(a &gt; b) a <span class="keyword">else</span> b</span><br><span class="line"><span class="keyword">val</span> maximize: (<span class="type">Int</span>, <span class="type">Int</span>) =&gt; <span class="type">Int</span> = $<span class="type">Lambda</span>$<span class="number">1227</span>/<span class="number">0x000000080115e840</span>@<span class="number">413</span>bf74f</span><br><span class="line"></span><br><span class="line">scala&gt; maximize(<span class="number">2020</span>, <span class="number">2077</span>)</span><br><span class="line"><span class="keyword">val</span> res20: <span class="type">Int</span> = <span class="number">2077</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">scala&gt; safeStringOp(<span class="string">"zc2077"</span>, (s: <span class="type">String</span>) =&gt; s.reverse)</span><br><span class="line"><span class="keyword">val</span> res22: <span class="type">String</span> = <span class="number">7702</span>cz</span><br><span class="line"></span><br><span class="line"><span class="comment">// 因为高阶函数已经申明了类型，可以去掉显式类型</span></span><br><span class="line"><span class="comment">//进一步可以去掉小括号，因为输入参数只有一个</span></span><br><span class="line">scala&gt; safeStringOp(<span class="string">"zc2077"</span>, s =&gt; s.reverse)</span><br><span class="line"><span class="keyword">val</span> res24: <span class="type">String</span> = <span class="number">7702</span>cz</span><br></pre></td></tr></table></figure>
-<h4 id="占位符语法"><a href="#占位符语法" class="headerlink" title="占位符语法"></a>占位符语法</h4>
+<h4 id="占位符语法"><a href="#占位符语法" class="headerlink" title="占位符语法"></a>占位符语法</h4><ul>
+<li>使用情况：<ul>
+<li>函数的显式类型在字面量之外指定；</li>
+<li>参数最多只使用一次；</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>多个<code>_</code>按位置替换输入参数：</li>
+</ul>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">scala&gt; <span class="function"><span class="keyword">def</span> <span class="title">combination</span></span>(x: <span class="type">Int</span>, y: <span class="type">Int</span>, f: (<span class="type">Int</span>, <span class="type">Int</span>) =&gt; <span class="type">Int</span>) = f(x, y)</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">combination</span></span>(x: <span class="type">Int</span>, y: <span class="type">Int</span>, f: (<span class="type">Int</span>, <span class="type">Int</span>) =&gt; <span class="type">Int</span>): <span class="type">Int</span></span><br><span class="line"></span><br><span class="line">scala&gt; combination(<span class="number">23</span>, <span class="number">12</span>, _ * _ )</span><br><span class="line"><span class="keyword">val</span> res29: <span class="type">Int</span> = <span class="number">276</span></span><br><span class="line"></span><br><span class="line">scala&gt; combination(<span class="number">23</span>, <span class="number">12</span>, _ + _ )</span><br><span class="line"><span class="keyword">val</span> res31: <span class="type">Int</span> = <span class="number">35</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>输入与输出类型都进行参数化：</li>
+</ul>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//A:输入类型；B：输出类型</span></span><br><span class="line">scala&gt; <span class="function"><span class="keyword">def</span> <span class="title">tripleOp</span></span>[<span class="type">A</span>, <span class="type">B</span>](a: <span class="type">A</span>, b: <span class="type">A</span>, c: <span class="type">A</span>, f: (<span class="type">A</span>, <span class="type">A</span>, <span class="type">A</span>) =&gt; <span class="type">B</span>) = f(a, b, c) </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">tripleOp</span></span>[<span class="type">A</span>, <span class="type">B</span>](a: <span class="type">A</span>, b: <span class="type">A</span>, c: <span class="type">A</span>, f: (<span class="type">A</span>, <span class="type">A</span>, <span class="type">A</span>) =&gt; <span class="type">B</span>): <span class="type">B</span></span><br><span class="line"></span><br><span class="line">scala&gt; tripleOp[<span class="type">Int</span>, <span class="type">Int</span>](<span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, _ * _ + _)</span><br><span class="line"><span class="keyword">val</span> res33: <span class="type">Int</span> = <span class="number">17</span></span><br></pre></td></tr></table></figure>
+<h4 id="函数部分利用、函数柯里化"><a href="#函数部分利用、函数柯里化" class="headerlink" title="函数部分利用、函数柯里化"></a>函数部分利用、函数柯里化</h4><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">scala&gt; <span class="function"><span class="keyword">def</span> <span class="title">factorOf</span></span>(x: <span class="type">Int</span>, y: <span class="type">Int</span>) = y % x == <span class="number">0</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">factorOf</span></span>(x: <span class="type">Int</span>, y: <span class="type">Int</span>): <span class="type">Boolean</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//函数部分利用</span></span><br><span class="line">scala&gt; <span class="function"><span class="keyword">def</span> <span class="title">multipleOf3</span> </span>= factorOf(<span class="number">3</span>, _: <span class="type">Int</span>)</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">multipleOf3</span></span>: <span class="type">Int</span> =&gt; <span class="type">Boolean</span></span><br><span class="line"></span><br><span class="line">scala&gt; multipleOf3(<span class="number">6</span>)</span><br><span class="line"><span class="keyword">val</span> res37: <span class="type">Boolean</span> = <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//多个参数表的函数视为---&gt;多个函数的一个链</span></span><br><span class="line">scala&gt; <span class="function"><span class="keyword">def</span> <span class="title">factorOf</span></span>(x: <span class="type">Int</span>)(y: <span class="type">Int</span>) = y % x == <span class="number">0</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">factorOf</span></span>(x: <span class="type">Int</span>)(y: <span class="type">Int</span>): <span class="type">Boolean</span></span><br><span class="line"></span><br><span class="line">scala&gt; <span class="keyword">val</span> isEven = factorOf(<span class="number">2</span>) _</span><br><span class="line"><span class="keyword">val</span> isEven: <span class="type">Int</span> =&gt; <span class="type">Boolean</span> = $<span class="type">Lambda</span>$<span class="number">1255</span>/<span class="number">0x000000080117f840</span>@<span class="number">1956</span>d3a2</span><br><span class="line"></span><br><span class="line">scala&gt; isEven(<span class="number">32</span>)</span><br><span class="line"><span class="keyword">val</span> res39: <span class="type">Boolean</span> = <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+<h4 id="传名参数"><a href="#传名参数" class="headerlink" title="传名参数"></a>传名参数</h4><p>形式：    <code>&lt;identifier&gt;: =&gt; &lt;type&gt;</code></p>
+<ul>
+<li>若传递函数值，每次在函数內使用传递的参数时都会调用该函数。</li>
+</ul>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">scala&gt; <span class="function"><span class="keyword">def</span> <span class="title">doubles</span></span>(x: =&gt; <span class="type">Int</span>) = &#123;</span><br><span class="line">     | println(<span class="string">"Now doubling"</span> + x)</span><br><span class="line">     | x * <span class="number">2</span></span><br><span class="line">     | &#125;</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">doubles</span></span>(x: =&gt; <span class="type">Int</span>): <span class="type">Int</span></span><br><span class="line"><span class="comment">//传递常规值，正常操作</span></span><br><span class="line">scala&gt; doubles(<span class="number">3</span>)</span><br><span class="line"><span class="type">Now</span> doubling3</span><br><span class="line"><span class="keyword">val</span> res40: <span class="type">Int</span> = <span class="number">6</span></span><br><span class="line">　</span><br><span class="line">scala&gt; <span class="function"><span class="keyword">def</span> <span class="title">f</span></span>(i: <span class="type">Int</span>) = &#123;println(<span class="string">s"Hello from f(<span class="subst">$i</span>)"</span>); i&#125;</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">f</span></span>(i: <span class="type">Int</span>): <span class="type">Int</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//传递函数值，由于doubles内部两次调用参数x，因此f函数也会调用两次</span></span><br><span class="line">scala&gt; doubles( f(<span class="number">8</span>) )</span><br><span class="line"><span class="type">Hello</span> from f(<span class="number">8</span>)</span><br><span class="line"><span class="type">Now</span> doubling8</span><br><span class="line"><span class="type">Hello</span> from f(<span class="number">8</span>)</span><br><span class="line"><span class="keyword">val</span> res41: <span class="type">Int</span> = <span class="number">16</span></span><br></pre></td></tr></table></figure>
+<h4 id="偏函数"><a href="#偏函数" class="headerlink" title="偏函数"></a>偏函数</h4><p>感觉像是强制匹配函数，只能部分应用于输入数据的函数，比如除法函数不能除以0就是偏函数。</p>
+<ul>
+<li>偏函数：一系列<code>case</code>模式，输入数据必须匹配至少一个</li>
+</ul>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">scala&gt; <span class="keyword">val</span> statusHanndler: <span class="type">Int</span> =&gt; <span class="type">String</span> = &#123;</span><br><span class="line">     |  <span class="keyword">case</span> <span class="number">200</span> =&gt; <span class="string">"Okay"</span></span><br><span class="line">     |  <span class="keyword">case</span> <span class="number">400</span> =&gt; <span class="string">"Your Error"</span></span><br><span class="line">     |  <span class="keyword">case</span> <span class="number">500</span> =&gt; <span class="string">"Our error"</span></span><br><span class="line">     | &#125;</span><br><span class="line"><span class="keyword">val</span> statusHanndler: <span class="type">Int</span> =&gt; <span class="type">String</span> = $<span class="type">Lambda</span>$<span class="number">1271</span>/<span class="number">0x000000080117d840</span>@<span class="number">4123788</span></span><br><span class="line"></span><br><span class="line">scala&gt; statusHanndler(<span class="number">200</span>)</span><br><span class="line"><span class="keyword">val</span> res43: <span class="type">String</span> = <span class="type">Okay</span></span><br></pre></td></tr></table></figure>
+<h4 id="调用字面量"><a href="#调用字面量" class="headerlink" title="调用字面量"></a>调用字面量</h4><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//1.穿值参数，第二个参数是一个函数，表示用表达式块语法调用</span></span><br><span class="line">scala&gt; <span class="function"><span class="keyword">def</span> <span class="title">safeStringOp</span></span>(s: <span class="type">String</span>)(f: <span class="type">String</span> =&gt; <span class="type">String</span>) = &#123;</span><br><span class="line">     |  <span class="keyword">if</span>(s != <span class="literal">null</span>) f(s) <span class="keyword">else</span> s</span><br><span class="line">     | &#125;</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">safeStringOp</span></span>(s: <span class="type">String</span>)(f: <span class="type">String</span> =&gt; <span class="type">String</span>): <span class="type">String</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">scala&gt; <span class="keyword">val</span> uuid = java.util.<span class="type">UUID</span>.randomUUID.toString()</span><br><span class="line"><span class="keyword">val</span> uuid: <span class="type">String</span> = ec4be3aa<span class="number">-7</span>d05<span class="number">-4</span>f89<span class="number">-9</span>ecb<span class="number">-57</span>a75a0214e1</span><br><span class="line"></span><br><span class="line">scala&gt; uuid</span><br><span class="line"><span class="keyword">val</span> res46: <span class="type">String</span> = ec4be3aa<span class="number">-7</span>d05<span class="number">-4</span>f89<span class="number">-9</span>ecb<span class="number">-57</span>a75a0214e1</span><br><span class="line"></span><br><span class="line"><span class="comment">// 第二个参数用表达式块语法调用</span></span><br><span class="line">scala&gt; <span class="keyword">val</span> timedUUID = safeStringOp(uuid) &#123; s =&gt;</span><br><span class="line">     | <span class="keyword">val</span> now = <span class="type">System</span>.currentTimeMillis</span><br><span class="line">     | <span class="keyword">val</span> timed = s.take(<span class="number">24</span>) + now</span><br><span class="line">     | timed.toUpperCase</span><br><span class="line">     | &#125;</span><br><span class="line"><span class="keyword">val</span> timedUUID: <span class="type">String</span> = <span class="type">EC4BE3AA</span><span class="number">-7</span>D05<span class="number">-4</span>F89<span class="number">-9</span>ECB<span class="number">-1591853574681</span></span><br></pre></td></tr></table></figure>
+
     </div>
 
     
@@ -388,8 +408,8 @@
           <div class="post-nav">
             <div class="post-nav-next post-nav-item">
               
-                <a href="/2020/05/08/GolangNote/" rel="next" title="GolangNote">
-                  <i class="fa fa-chevron-left"></i> GolangNote
+                <a href="/2020/06/09/%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F/" rel="next" title="推荐系统">
+                  <i class="fa fa-chevron-left"></i> 推荐系统
                 </a>
               
             </div>
@@ -398,8 +418,8 @@
 
             <div class="post-nav-prev post-nav-item">
               
-                <a href="/2020/06/08/Scala/Scala--Part1/" rel="prev" title="Scala-part1">
-                  Scala-part1 <i class="fa fa-chevron-right"></i>
+                <a href="/2020/06/12/Pytorch/Mxnet-Pytorch-part1---LR-Minist/" rel="prev" title="Mxnet-Pytorch-part1---LR-Minist">
+                  Mxnet-Pytorch-part1---LR-Minist <i class="fa fa-chevron-right"></i>
                 </a>
               
             </div>
@@ -460,7 +480,7 @@
         
           <a href="/archives">
         
-          <span class="site-state-item-count">61</span>
+          <span class="site-state-item-count">63</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -503,7 +523,9 @@
         
           
         
-        <span class="site-state-item-count">14</span>
+          
+        
+        <span class="site-state-item-count">15</span>
         <span class="site-state-item-name">categories</span>
         </a>
       </div>
@@ -558,7 +580,9 @@
         
           
         
-        <span class="site-state-item-count">20</span>
+          
+        
+        <span class="site-state-item-count">21</span>
         <span class="site-state-item-name">tags</span>
         </a>
       </div>
@@ -625,7 +649,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Scala-part2"><span class="nav-number">1.</span> <span class="nav-text">Scala-part2</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#gt-函数-lt"><span class="nav-number">1.1.</span> <span class="nav-text">&gt;函数&lt;</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#空括号定义的函数"><span class="nav-number">1.1.0.1.</span> <span class="nav-text">空括号定义的函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#块表达式调用函数"><span class="nav-number">1.1.0.2.</span> <span class="nav-text">块表达式调用函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#递归函数"><span class="nav-number">1.1.0.3.</span> <span class="nav-text">递归函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#nested函数"><span class="nav-number">1.1.0.4.</span> <span class="nav-text">nested函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#vararg参数"><span class="nav-number">1.1.0.5.</span> <span class="nav-text">vararg参数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#类型参数"><span class="nav-number">1.1.0.6.</span> <span class="nav-text">类型参数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#首类函数"><span class="nav-number">1.1.0.7.</span> <span class="nav-text">首类函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#高阶函数"><span class="nav-number">1.1.0.8.</span> <span class="nav-text">高阶函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#函数字面量（lambda函数）"><span class="nav-number">1.1.0.9.</span> <span class="nav-text">函数字面量（lambda函数）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#占位符语法"><span class="nav-number">1.1.0.10.</span> <span class="nav-text">占位符语法</span></a></li></ol></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Scala-part2"><span class="nav-number">1.</span> <span class="nav-text">Scala-part2</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#gt-函数-lt"><span class="nav-number">1.1.</span> <span class="nav-text">&gt;函数&lt;</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#空括号定义的函数"><span class="nav-number">1.1.0.1.</span> <span class="nav-text">空括号定义的函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#块表达式调用函数"><span class="nav-number">1.1.0.2.</span> <span class="nav-text">块表达式调用函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#递归函数"><span class="nav-number">1.1.0.3.</span> <span class="nav-text">递归函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#nested函数"><span class="nav-number">1.1.0.4.</span> <span class="nav-text">nested函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#vararg参数"><span class="nav-number">1.1.0.5.</span> <span class="nav-text">vararg参数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#类型参数"><span class="nav-number">1.1.0.6.</span> <span class="nav-text">类型参数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#首类函数"><span class="nav-number">1.1.0.7.</span> <span class="nav-text">首类函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#高阶函数"><span class="nav-number">1.1.0.8.</span> <span class="nav-text">高阶函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#函数字面量（lambda函数）"><span class="nav-number">1.1.0.9.</span> <span class="nav-text">函数字面量（lambda函数）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#占位符语法"><span class="nav-number">1.1.0.10.</span> <span class="nav-text">占位符语法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#函数部分利用、函数柯里化"><span class="nav-number">1.1.0.11.</span> <span class="nav-text">函数部分利用、函数柯里化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#传名参数"><span class="nav-number">1.1.0.12.</span> <span class="nav-text">传名参数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#偏函数"><span class="nav-number">1.1.0.13.</span> <span class="nav-text">偏函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#调用字面量"><span class="nav-number">1.1.0.14.</span> <span class="nav-text">调用字面量</span></a></li></ol></li></ol></li></ol></li></ol></div>
             
 
           </div>
@@ -814,7 +838,7 @@
       repo: 'Gitalk',
       owner: 'zhengchu1994',
       admin: ['zhengchu1994'],
-      id: '8f925b931adc76c8a32b566a68bd6067',
+      id: '44832ed90c071a52ec76d11e243faaee',
         language: window.navigator.language || window.navigator.userLanguage,
       
       distractionFreeMode: 'true'
