@@ -55,16 +55,16 @@
   };
 </script>
 
-  <meta name="description" content="为什么高斯混合模型要用隐变量？ P(X) &#x3D; \sum_{Z}p(X,Z) &#x3D; \sum_{Z}p(X|Z)p(Z)通常，通过$Z$是类别标签计算数据$X$的MLE，但是无监督情况下，不知道$Z$。因此我们假设$Z\sim\textit{Multinomial}(\phi)$也就是多项式分布（相当于$k$个面的骰子投$n$ 次的分布）作为假设的类别。">
+  <meta name="description" content="为什么高斯混合模型要用隐变量？ P(X) &#x3D; \sum_{Z}p(X,Z) &#x3D; \sum_{Z}p(X|Z)p(Z)★ 通常，通过$Z$是类别标签计算数据$X$的MLE，但是无监督情况下，不知道$Z$。因此我们假设$Z\sim\textit{Multinomial}(\phi)$也就是多项式分布（相当于$k$个面的骰子投$n$ 次的分布）作为假设的类别。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="GMM">
 <meta property="og:url" content="http://yoursite.com/2020/05/05/GMM/index.html">
 <meta property="og:site_name" content="Zheng Chu&#39;s Blog">
-<meta property="og:description" content="为什么高斯混合模型要用隐变量？ P(X) &#x3D; \sum_{Z}p(X,Z) &#x3D; \sum_{Z}p(X|Z)p(Z)通常，通过$Z$是类别标签计算数据$X$的MLE，但是无监督情况下，不知道$Z$。因此我们假设$Z\sim\textit{Multinomial}(\phi)$也就是多项式分布（相当于$k$个面的骰子投$n$ 次的分布）作为假设的类别。">
+<meta property="og:description" content="为什么高斯混合模型要用隐变量？ P(X) &#x3D; \sum_{Z}p(X,Z) &#x3D; \sum_{Z}p(X|Z)p(Z)★ 通常，通过$Z$是类别标签计算数据$X$的MLE，但是无监督情况下，不知道$Z$。因此我们假设$Z\sim\textit{Multinomial}(\phi)$也就是多项式分布（相当于$k$个面的骰子投$n$ 次的分布）作为假设的类别。">
 <meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlgy1gehg8ta8kij31520iqmzi.jpg">
 <meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlgy1gehg9qvmnyj315a0mawhq.jpg">
 <meta property="article:published_time" content="2020-05-05T03:26:00.000Z">
-<meta property="article:modified_time" content="2020-05-05T04:15:44.423Z">
+<meta property="article:modified_time" content="2020-06-12T06:32:08.895Z">
 <meta property="article:author" content="Zheng Chu">
 <meta property="article:tag" content="MachineLearning">
 <meta name="twitter:card" content="summary">
@@ -285,11 +285,19 @@
                 
               
 
-              <time title="Created: 2020-05-05 11:26:00 / Modified: 12:15:44" itemprop="dateCreated datePublished" datetime="2020-05-05T11:26:00+08:00">2020-05-05</time>
+              <time title="Created: 2020-05-05 11:26:00" itemprop="dateCreated datePublished" datetime="2020-05-05T11:26:00+08:00">2020-05-05</time>
             </span>
           
             
 
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-06-12 14:32:08" itemprop="dateModified" datetime="2020-06-12T14:32:08+08:00">2020-06-12</time>
+              </span>
             
           
             <span class="post-meta-item">
@@ -326,7 +334,7 @@
 
       
         <p>为什么高斯混合模型要用隐变量？</p><script type="math/tex; mode=display">
-P(X) = \sum_{Z}p(X,Z) = \sum_{Z}p(X|Z)p(Z)</script><p>通常，通过$Z$是类别标签计算数据$X$的MLE，但是无监督情况下，不知道$Z$。因此我们假设$Z\sim\textit{Multinomial}(\phi)$也就是多项式分布（相当于$k$个面的骰子投$n$ 次的分布）作为假设的类别。</p><a id="more"></a>
+P(X) = \sum_{Z}p(X,Z) = \sum_{Z}p(X|Z)p(Z)</script><p>★ 通常，通过$Z$是类别标签计算数据$X$的MLE，但是无监督情况下，不知道$Z$。因此我们假设$Z\sim\textit{Multinomial}(\phi)$也就是多项式分布（相当于$k$个面的骰子投$n$ 次的分布）作为假设的类别。</p><a id="more"></a>
 
 <p>其中,$\phi<em>j \ge 0, \sum</em>{j=1}^k\phi_j = 1, \phi(j)$给出$p(z^{(i)} = j)$，其中每个样本$x^{(i)}$对应一个$z^{(i)}$.</p>
 <p>设$x^{(i)} | z^{(i)} =j \sim N(\mu_j, \Sigma_j)$.</p>
