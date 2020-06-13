@@ -55,18 +55,18 @@
   };
 </script>
 
-  <meta name="description" content="最小负对数似然先给出似然函数： \mathcal L(\theta | x_1,...,x_n) &#x3D; f(x_1,x_2,...,x_n|\theta) &#x3D; \prod_{i&#x3D;1}^nf(x_i|n)为什么对上面的似然函数取对数的原因：1、数值分析：因为似然都很好，是小数的积，$\log$可以降低计算时发生潜在的下溢；">
+  <meta name="description" content="更新时间：20.06.13上次时间：date: 2019-09-08 17:17:10最小负对数似然先给出似然函数： \mathcal L(\theta | x_1,...,x_n) &#x3D; f(x_1,x_2,...,x_n|\theta) &#x3D; \prod_{i&#x3D;1}^nf(x_i|n)为什么对上面的似然函数取对数的原因：">
 <meta property="og:type" content="article">
 <meta property="og:title" content="KL散度与负对数似然函数">
-<meta property="og:url" content="http://yoursite.com/2019/09/08/DeepLearning/KL%E6%95%A3%E5%BA%A6%E4%B8%8E%E8%B4%9F%E5%AF%B9%E6%95%B0%E4%BC%BC%E7%84%B6%E5%87%BD%E6%95%B0/index.html">
+<meta property="og:url" content="http://yoursite.com/2020/06/13/DeepLearning/KL%E6%95%A3%E5%BA%A6%E4%B8%8E%E8%B4%9F%E5%AF%B9%E6%95%B0%E4%BC%BC%E7%84%B6%E5%87%BD%E6%95%B0/index.html">
 <meta property="og:site_name" content="Zheng Chu&#39;s Blog">
-<meta property="og:description" content="最小负对数似然先给出似然函数： \mathcal L(\theta | x_1,...,x_n) &#x3D; f(x_1,x_2,...,x_n|\theta) &#x3D; \prod_{i&#x3D;1}^nf(x_i|n)为什么对上面的似然函数取对数的原因：1、数值分析：因为似然都很好，是小数的积，$\log$可以降低计算时发生潜在的下溢；">
-<meta property="article:published_time" content="2019-09-08T09:17:10.000Z">
-<meta property="article:modified_time" content="2019-09-08T10:51:45.284Z">
+<meta property="og:description" content="更新时间：20.06.13上次时间：date: 2019-09-08 17:17:10最小负对数似然先给出似然函数： \mathcal L(\theta | x_1,...,x_n) &#x3D; f(x_1,x_2,...,x_n|\theta) &#x3D; \prod_{i&#x3D;1}^nf(x_i|n)为什么对上面的似然函数取对数的原因：">
+<meta property="article:published_time" content="2020-06-13T13:07:10.000Z">
+<meta property="article:modified_time" content="2020-06-13T13:07:37.370Z">
 <meta property="article:author" content="Zheng Chu">
 <meta property="article:tag" content="DeepLearning">
 <meta name="twitter:card" content="summary">
-  <link rel="canonical" href="http://yoursite.com/2019/09/08/DeepLearning/KL%E6%95%A3%E5%BA%A6%E4%B8%8E%E8%B4%9F%E5%AF%B9%E6%95%B0%E4%BC%BC%E7%84%B6%E5%87%BD%E6%95%B0/">
+  <link rel="canonical" href="http://yoursite.com/2020/06/13/DeepLearning/KL%E6%95%A3%E5%BA%A6%E4%B8%8E%E8%B4%9F%E5%AF%B9%E6%95%B0%E4%BC%BC%E7%84%B6%E5%87%BD%E6%95%B0/">
 
 
 <script id="page-configurations">
@@ -251,7 +251,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/08/DeepLearning/KL%E6%95%A3%E5%BA%A6%E4%B8%8E%E8%B4%9F%E5%AF%B9%E6%95%B0%E4%BC%BC%E7%84%B6%E5%87%BD%E6%95%B0/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/13/DeepLearning/KL%E6%95%A3%E5%BA%A6%E4%B8%8E%E8%B4%9F%E5%AF%B9%E6%95%B0%E4%BC%BC%E7%84%B6%E5%87%BD%E6%95%B0/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Zheng Chu">
@@ -282,7 +282,7 @@
                 
               
 
-              <time title="Created: 2019-09-08 17:17:10 / Modified: 18:51:45" itemprop="dateCreated datePublished" datetime="2019-09-08T17:17:10+08:00">2019-09-08</time>
+              <time title="Created: 2020-06-13 21:07:10 / Modified: 21:07:37" itemprop="dateCreated datePublished" datetime="2020-06-13T21:07:10+08:00">2020-06-13</time>
             </span>
           
             
@@ -322,10 +322,12 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h4 id="最小负对数似然"><a href="#最小负对数似然" class="headerlink" title="最小负对数似然"></a>最小负对数似然</h4><p>先给出似然函数：</p><script type="math/tex; mode=display">
-\mathcal L(\theta | x_1,...,x_n) = f(x_1,x_2,...,x_n|\theta) = \prod_{i=1}^nf(x_i|n)</script><p>为什么对上面的似然函数取对数的原因：</p><p>1、数值分析：因为似然都很好，是小数的积，$\log$可以降低计算时发生潜在的下溢；</p><a id="more"></a>
+        <p>更新时间：20.06.13</p><p>上次时间：date: 2019-09-08 17:17:10</p><h4 id="最小负对数似然"><a href="#最小负对数似然" class="headerlink" title="最小负对数似然"></a>最小负对数似然</h4><p>先给出似然函数：</p><script type="math/tex; mode=display">
+\mathcal L(\theta | x_1,...,x_n) = f(x_1,x_2,...,x_n|\theta) = \prod_{i=1}^nf(x_i|n)</script><p>为什么对上面的似然函数取对数的原因：</p><a id="more"></a>
 
 
+
+<p>1、数值分析：因为似然都很好，是小数的积，$\log$可以降低计算时发生潜在的下溢；</p>
 <p>2、积分方面：$\log$ 变换使得乘性计算变为加性计算，更加方便；</p>
 <p>3、积分方面：$\log$ 是单调变换函数，自变量与因变量同时保持增减；</p>
 <p>因此取对数似然函数：</p>
@@ -347,11 +349,31 @@
 <p>在分布 $P(x|\theta^{\ast})$的数据中采样$n$个样本，由强大数定理可知，当$n$趋于无穷的时候：</p>
 <script type="math/tex; mode=display">
 -\frac{1}{n}\sum_{i=1}^n \log P(x_i|\theta) = -\mathbb E_{x\sim P(x|\theta^{\ast})}[\log P(x|\theta)] \\\\
-= \mathrm{constant}*\mathrm{NLL}</script><p>也就是说最小化真实数据的分布与采样分布间的KL散度等于最小化负对数似然函数。</p>
+= \mathrm{constant}*\mathrm{NLL}</script><p>也就是说<strong>最小化真实数据的分布与采样分布间的KL散度等于最小化负对数似然函数</strong>。</p>
 <hr>
+<h4 id="EMBO"><a href="#EMBO" class="headerlink" title="EMBO"></a>EMBO</h4><p>给定数据$X$，数据自身形成数据分布$p(X)$（称为<strong>prior</strong>），据此可以计算最大似然估计$p(X|z)$（即<strong>likelihood</strong>），其中$z$是需要估计的模型参数。</p>
+<p>但更普遍的情况是，我们知道模型的参数服从分布$p(z)$，所以更合理的做法是考虑上参数的分布，据此可以计算最大后验估计$p(z|X)$（即<strong>posterior</strong>），有：</p>
+<script type="math/tex; mode=display">
+p(z|X)= \frac{p(X|z)p(z)}{p(X)} = \frac{\text{Likelihood}\times \text{Parameter's prior}}{\text{Evidence}}</script><p>但问题是$P(X)$一般求不了：(要求在可能的所有参数$z$上求导)</p>
+<script type="math/tex; mode=display">
+P(X) = \int P(X|z)p(z)dz</script><p>解决这个问题的办法：如变分推断（即<strong>Variational Inference</strong>），做法比较直观，取一个被$\lambda$参数化的分布族$q(z;\lambda)$ 去近似$p(z|X)$。</p>
+<p>由此考虑优化参数$\lambda $，使得分布$q(z)$与$p(z|X)$之间的KL散度降低，记为$D_\text{KL}(q||p)$：</p>
+<script type="math/tex; mode=display">
+\begin{align}
+D_\text{KL}(q||p) &= \mathbb E_q \big[\log \frac{q(z)}{p(z|X)} \big] \\
+&= \mathbb E_q \big[\log q(z) - \log p(z|X) \big] \\
+&= \mathbb E_q[\log q(z) - \log \frac{p(z, X)}{ p(X)}] \\
+&= \mathbb E_q[\log q(z) - \log p(z, X) + \log p(X)] \\ 
+&= \mathbb E_q[\log p(X)] - \big(\mathbb E_q[\log p(z, X)] -\mathbb E_q [\log q(z)]\big) \\
+&= \mathbb E_q[\log p(X)] - \text{ELBO}
+\end{align}</script><p>为了最小化$D_\text{KL}(q||p)$，等价于最大化$\text{ELBO}$。</p>
+<p>怎么求$\text{ELBO}$？</p>
+<p>方法一、在平均场变分推断中（即<strong>Mean field variational inference</strong>）的做法，选取一个分布族$q(z;\lambda)$和参数先验$q(z)$ 去简化 $\text{ELBO}$.</p>
+<p>方法二、可以利用类似EM算法的迭代方式去做，该方法称为<strong>黑盒随机变分推断</strong>（即<strong>Black box stochastic variational inference</strong>），做法：每次从$q$分布中采样一些样本，然后估计$\text{ELBO}$函数中对于$\lambda$的的梯度，然后随机梯度上升最大化$\text{ELBO}$。</p>
 <p>Reference：</p>
 <p><a href="https://wiseodd.github.io/techblog/2017/01/26/kl-mle/" target="_blank" rel="noopener">https://wiseodd.github.io/techblog/2017/01/26/kl-mle/</a></p>
 <p><a href="https://quantivity.wordpress.com/2011/05/23/why-minimize-negative-log-likelihood/" target="_blank" rel="noopener">https://quantivity.wordpress.com/2011/05/23/why-minimize-negative-log-likelihood/</a></p>
+<p>github/ageron/handson-ml2</p>
 
     </div>
 
@@ -377,8 +399,8 @@
           <div class="post-nav">
             <div class="post-nav-next post-nav-item">
               
-                <a href="/2019/09/08/GAN/" rel="next" title="GAN">
-                  <i class="fa fa-chevron-left"></i> GAN
+                <a href="/2020/06/13/GMM/" rel="next" title="GMM">
+                  <i class="fa fa-chevron-left"></i> GMM
                 </a>
               
             </div>
@@ -386,10 +408,6 @@
             <span class="post-nav-divider"></span>
 
             <div class="post-nav-prev post-nav-item">
-              
-                <a href="/2019/09/08/HMM/" rel="prev" title="HMM">
-                  HMM <i class="fa fa-chevron-right"></i>
-                </a>
               
             </div>
           </div>
@@ -618,7 +636,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#最小负对数似然"><span class="nav-number">1.</span> <span class="nav-text">最小负对数似然</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#最大似然-最小KL散度"><span class="nav-number">2.</span> <span class="nav-text">最大似然 &#x3D;  最小KL散度</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#最小负对数似然"><span class="nav-number">1.</span> <span class="nav-text">最小负对数似然</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#最大似然-最小KL散度"><span class="nav-number">2.</span> <span class="nav-text">最大似然 &#x3D;  最小KL散度</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#EMBO"><span class="nav-number">3.</span> <span class="nav-text">EMBO</span></a></li></ol></div>
             
 
           </div>
@@ -807,7 +825,7 @@
       repo: 'Gitalk',
       owner: 'zhengchu1994',
       admin: ['zhengchu1994'],
-      id: '4778ca01c654d70542f168a1cdcd936e',
+      id: 'b0f85df444118b974405addb98abee5d',
         language: window.navigator.language || window.navigator.userLanguage,
       
       distractionFreeMode: 'true'
