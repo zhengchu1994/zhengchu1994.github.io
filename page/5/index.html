@@ -246,6 +246,109 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/04/C++Cook/JaccardDistance/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zheng Chu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar/jojo3.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zheng Chu's Blog">
+    </span>
+      <header class="post-header">
+
+        
+          <h1 class="post-title" itemprop="name headline">
+              
+              <a href="/2019/09/04/C++Cook/JaccardDistance/" class="post-title-link" itemprop="url">JaccardDistance</a>
+            
+          </h1>
+        
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              
+                
+              
+
+              <time title="Created: 2019-09-04 21:53:56 / Modified: 22:12:27" itemprop="dateCreated datePublished" datetime="2019-09-04T21:53:56+08:00">2019-09-04</time>
+            </span>
+          
+            
+
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/C/" itemprop="url" rel="index"><span itemprop="name">C++</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h4 id="Jaccard距离"><a href="#Jaccard距离" class="headerlink" title="Jaccard距离"></a>Jaccard距离</h4><p>记录一下前几天面试遇到的一个题，计算两个字符串的<code>Jaccard</code>距离：</p><p>1.Jaccard系数的定义是：两串交集的长度比上并集的长度，当A、B串都是空串的时候，系数为1：</p><p><img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/eaef5aa86949f49e7dc6b9c8c3dd8b233332c9e7" alt></p><p>Jaccard距离的定义是1减去Jaccard系数：</p><p><img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/3d17a48a5fb6cea57b076200de6edbccbc1c38f9" alt></p><ol>
+<li>c++中对集合里的元素取交集和并集的操作分别是：<code>set_intersection</code>、<code>set_union</code>，注意两个输入串必须是按照相同排序规则排好序的串；插入的时候选择使用尾部插入迭代器<code>back_iterator</code>对空的vector做插入；</li>
+</ol>
+          <!--noindex-->
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/2019/09/04/C++Cook/JaccardDistance/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+          <div class="post-eof"></div>
+        
+      </footer>
+  </div>
+  
+  
+  
+  </article>
+
+     
+    
+     
+       
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/04/Primer/C++---CHAPTER-15--OBJECT-ORIENTED-PROGRAMMING/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1239,116 +1342,6 @@
 
      
     
-     
-       
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/04/Primer/C++---CHAPTER-6--FUNCTION/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Zheng Chu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar/jojo3.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Zheng Chu's Blog">
-    </span>
-      <header class="post-header">
-
-        
-          <h1 class="post-title" itemprop="name headline">
-              
-              <a href="/2019/09/04/Primer/C++---CHAPTER-6--FUNCTION/" class="post-title-link" itemprop="url">C++---CHAPTER-6---FUNCTION</a>
-            
-          </h1>
-        
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              
-                
-              
-
-              <time title="Created: 2019-09-04 21:53:17 / Modified: 22:02:30" itemprop="dateCreated datePublished" datetime="2019-09-04T21:53:17+08:00">2019-09-04</time>
-            </span>
-          
-            
-
-            
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/C/" itemprop="url" rel="index"><span itemprop="name">C++</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h4 id="参数传递"><a href="#参数传递" class="headerlink" title="参数传递"></a>参数传递</h4><ol>
-<li>传值调用</li>
-</ol><ul>
-<li>指针形参：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">void reset(int *p)</span><br><span class="line">&#123;</span><br><span class="line">  *ip &#x3D; 0; &#x2F;&#x2F; 改变指针ip所指对象的值</span><br><span class="line">   ip &#x3D; 0; &#x2F;&#x2F; 只改变了ip的局部拷贝，实参未被改变</span><br><span class="line">&#123;</span><br></pre></td></tr></table></figure>
-2.传引用调用</li>
-<li>如果函数无需改变引用形参的值，最好将其声明为常量引用。</li>
-<li><code>const</code>形参和实参，当使用实参初始化形参，会忽略掉顶层<code>const</code>：也就是说，当形参有顶层<code>const</code>,传给它常量对象或者非常量对象都是可以的：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">void fn(const int i) &#123;&#x2F;* fn能读取i，但是不能向i写入值*&#x2F;&#125;</span><br></pre></td></tr></table></figure></li>
-<li>尽量使用常量引用如 <code>const i&amp;</code>，而不是普通引用<code>i &amp;</code>,因为我们不能把const对象、字面值、或者需要类型转换的对象传递给普通的引用：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">string is_sentence(const string &amp;s)</span><br><span class="line">&#123;</span><br><span class="line">  string::size_type ctr &#x3D; 0;</span><br><span class="line">  return find_char(s, &#39;.&#39;,ctr) &#x3D;&#x3D; s.size() - 1 &amp;&amp; ctr &#x3D;&#x3D; 1;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-其中如果<code>find_char</code>的第一个形参是普通引用<code>string&amp;</code>，程序会失败，因为<code>s</code>是常量引用。</li>
-</ul>
-          <!--noindex-->
-          
-            <div class="post-button text-center">
-              <a class="btn" href="/2019/09/04/Primer/C++---CHAPTER-6--FUNCTION/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-          <div class="post-eof"></div>
-        
-      </footer>
-  </div>
-  
-  
-  
-  </article>
-
-     
-    
   </section>
 
   
@@ -1389,7 +1382,7 @@
         
           <a href="/archives">
         
-          <span class="site-state-item-count">63</span>
+          <span class="site-state-item-count">64</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -1434,7 +1427,9 @@
         
           
         
-        <span class="site-state-item-count">15</span>
+          
+        
+        <span class="site-state-item-count">16</span>
         <span class="site-state-item-name">categories</span>
         </a>
       </div>
