@@ -64,7 +64,7 @@
 <meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlly1gft91cdupcj310c0d0q4c.jpg">
 <meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlly1gfta28kx9jj30yg0q076w.jpg">
 <meta property="article:published_time" content="2020-06-15T11:00:00.000Z">
-<meta property="article:modified_time" content="2020-06-15T13:10:37.751Z">
+<meta property="article:modified_time" content="2020-06-19T14:32:45.316Z">
 <meta property="article:author" content="Zheng Chu">
 <meta property="article:tag" content="DeepLearning">
 <meta name="twitter:card" content="summary">
@@ -285,11 +285,19 @@
                 
               
 
-              <time title="Created: 2020-06-15 19:00:00 / Modified: 21:10:37" itemprop="dateCreated datePublished" datetime="2020-06-15T19:00:00+08:00">2020-06-15</time>
+              <time title="Created: 2020-06-15 19:00:00" itemprop="dateCreated datePublished" datetime="2020-06-15T19:00:00+08:00">2020-06-15</time>
             </span>
           
             
 
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-06-19 22:32:45" itemprop="dateModified" datetime="2020-06-19T22:32:45+08:00">2020-06-19</time>
+              </span>
             
           
             <span class="post-meta-item">
@@ -342,13 +350,31 @@
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 1.</span></span><br><span class="line">keras.layers.Dense(<span class="number">10</span>, activation=<span class="string">"relu"</span>, kernel_initializer=<span class="string">"he_normal"</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#2.</span></span><br><span class="line">init = keras.initializers.VarianceScaling(scale=<span class="number">2.</span>, mode=<span class="string">'fan_avg'</span>,</span><br><span class="line">                                          distribution=<span class="string">'uniform'</span>)</span><br><span class="line">keras.layers.Dense(<span class="number">10</span>, activation=<span class="string">"relu"</span>, kernel_initializer=init)</span><br></pre></td></tr></table></figure>
 <h4 id="激活函数的问题"><a href="#激活函数的问题" class="headerlink" title="激活函数的问题"></a>激活函数的问题</h4><ul>
 <li>ReLU：问题：<strong><em>dying ReLUs</em></strong>: during training, some neurons effectively “die,” meaning they stop outputting anything other than 0.</li>
-<li><p>解决方法：</p>
+<li>解决方法：<ul>
+<li>leaky ReLU：<ul>
+<li><strong>优点</strong>：避免神经元失活。【经验上：setting <strong><em>α</em> = 0.2</strong> (a huge leak) seemed to result in better performance than <em>α</em> = 0.01 (a small leak). 】</li>
+</ul>
+</li>
+<li>randomized leaky ReLU (RReLU)：<ul>
+<li><strong>优点</strong>：如正则化器，避免训练数据时过拟合。</li>
+</ul>
+</li>
+<li><em>parametric leaky ReLU</em> (PReLU)：<ul>
+<li><strong>优点</strong>：大量数据时不错；</li>
+<li><strong>缺点</strong>：小数据上对训练数据过拟合）</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><em>exponential linear unit</em> (ELU) ：</p>
 <ul>
-<li>leaky ReLU：优点：避免神经元失活。【经验上：setting <strong><em>α</em> = 0.2</strong> (a huge leak) seemed to result in better performance than <em>α</em> = 0.01 (a small leak). 】</li>
-<li>randomized leaky ReLU (RReLU)：优点：如正则化器，避免训练数据时过拟合。</li>
-<li><em>parametric leaky ReLU</em> (PReLU)：优点：大量数据时不错，缺点：小数据上对训练数据过拟合）</li>
-<li><em>exponential linear unit</em> (ELU) ：优点：比ReLU及其变体都好，缺点：训练慢。</li>
-<li>Scaled ELU (SELU)：优点：1、深的网络上表现好； 2、self-normalize: the output of each layer will <strong>tend to preserve a mean of 0 and standard deviation of 1 during training,</strong> ；3、可用于CNNs。 缺点：不适用于RNNs、skip连接的网络。<ul>
+<li><strong>优点</strong>：比ReLU及其变体都好</li>
+<li><strong>缺点</strong>：训练慢。<ul>
+<li>Scaled ELU (SELU)：</li>
+<li>优点：</li>
+<li>1、深的网络上表现好；</li>
+<li>2、self-normalize: the output of each layer will <strong>tend to preserve a mean of 0 and standard deviation of 1 during training,</strong> ；</li>
+<li>3、可用于CNNs。 缺点：不适用于RNNs、skip连接的网络。</li>
 <li>要求1: The input features must be <strong>standardized</strong> (mean 0 and standard deviation 1).</li>
 <li>要求2: Every hidden layer’s weights must be <strong>initialized with LeCun normal initialization</strong>.</li>
 </ul>
@@ -388,8 +414,8 @@
           <div class="post-nav">
             <div class="post-nav-next post-nav-item">
               
-                <a href="/2020/06/15/Scala/2020-06-15-Scala-part4/" rel="next" title="Scala-part4">
-                  <i class="fa fa-chevron-left"></i> Scala-part4
+                <a href="/2020/06/13/DeepLearning/KL%E6%95%A3%E5%BA%A6%E4%B8%8E%E8%B4%9F%E5%AF%B9%E6%95%B0%E4%BC%BC%E7%84%B6%E5%87%BD%E6%95%B0/" rel="next" title="KL散度与负对数似然函数">
+                  <i class="fa fa-chevron-left"></i> KL散度与负对数似然函数
                 </a>
               
             </div>
@@ -397,6 +423,10 @@
             <span class="post-nav-divider"></span>
 
             <div class="post-nav-prev post-nav-item">
+              
+                <a href="/2020/06/16/%E4%BC%98%E5%8C%96%E7%AE%97%E6%B3%95/%E4%BC%98%E5%8C%96%E7%AE%97%E6%B3%95/" rel="prev" title="优化算法">
+                  优化算法 <i class="fa fa-chevron-right"></i>
+                </a>
               
             </div>
           </div>

@@ -246,6 +246,533 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/20/EnsembleLearning/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zheng Chu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar/jojo3.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zheng Chu's Blog">
+    </span>
+      <header class="post-header">
+
+        
+          <h1 class="post-title" itemprop="name headline">
+              
+              <a href="/2020/06/20/EnsembleLearning/" class="post-title-link" itemprop="url">EnsembleLearning</a>
+            
+          </h1>
+        
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              
+                
+              
+
+              <time title="Created: 2020-06-20 21:45:21 / Modified: 23:21:01" itemprop="dateCreated datePublished" datetime="2020-06-20T21:45:21+08:00">2020-06-20</time>
+            </span>
+          
+            
+
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">机器学习</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <hr><p>[toc]</p><hr><p>last:2019-09-04 21:45:21</p><p>update: 2020-06-20</p><h3 id="Voting：利用投票做分类"><a href="#Voting：利用投票做分类" class="headerlink" title="Voting：利用投票做分类"></a>Voting：利用投票做分类</h3><ul>
+<li><p>hard-voting：多个分类器的结果中选择重合数目最多的。</p>
+</li>
+<li><p>Soft-voting：会对预测的结果配上权重，使得预测结果最好的类别更大概率视为正确的。</p>
+</li>
+<li><p>比如用LR、SVM、随机森林等模型组合在一起进行投票：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.ensemble <span class="keyword">import</span> RandomForestClassifier</span><br><span class="line"><span class="keyword">from</span> sklearn.ensemble <span class="keyword">import</span> VotingClassifier</span><br><span class="line"><span class="keyword">from</span> sklearn.linear_model <span class="keyword">import</span> LogisticRegression</span><br><span class="line"><span class="keyword">from</span> sklearn.svm <span class="keyword">import</span> SVC</span><br><span class="line"></span><br><span class="line">log_clf = LogisticRegression(solver=<span class="string">"lbfgs"</span>, random_state=<span class="number">42</span>)</span><br><span class="line">rnd_clf = RandomForestClassifier(n_estimators=<span class="number">100</span>, random_state=<span class="number">42</span>)</span><br><span class="line">svm_clf = SVC(gamma=<span class="string">"scale"</span>, random_state=<span class="number">42</span>)</span><br><span class="line"></span><br><span class="line">voting_clf = VotingClassifier(</span><br><span class="line">    estimators=[(<span class="string">'lr'</span>, log_clf), (<span class="string">'rf'</span>, rnd_clf), (<span class="string">'svc'</span>, svm_clf)],</span><br><span class="line">    voting=<span class="string">'hard'</span>)</span><br><span class="line"></span><br><span class="line"><span class="string">""" Soft-voting</span></span><br><span class="line"><span class="string">voting_clf = VotingClassifier(</span></span><br><span class="line"><span class="string">    estimators=[('lr', log_clf), ('rf', rnd_clf), ('svc', svm_clf)],</span></span><br><span class="line"><span class="string">    voting='soft')</span></span><br><span class="line"><span class="string">"""</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">voting_clf.fit(X_train, y_train)</span><br><span class="line"><span class="keyword">from</span> sklearn.metrics <span class="keyword">import</span> accuracy_score</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> clf <span class="keyword">in</span> (log_clf, rnd_clf, svm_clf, voting_clf):</span><br><span class="line">    clf.fit(X_train, y_train)</span><br><span class="line">    y_pred = clf.predict(X_test)</span><br><span class="line">    print(clf.__class__.__name__, accuracy_score(y_test, y_pred))</span><br><span class="line">    </span><br><span class="line"><span class="comment">## voting的结果比单个分类器好</span></span><br><span class="line">LogisticRegression <span class="number">0.864</span></span><br><span class="line">RandomForestClassifier <span class="number">0.896</span></span><br><span class="line">SVC <span class="number">0.896</span></span><br><span class="line">VotingClassifier <span class="number">0.912</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+          <!--noindex-->
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/2020/06/20/EnsembleLearning/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+          <div class="post-eof"></div>
+        
+      </footer>
+  </div>
+  
+  
+  
+  </article>
+
+     
+    
+     
+       
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/20/Scala/2020-06-15-Scala-part4/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zheng Chu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar/jojo3.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zheng Chu's Blog">
+    </span>
+      <header class="post-header">
+
+        
+          <h1 class="post-title" itemprop="name headline">
+              
+              <a href="/2020/06/20/Scala/2020-06-15-Scala-part4/" class="post-title-link" itemprop="url">Scala-part4</a>
+            
+          </h1>
+        
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              
+                
+              
+
+              <time title="Created: 2020-06-20 13:43:00 / Modified: 23:06:16" itemprop="dateCreated datePublished" datetime="2020-06-20T13:43:00+08:00">2020-06-20</time>
+            </span>
+          
+            
+
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Scala/" itemprop="url" rel="index"><span itemprop="name">Scala</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="类"><a href="#类" class="headerlink" title="类"></a>类</h2><h4 id="继承"><a href="#继承" class="headerlink" title="继承"></a>继承</h4><p><code>java.lang.Object</code>类是JVM中所有实例的根，包括Scala，等价于Scala根类型<code>Any</code>。</p><p><code>AnyRef</code>是<code>Any</code>的子类，是所有可实例化的类型的根。`</p><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">#</span><br><span class="line">scala&gt; <span class="class"><span class="keyword">class</span> <span class="title">A</span> </span>&#123;</span><br><span class="line">     |  <span class="function"><span class="keyword">def</span> <span class="title">hi</span> </span>= <span class="string">"hello from A"</span></span><br><span class="line">     |  <span class="keyword">override</span> <span class="function"><span class="keyword">def</span> <span class="title">toString</span> </span>= getClass.getName</span><br><span class="line">     | &#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span></span></span><br><span class="line"><span class="class"></span></span><br><span class="line"><span class="class"><span class="title">scala&gt;</span> <span class="title">getClass</span>.<span class="title">getName</span></span></span><br><span class="line"><span class="class"><span class="title">val</span> <span class="title">res127</span></span>: <span class="type">String</span> =</span><br><span class="line"></span><br><span class="line">scala&gt; <span class="class"><span class="keyword">class</span> <span class="title">B</span> <span class="keyword">extends</span> <span class="title">A</span></span></span><br><span class="line"><span class="class"><span class="title">class</span> <span class="title">B</span></span></span><br><span class="line"><span class="class"></span></span><br><span class="line"><span class="class"><span class="title">scala&gt;</span> <span class="title">class</span> <span class="title">C</span> <span class="keyword">extends</span> <span class="title">B</span> </span>&#123;<span class="keyword">override</span> <span class="function"><span class="keyword">def</span> <span class="title">hi</span> </span>= <span class="string">"hi C -&gt;"</span> + <span class="keyword">super</span>.hi&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">C</span></span></span><br><span class="line"><span class="class"></span></span><br><span class="line"><span class="class"><span class="title">scala&gt;</span> <span class="title">val</span> <span class="title">hiA</span> </span>= <span class="keyword">new</span> <span class="type">A</span>().hi</span><br><span class="line"><span class="keyword">val</span> hiA: <span class="type">String</span> = hello from <span class="type">A</span></span><br><span class="line"></span><br><span class="line">scala&gt; <span class="keyword">val</span> hiB = <span class="keyword">new</span> <span class="type">B</span>().hi</span><br><span class="line"><span class="keyword">val</span> hiB: <span class="type">String</span> = hello from <span class="type">A</span></span><br><span class="line"></span><br><span class="line">scala&gt; <span class="keyword">val</span> hiC = <span class="keyword">new</span> <span class="type">C</span>().hi</span><br><span class="line"><span class="keyword">val</span> hiC: <span class="type">String</span> = hi <span class="type">C</span> -&gt;hello from <span class="type">A</span></span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/2020/06/20/Scala/2020-06-15-Scala-part4/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+          <div class="post-eof"></div>
+        
+      </footer>
+  </div>
+  
+  
+  
+  </article>
+
+     
+    
+     
+       
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/20/Trees/Trees/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zheng Chu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar/jojo3.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zheng Chu's Blog">
+    </span>
+      <header class="post-header">
+
+        
+          <h1 class="post-title" itemprop="name headline">
+              
+              <a href="/2020/06/20/Trees/Trees/" class="post-title-link" itemprop="url">决策树</a>
+            
+          </h1>
+        
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              
+                
+              
+
+              <time title="Created: 2020-06-20 02:27:09 / Modified: 12:21:01" itemprop="dateCreated datePublished" datetime="2020-06-20T02:27:09+08:00">2020-06-20</time>
+            </span>
+          
+            
+
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">机器学习</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <hr><p>Update：2020-06-20</p><p>last：2019-08-13 </p><p>CART树用的Gini impurity作为划分指标：在特征满足某个条件时，该指标最小；比如那么用这个特征条件在此处进行划分，分为的做节点有58个实例，其三个类别分别是[0，49，5]，那么有GINI：$1-(0/54)^2-(49/54)^2 -(5/54)^2 = 0.168$</p>
+          <!--noindex-->
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/2020/06/20/Trees/Trees/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+          <div class="post-eof"></div>
+        
+      </footer>
+  </div>
+  
+  
+  
+  </article>
+
+     
+    
+     
+       
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/16/LogisticMiximumEntropy/LogisticMiximumEntropy/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zheng Chu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar/jojo3.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zheng Chu's Blog">
+    </span>
+      <header class="post-header">
+
+        
+          <h1 class="post-title" itemprop="name headline">
+              
+              <a href="/2020/06/16/LogisticMiximumEntropy/LogisticMiximumEntropy/" class="post-title-link" itemprop="url">逻辑与线性回归</a>
+            
+          </h1>
+        
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              
+                
+              
+
+              <time title="Created: 2020-06-16 16:07:11" itemprop="dateCreated datePublished" datetime="2020-06-16T16:07:11+08:00">2020-06-16</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-06-20 16:46:15" itemprop="dateModified" datetime="2020-06-20T16:46:15+08:00">2020-06-20</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">机器学习</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>update：2020-06-16</p><p>last：2019-08-16</p><h3 id="逻辑回归模型"><a href="#逻辑回归模型" class="headerlink" title="逻辑回归模型"></a>逻辑回归模型</h3><p>一、定义：逻辑回归模型是用输入$x$的线性函数对输出$Y$的对数几率进行建模的模型，二项逻辑回归的形式为：</p><script type="math/tex; mode=display">
+\log\frac{P(Y=1|x)}{P(Y=0|x)}=w \cdot x</script><ul>
+<li><p>其中$w=(w^{(1)},w^{(2)},\dots,w^{(n)},b)^T$ , $x=(x^{(1)},x^{(2)},\dots,x^{(n)},1)^T$.</p>
+</li>
+<li><p>其中，一个事件的几率是该事件发生与不发生的概率之比，设事件发生的概率是$p$，那么该事件的几率是$\frac{p}{1-p}$,对数几率是$\log\frac{p}{1-p}$.</p>
+</li>
+</ul>
+          <!--noindex-->
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/2020/06/16/LogisticMiximumEntropy/LogisticMiximumEntropy/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+          <div class="post-eof"></div>
+        
+      </footer>
+  </div>
+  
+  
+  
+  </article>
+
+     
+    
+     
+       
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/16/%E4%BC%98%E5%8C%96%E7%AE%97%E6%B3%95/%E4%BC%98%E5%8C%96%E7%AE%97%E6%B3%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zheng Chu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar/jojo3.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zheng Chu's Blog">
+    </span>
+      <header class="post-header">
+
+        
+          <h1 class="post-title" itemprop="name headline">
+              
+              <a href="/2020/06/16/%E4%BC%98%E5%8C%96%E7%AE%97%E6%B3%95/%E4%BC%98%E5%8C%96%E7%AE%97%E6%B3%95/" class="post-title-link" itemprop="url">优化算法</a>
+            
+          </h1>
+        
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              
+                
+              
+
+              <time title="Created: 2020-06-16 08:21:58 / Modified: 16:21:02" itemprop="dateCreated datePublished" datetime="2020-06-16T08:21:58+08:00">2020-06-16</time>
+            </span>
+          
+            
+
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">机器学习</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>This：2020.06.16</p><p>last：date: 2019-08-17 08:21:58</p><h3 id="梯度如何下降"><a href="#梯度如何下降" class="headerlink" title="梯度如何下降"></a>梯度如何下降</h3><p>一、先抓一部分数学分析的知识</p><p>（1）方向导数的出场：偏导数刻画了函数在特定坐标轴方向上的变化率，而方向导数设法获取函数在特定方向上的变化率。</p><p>★ 既然是变化率，由极限定义斜率可以猜测，这也是一个极限值；即然是极限值，那么假设在目标点$P_0$附近存在一个微小变化，导致该变化率突然增大或减小，可以想像这个地方是陡峭的；也就是说方向导数越大，函数在该方向的变化越快。</p>
+          <!--noindex-->
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/2020/06/16/%E4%BC%98%E5%8C%96%E7%AE%97%E6%B3%95/%E4%BC%98%E5%8C%96%E7%AE%97%E6%B3%95/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+          <div class="post-eof"></div>
+        
+      </footer>
+  </div>
+  
+  
+  
+  </article>
+
+     
+    
+     
+       
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/15/Tensorflow2/Tensorfow2.0%E5%A4%8D%E4%B9%A0%E7%AC%94%E8%AE%B02/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -278,11 +805,19 @@
                 
               
 
-              <time title="Created: 2020-06-15 19:00:00 / Modified: 21:10:37" itemprop="dateCreated datePublished" datetime="2020-06-15T19:00:00+08:00">2020-06-15</time>
+              <time title="Created: 2020-06-15 19:00:00" itemprop="dateCreated datePublished" datetime="2020-06-15T19:00:00+08:00">2020-06-15</time>
             </span>
           
             
 
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-06-19 22:32:45" itemprop="dateModified" datetime="2020-06-19T22:32:45+08:00">2020-06-19</time>
+              </span>
             
           
             <span class="post-meta-item">
@@ -347,107 +882,6 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/15/Scala/2020-06-15-Scala-part4/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Zheng Chu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar/jojo3.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Zheng Chu's Blog">
-    </span>
-      <header class="post-header">
-
-        
-          <h1 class="post-title" itemprop="name headline">
-              
-              <a href="/2020/06/15/Scala/2020-06-15-Scala-part4/" class="post-title-link" itemprop="url">Scala-part4</a>
-            
-          </h1>
-        
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              
-                
-              
-
-              <time title="Created: 2020-06-15 13:43:00 / Modified: 10:48:53" itemprop="dateCreated datePublished" datetime="2020-06-15T13:43:00+08:00">2020-06-15</time>
-            </span>
-          
-            
-
-            
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Scala/" itemprop="url" rel="index"><span itemprop="name">Scala</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="类"><a href="#类" class="headerlink" title="类"></a>类</h2><h4 id="继承"><a href="#继承" class="headerlink" title="继承"></a>继承</h4><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">scala&gt; <span class="class"><span class="keyword">class</span> <span class="title">A</span> </span>&#123;</span><br><span class="line">     |  <span class="function"><span class="keyword">def</span> <span class="title">hi</span> </span>= <span class="string">"hello from A"</span></span><br><span class="line">     |  <span class="keyword">override</span> <span class="function"><span class="keyword">def</span> <span class="title">toString</span> </span>= getClass.getName</span><br><span class="line">     | &#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span></span></span><br><span class="line"><span class="class"></span></span><br><span class="line"><span class="class"><span class="title">scala&gt;</span> <span class="title">getClass</span>.<span class="title">getName</span></span></span><br><span class="line"><span class="class"><span class="title">val</span> <span class="title">res127</span></span>: <span class="type">String</span> =</span><br><span class="line"></span><br><span class="line">scala&gt; <span class="class"><span class="keyword">class</span> <span class="title">B</span> <span class="keyword">extends</span> <span class="title">A</span></span></span><br><span class="line"><span class="class"><span class="title">class</span> <span class="title">B</span></span></span><br><span class="line"><span class="class"></span></span><br><span class="line"><span class="class"><span class="title">scala&gt;</span> <span class="title">class</span> <span class="title">C</span> <span class="keyword">extends</span> <span class="title">B</span> </span>&#123;<span class="keyword">override</span> <span class="function"><span class="keyword">def</span> <span class="title">hi</span> </span>= <span class="string">"hi C -&gt;"</span> + <span class="keyword">super</span>.hi&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">C</span></span></span><br><span class="line"><span class="class"></span></span><br><span class="line"><span class="class"><span class="title">scala&gt;</span> <span class="title">val</span> <span class="title">hiA</span> </span>= <span class="keyword">new</span> <span class="type">A</span>().hi</span><br><span class="line"><span class="keyword">val</span> hiA: <span class="type">String</span> = hello from <span class="type">A</span></span><br><span class="line"></span><br><span class="line">scala&gt; <span class="keyword">val</span> hiB = <span class="keyword">new</span> <span class="type">B</span>().hi</span><br><span class="line"><span class="keyword">val</span> hiB: <span class="type">String</span> = hello from <span class="type">A</span></span><br><span class="line"></span><br><span class="line">scala&gt; <span class="keyword">val</span> hiC = <span class="keyword">new</span> <span class="type">C</span>().hi</span><br><span class="line"><span class="keyword">val</span> hiC: <span class="type">String</span> = hi <span class="type">C</span> -&gt;hello from <span class="type">A</span></span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-          
-            <div class="post-button text-center">
-              <a class="btn" href="/2020/06/15/Scala/2020-06-15-Scala-part4/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-          <div class="post-eof"></div>
-        
-      </footer>
-  </div>
-  
-  
-  
-  </article>
-
-     
-    
-     
-       
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/13/DeepLearning/KL%E6%95%A3%E5%BA%A6%E4%B8%8E%E8%B4%9F%E5%AF%B9%E6%95%B0%E4%BC%BC%E7%84%B6%E5%87%BD%E6%95%B0/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -480,11 +914,19 @@
                 
               
 
-              <time title="Created: 2020-06-13 21:07:10 / Modified: 23:18:20" itemprop="dateCreated datePublished" datetime="2020-06-13T21:07:10+08:00">2020-06-13</time>
+              <time title="Created: 2020-06-13 21:07:10" itemprop="dateCreated datePublished" datetime="2020-06-13T21:07:10+08:00">2020-06-13</time>
             </span>
           
             
 
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-06-20 23:21:21" itemprop="dateModified" datetime="2020-06-20T23:21:21+08:00">2020-06-20</time>
+              </span>
             
           
             <span class="post-meta-item">
@@ -512,7 +954,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>更新时间：20.06.13</p><p>上次时间：date: 2019-09-08 17:17:10</p><h4 id="最小负对数似然"><a href="#最小负对数似然" class="headerlink" title="最小负对数似然"></a>最小负对数似然</h4><p>先给出似然函数：</p><script type="math/tex; mode=display">
+          <hr><p>[toc]</p><p>更新时间：20.06.16</p><p>上次时间：date: 2019-09-08 17:17:10</p><h4 id="最小负对数似然"><a href="#最小负对数似然" class="headerlink" title="最小负对数似然"></a>最小负对数似然</h4><p>先给出似然函数：</p><script type="math/tex; mode=display">
 \mathcal L(\theta | x_1,...,x_n) = f(x_1,x_2,...,x_n|\theta) = \prod_{i=1}^nf(x_i|n)</script><p>为什么对上面的似然函数取对数的原因：</p>
           <!--noindex-->
           
@@ -804,7 +1246,7 @@ P(X) = \sum_{Z}p(X,Z) = \sum_{Z}p(X|Z)p(Z)</script><p>★ 通常，通过$Z$是�
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-06-15 10:47:07" itemprop="dateModified" datetime="2020-06-15T10:47:07+08:00">2020-06-15</time>
+                <time title="Modified: 2020-06-16 15:24:14" itemprop="dateModified" datetime="2020-06-16T15:24:14+08:00">2020-06-16</time>
               </span>
             
           
@@ -833,7 +1275,7 @@ P(X) = \sum_{Z}p(X,Z) = \sum_{Z}p(X|Z)p(Z)</script><p>★ 通常，通过$Z$是�
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="Scala-Part3"><a href="#Scala-Part3" class="headerlink" title="Scala-Part3"></a>Scala-Part3</h1><h2 id="不可变集合"><a href="#不可变集合" class="headerlink" title="不可变集合"></a>不可变集合</h2><ul>
+          <h2 id="不可变集合"><a href="#不可变集合" class="headerlink" title="不可变集合"></a>不可变集合</h2><ul>
 <li><p><code>Nil</code>是<code>Nothing</code>类型实例，<code>Nothing</code>类型是所有其他<code>Scala</code>类型的一个不可实例化的子类型。</p>
 </li>
 <li><p><code>List</code>： 空的表等于<code>Nil</code>，表尾部后一个是<code>Nil</code>。</p>
@@ -860,445 +1302,6 @@ P(X) = \sum_{Z}p(X,Z) = \sum_{Z}p(X|Z)p(Z)</script><p>★ 通常，通过$Z$是�
           
             <div class="post-button text-center">
               <a class="btn" href="/2020/06/12/Scala/Scala--Part3/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-          <div class="post-eof"></div>
-        
-      </footer>
-  </div>
-  
-  
-  
-  </article>
-
-     
-    
-     
-       
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/12/Pytorch/Mxnet-Pytorch-part1---LR-Minist/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Zheng Chu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar/jojo3.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Zheng Chu's Blog">
-    </span>
-      <header class="post-header">
-
-        
-          <h1 class="post-title" itemprop="name headline">
-              
-              <a href="/2020/06/12/Pytorch/Mxnet-Pytorch-part1---LR-Minist/" class="post-title-link" itemprop="url">Mxnet-Pytorch-part1---LR-Minist</a>
-            
-          </h1>
-        
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              
-                
-              
-
-              <time title="Created: 2020-06-12 09:54:03 / Modified: 09:49:22" itemprop="dateCreated datePublished" datetime="2020-06-12T09:54:03+08:00">2020-06-12</time>
-            </span>
-          
-            
-
-            
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Pytorch/" itemprop="url" rel="index"><span itemprop="name">Pytorch</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="LR"><a href="#LR" class="headerlink" title="LR"></a>LR</h3><ul>
-<li>$y = \mathbf{w}^\top \mathbf{x} + b + \epsilon \text{ where } \epsilon \sim \mathcal{N}(0, \sigma^2).$</li>
-</ul><ul>
-<li>$p(y|\mathbf{x}) = \frac{1}{\sqrt{2 \pi \sigma^2}} \exp\left(-\frac{1}{2 \sigma^2} (y - \mathbf{w}^\top \mathbf{x} - b)^2\right).$</li>
-</ul>
-          <!--noindex-->
-          
-            <div class="post-button text-center">
-              <a class="btn" href="/2020/06/12/Pytorch/Mxnet-Pytorch-part1---LR-Minist/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-          <div class="post-eof"></div>
-        
-      </footer>
-  </div>
-  
-  
-  
-  </article>
-
-     
-    
-     
-       
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/11/Scala/Scala--Part2/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Zheng Chu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar/jojo3.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Zheng Chu's Blog">
-    </span>
-      <header class="post-header">
-
-        
-          <h1 class="post-title" itemprop="name headline">
-              
-              <a href="/2020/06/11/Scala/Scala--Part2/" class="post-title-link" itemprop="url">Scala-part2</a>
-            
-          </h1>
-        
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              
-                
-              
-
-              <time title="Created: 2020-06-11 13:43:00 / Modified: 13:43:52" itemprop="dateCreated datePublished" datetime="2020-06-11T13:43:00+08:00">2020-06-11</time>
-            </span>
-          
-            
-
-            
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Scala/" itemprop="url" rel="index"><span itemprop="name">Scala</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="Scala-part2"><a href="#Scala-part2" class="headerlink" title="Scala-part2"></a>Scala-part2</h1><h2 id="gt-函数-lt"><a href="#gt-函数-lt" class="headerlink" title="&gt;函数&lt;"></a>&gt;函数&lt;</h2><ul>
-<li>在scala中，函数是可重用的命名表达式。</li>
-<li>尽可能构建纯函数，类似数学意义上的函数。</li>
-</ul><ol>
-<li>无输出函数：</li>
-</ol><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 无输出函数</span></span><br><span class="line">scala&gt; <span class="function"><span class="keyword">def</span> <span class="title">hi</span> </span>= <span class="string">"hi"</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">hi</span></span>: <span class="type">String</span></span><br><span class="line"></span><br><span class="line">scala&gt; hi</span><br><span class="line"><span class="keyword">val</span> res75: <span class="type">String</span> = hi</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">scala&gt; <span class="function"><span class="keyword">def</span> <span class="title">multiplier</span></span>(x: <span class="type">Int</span>, y: <span class="type">Int</span>): <span class="type">Int</span> = &#123;x * y&#125;</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">multiplier</span></span>(x: <span class="type">Int</span>, y: <span class="type">Int</span>): <span class="type">Int</span></span><br><span class="line"></span><br><span class="line">scala&gt; multiplier(<span class="number">6</span>, <span class="number">7</span>)</span><br><span class="line"><span class="keyword">val</span> res77: <span class="type">Int</span> = <span class="number">42</span></span><br><span class="line"></span><br><span class="line">scala&gt; <span class="function"><span class="keyword">def</span> <span class="title">safeTrim</span></span>(s: <span class="type">String</span>): <span class="type">String</span>=&#123;</span><br><span class="line">     | <span class="keyword">if</span>(s == <span class="literal">null</span>) <span class="keyword">return</span> <span class="literal">null</span></span><br><span class="line">     | s.trim()</span><br><span class="line">     | &#125;</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">safeTrim</span></span>(s: <span class="type">String</span>): <span class="type">String</span></span><br><span class="line"></span><br><span class="line">scala&gt; <span class="keyword">val</span> t = safeTrim(<span class="string">"   abc  "</span>)</span><br><span class="line"><span class="keyword">val</span> t: <span class="type">String</span> = abc</span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-          
-            <div class="post-button text-center">
-              <a class="btn" href="/2020/06/11/Scala/Scala--Part2/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-          <div class="post-eof"></div>
-        
-      </footer>
-  </div>
-  
-  
-  
-  </article>
-
-     
-    
-     
-       
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/09/%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Zheng Chu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar/jojo3.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Zheng Chu's Blog">
-    </span>
-      <header class="post-header">
-
-        
-          <h1 class="post-title" itemprop="name headline">
-              
-              <a href="/2020/06/09/%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F/" class="post-title-link" itemprop="url">推荐系统</a>
-            
-          </h1>
-        
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              
-                
-              
-
-              <time title="Created: 2020-06-09 16:00:00" itemprop="dateCreated datePublished" datetime="2020-06-09T16:00:00+08:00">2020-06-09</time>
-            </span>
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-06-14 19:01:21" itemprop="dateModified" datetime="2020-06-14T19:01:21+08:00">2020-06-14</time>
-              </span>
-            
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/%E6%8E%A8%E8%8D%90/" itemprop="url" rel="index"><span itemprop="name">推荐</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="init"><a href="#init" class="headerlink" title="init"></a>init</h3><ul>
-<li>我个人建立的推荐系统认知如下：<ul>
-<li>首先推荐系统的目的是什么？<ul>
-<li><ol>
-<li>用户的角度是从海量信息中获得感兴趣信息，获得满足感；</li>
-<li>公司的角度是提高收益，这与提高用户满足感是正比；</li>
-</ol>
-</li>
-</ul>
-</li>
-<li>那么推荐系统做什么？<ul>
-<li>想象推荐系统就是一口井，每一个人的信息似一杯水，每杯水包含不同杂质，包括红色的物质，这是每个人的最爱🍎 ；所有的人往井里倒水，这口井的目的是过滤出来红色物质，反馈给倒水的每个人，诱导每个人继续灌水。这些红色物质便可算人的潜在感兴趣信息。</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-          <!--noindex-->
-          
-            <div class="post-button text-center">
-              <a class="btn" href="/2020/06/09/%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-          <div class="post-eof"></div>
-        
-      </footer>
-  </div>
-  
-  
-  
-  </article>
-
-     
-    
-     
-       
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/08/Scala/Scala--Part1/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Zheng Chu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar/jojo3.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Zheng Chu's Blog">
-    </span>
-      <header class="post-header">
-
-        
-          <h1 class="post-title" itemprop="name headline">
-              
-              <a href="/2020/06/08/Scala/Scala--Part1/" class="post-title-link" itemprop="url">Scala-part1</a>
-            
-          </h1>
-        
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              
-                
-              
-
-              <time title="Created: 2020-06-08 16:00:00 / Modified: 18:49:49" itemprop="dateCreated datePublished" datetime="2020-06-08T16:00:00+08:00">2020-06-08</time>
-            </span>
-          
-            
-
-            
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Scala/" itemprop="url" rel="index"><span itemprop="name">Scala</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="Scala-part1"><a href="#Scala-part1" class="headerlink" title="Scala-part1"></a>Scala-part1</h1><p>变量不能改变为它指定的类型，所以不能将一个变量重新赋值为类型不兼容的数据。</p><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> x: &lt;<span class="class"><span class="keyword">type</span><span class="title">&gt;</span> </span>= xxx</span><br></pre></td></tr></table></figure><ul>
-<li>类型转换：</li>
-</ul><p><code>scala</code>不允许从较高等级类型自动转换到较低等级类型。</p><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">scala&gt; <span class="keyword">val</span> l: <span class="type">Long</span> = <span class="number">20</span></span><br><span class="line"><span class="keyword">val</span> l: <span class="type">Long</span> = <span class="number">20</span></span><br><span class="line"></span><br><span class="line">scala&gt; <span class="keyword">val</span> i: <span class="type">Int</span> = l</span><br><span class="line">                    ^</span><br><span class="line">       error: <span class="class"><span class="keyword">type</span> <span class="title">mismatch</span></span>;</span><br><span class="line">        found   : <span class="type">Long</span></span><br><span class="line">        required: <span class="type">Int</span></span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-          
-            <div class="post-button text-center">
-              <a class="btn" href="/2020/06/08/Scala/Scala--Part1/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>

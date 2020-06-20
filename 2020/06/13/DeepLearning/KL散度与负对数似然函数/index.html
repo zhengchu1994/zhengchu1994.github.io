@@ -55,14 +55,14 @@
   };
 </script>
 
-  <meta name="description" content="更新时间：20.06.13上次时间：date: 2019-09-08 17:17:10最小负对数似然先给出似然函数： \mathcal L(\theta | x_1,...,x_n) &#x3D; f(x_1,x_2,...,x_n|\theta) &#x3D; \prod_{i&#x3D;1}^nf(x_i|n)为什么对上面的似然函数取对数的原因：">
+  <meta name="description" content="[toc]更新时间：20.06.16上次时间：date: 2019-09-08 17:17:10最小负对数似然先给出似然函数： \mathcal L(\theta | x_1,...,x_n) &#x3D; f(x_1,x_2,...,x_n|\theta) &#x3D; \prod_{i&#x3D;1}^nf(x_i|n)为什么对上面的似然函数取对数的原因：">
 <meta property="og:type" content="article">
 <meta property="og:title" content="KL散度与负对数似然函数">
 <meta property="og:url" content="http://yoursite.com/2020/06/13/DeepLearning/KL%E6%95%A3%E5%BA%A6%E4%B8%8E%E8%B4%9F%E5%AF%B9%E6%95%B0%E4%BC%BC%E7%84%B6%E5%87%BD%E6%95%B0/index.html">
 <meta property="og:site_name" content="Zheng Chu&#39;s Blog">
-<meta property="og:description" content="更新时间：20.06.13上次时间：date: 2019-09-08 17:17:10最小负对数似然先给出似然函数： \mathcal L(\theta | x_1,...,x_n) &#x3D; f(x_1,x_2,...,x_n|\theta) &#x3D; \prod_{i&#x3D;1}^nf(x_i|n)为什么对上面的似然函数取对数的原因：">
+<meta property="og:description" content="[toc]更新时间：20.06.16上次时间：date: 2019-09-08 17:17:10最小负对数似然先给出似然函数： \mathcal L(\theta | x_1,...,x_n) &#x3D; f(x_1,x_2,...,x_n|\theta) &#x3D; \prod_{i&#x3D;1}^nf(x_i|n)为什么对上面的似然函数取对数的原因：">
 <meta property="article:published_time" content="2020-06-13T13:07:10.000Z">
-<meta property="article:modified_time" content="2020-06-13T15:18:20.418Z">
+<meta property="article:modified_time" content="2020-06-20T15:21:21.932Z">
 <meta property="article:author" content="Zheng Chu">
 <meta property="article:tag" content="DeepLearning">
 <meta name="twitter:card" content="summary">
@@ -282,11 +282,19 @@
                 
               
 
-              <time title="Created: 2020-06-13 21:07:10 / Modified: 23:18:20" itemprop="dateCreated datePublished" datetime="2020-06-13T21:07:10+08:00">2020-06-13</time>
+              <time title="Created: 2020-06-13 21:07:10" itemprop="dateCreated datePublished" datetime="2020-06-13T21:07:10+08:00">2020-06-13</time>
             </span>
           
             
 
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-06-20 23:21:21" itemprop="dateModified" datetime="2020-06-20T23:21:21+08:00">2020-06-20</time>
+              </span>
             
           
             <span class="post-meta-item">
@@ -322,8 +330,10 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>更新时间：20.06.13</p><p>上次时间：date: 2019-09-08 17:17:10</p><h4 id="最小负对数似然"><a href="#最小负对数似然" class="headerlink" title="最小负对数似然"></a>最小负对数似然</h4><p>先给出似然函数：</p><script type="math/tex; mode=display">
+        <hr><p>[toc]</p><p>更新时间：20.06.16</p><p>上次时间：date: 2019-09-08 17:17:10</p><h4 id="最小负对数似然"><a href="#最小负对数似然" class="headerlink" title="最小负对数似然"></a>最小负对数似然</h4><p>先给出似然函数：</p><script type="math/tex; mode=display">
 \mathcal L(\theta | x_1,...,x_n) = f(x_1,x_2,...,x_n|\theta) = \prod_{i=1}^nf(x_i|n)</script><p>为什么对上面的似然函数取对数的原因：</p><a id="more"></a>
+
+
 
 
 
@@ -370,6 +380,8 @@ D_\text{KL}(q||p) &= \mathbb E_q \big[\log \frac{q(z)}{p(z|X)} \big] \\
 <p>怎么求$\text{ELBO}$？</p>
 <p>方法一、在平均场变分推断中（即<strong>Mean field variational inference</strong>）的做法，选取一个分布族$q(z;\lambda)$和参数先验$q(z)$ 去简化 $\text{ELBO}$.</p>
 <p>方法二、可以利用类似EM算法的迭代方式去做，该方法称为<strong>黑盒随机变分推断</strong>（即<strong>Black box stochastic variational inference</strong>），做法：每次从$q$分布中采样一些样本，然后估计$\text{ELBO}$函数中对于$\lambda$的的梯度，然后随机梯度上升最大化$\text{ELBO}$。</p>
+<hr>
+<hr>
 <p>Reference：</p>
 <p><a href="https://wiseodd.github.io/techblog/2017/01/26/kl-mle/" target="_blank" rel="noopener">https://wiseodd.github.io/techblog/2017/01/26/kl-mle/</a></p>
 <p><a href="https://quantivity.wordpress.com/2011/05/23/why-minimize-negative-log-likelihood/" target="_blank" rel="noopener">https://quantivity.wordpress.com/2011/05/23/why-minimize-negative-log-likelihood/</a></p>
@@ -409,8 +421,8 @@ D_\text{KL}(q||p) &= \mathbb E_q \big[\log \frac{q(z)}{p(z|X)} \big] \\
 
             <div class="post-nav-prev post-nav-item">
               
-                <a href="/2020/06/15/Scala/2020-06-15-Scala-part4/" rel="prev" title="Scala-part4">
-                  Scala-part4 <i class="fa fa-chevron-right"></i>
+                <a href="/2020/06/15/Tensorflow2/Tensorfow2.0%E5%A4%8D%E4%B9%A0%E7%AC%94%E8%AE%B02/" rel="prev" title="Tensorfow2复习--技巧">
+                  Tensorfow2复习--技巧 <i class="fa fa-chevron-right"></i>
                 </a>
               
             </div>

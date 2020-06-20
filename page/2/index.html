@@ -246,6 +246,445 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/12/Pytorch/Mxnet-Pytorch-part1---LR-Minist/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zheng Chu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar/jojo3.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zheng Chu's Blog">
+    </span>
+      <header class="post-header">
+
+        
+          <h1 class="post-title" itemprop="name headline">
+              
+              <a href="/2020/06/12/Pytorch/Mxnet-Pytorch-part1---LR-Minist/" class="post-title-link" itemprop="url">Mxnet-Pytorch-part1---LR-Minist</a>
+            
+          </h1>
+        
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              
+                
+              
+
+              <time title="Created: 2020-06-12 09:54:03 / Modified: 09:49:22" itemprop="dateCreated datePublished" datetime="2020-06-12T09:54:03+08:00">2020-06-12</time>
+            </span>
+          
+            
+
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Pytorch/" itemprop="url" rel="index"><span itemprop="name">Pytorch</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="LR"><a href="#LR" class="headerlink" title="LR"></a>LR</h3><ul>
+<li>$y = \mathbf{w}^\top \mathbf{x} + b + \epsilon \text{ where } \epsilon \sim \mathcal{N}(0, \sigma^2).$</li>
+</ul><ul>
+<li>$p(y|\mathbf{x}) = \frac{1}{\sqrt{2 \pi \sigma^2}} \exp\left(-\frac{1}{2 \sigma^2} (y - \mathbf{w}^\top \mathbf{x} - b)^2\right).$</li>
+</ul>
+          <!--noindex-->
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/2020/06/12/Pytorch/Mxnet-Pytorch-part1---LR-Minist/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+          <div class="post-eof"></div>
+        
+      </footer>
+  </div>
+  
+  
+  
+  </article>
+
+     
+    
+     
+       
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/11/Scala/Scala--Part2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zheng Chu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar/jojo3.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zheng Chu's Blog">
+    </span>
+      <header class="post-header">
+
+        
+          <h1 class="post-title" itemprop="name headline">
+              
+              <a href="/2020/06/11/Scala/Scala--Part2/" class="post-title-link" itemprop="url">Scala-part2</a>
+            
+          </h1>
+        
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              
+                
+              
+
+              <time title="Created: 2020-06-11 13:43:00 / Modified: 13:43:52" itemprop="dateCreated datePublished" datetime="2020-06-11T13:43:00+08:00">2020-06-11</time>
+            </span>
+          
+            
+
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Scala/" itemprop="url" rel="index"><span itemprop="name">Scala</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="Scala-part2"><a href="#Scala-part2" class="headerlink" title="Scala-part2"></a>Scala-part2</h1><h2 id="gt-函数-lt"><a href="#gt-函数-lt" class="headerlink" title="&gt;函数&lt;"></a>&gt;函数&lt;</h2><ul>
+<li>在scala中，函数是可重用的命名表达式。</li>
+<li>尽可能构建纯函数，类似数学意义上的函数。</li>
+</ul><ol>
+<li>无输出函数：</li>
+</ol><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 无输出函数</span></span><br><span class="line">scala&gt; <span class="function"><span class="keyword">def</span> <span class="title">hi</span> </span>= <span class="string">"hi"</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">hi</span></span>: <span class="type">String</span></span><br><span class="line"></span><br><span class="line">scala&gt; hi</span><br><span class="line"><span class="keyword">val</span> res75: <span class="type">String</span> = hi</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">scala&gt; <span class="function"><span class="keyword">def</span> <span class="title">multiplier</span></span>(x: <span class="type">Int</span>, y: <span class="type">Int</span>): <span class="type">Int</span> = &#123;x * y&#125;</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">multiplier</span></span>(x: <span class="type">Int</span>, y: <span class="type">Int</span>): <span class="type">Int</span></span><br><span class="line"></span><br><span class="line">scala&gt; multiplier(<span class="number">6</span>, <span class="number">7</span>)</span><br><span class="line"><span class="keyword">val</span> res77: <span class="type">Int</span> = <span class="number">42</span></span><br><span class="line"></span><br><span class="line">scala&gt; <span class="function"><span class="keyword">def</span> <span class="title">safeTrim</span></span>(s: <span class="type">String</span>): <span class="type">String</span>=&#123;</span><br><span class="line">     | <span class="keyword">if</span>(s == <span class="literal">null</span>) <span class="keyword">return</span> <span class="literal">null</span></span><br><span class="line">     | s.trim()</span><br><span class="line">     | &#125;</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">safeTrim</span></span>(s: <span class="type">String</span>): <span class="type">String</span></span><br><span class="line"></span><br><span class="line">scala&gt; <span class="keyword">val</span> t = safeTrim(<span class="string">"   abc  "</span>)</span><br><span class="line"><span class="keyword">val</span> t: <span class="type">String</span> = abc</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/2020/06/11/Scala/Scala--Part2/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+          <div class="post-eof"></div>
+        
+      </footer>
+  </div>
+  
+  
+  
+  </article>
+
+     
+    
+     
+       
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/09/%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zheng Chu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar/jojo3.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zheng Chu's Blog">
+    </span>
+      <header class="post-header">
+
+        
+          <h1 class="post-title" itemprop="name headline">
+              
+              <a href="/2020/06/09/%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F/" class="post-title-link" itemprop="url">推荐系统</a>
+            
+          </h1>
+        
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              
+                
+              
+
+              <time title="Created: 2020-06-09 16:00:00" itemprop="dateCreated datePublished" datetime="2020-06-09T16:00:00+08:00">2020-06-09</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-06-14 19:01:21" itemprop="dateModified" datetime="2020-06-14T19:01:21+08:00">2020-06-14</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/%E6%8E%A8%E8%8D%90/" itemprop="url" rel="index"><span itemprop="name">推荐</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="init"><a href="#init" class="headerlink" title="init"></a>init</h3><ul>
+<li>我个人建立的推荐系统认知如下：<ul>
+<li>首先推荐系统的目的是什么？<ul>
+<li><ol>
+<li>用户的角度是从海量信息中获得感兴趣信息，获得满足感；</li>
+<li>公司的角度是提高收益，这与提高用户满足感是正比；</li>
+</ol>
+</li>
+</ul>
+</li>
+<li>那么推荐系统做什么？<ul>
+<li>想象推荐系统就是一口井，每一个人的信息似一杯水，每杯水包含不同杂质，包括红色的物质，这是每个人的最爱🍎 ；所有的人往井里倒水，这口井的目的是过滤出来红色物质，反馈给倒水的每个人，诱导每个人继续灌水。这些红色物质便可算人的潜在感兴趣信息。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+          <!--noindex-->
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/2020/06/09/%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+          <div class="post-eof"></div>
+        
+      </footer>
+  </div>
+  
+  
+  
+  </article>
+
+     
+    
+     
+       
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/08/Scala/Scala--Part1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zheng Chu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar/jojo3.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zheng Chu's Blog">
+    </span>
+      <header class="post-header">
+
+        
+          <h1 class="post-title" itemprop="name headline">
+              
+              <a href="/2020/06/08/Scala/Scala--Part1/" class="post-title-link" itemprop="url">Scala-part1</a>
+            
+          </h1>
+        
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              
+                
+              
+
+              <time title="Created: 2020-06-08 16:00:00 / Modified: 18:49:49" itemprop="dateCreated datePublished" datetime="2020-06-08T16:00:00+08:00">2020-06-08</time>
+            </span>
+          
+            
+
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Scala/" itemprop="url" rel="index"><span itemprop="name">Scala</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="Scala-part1"><a href="#Scala-part1" class="headerlink" title="Scala-part1"></a>Scala-part1</h1><p>变量不能改变为它指定的类型，所以不能将一个变量重新赋值为类型不兼容的数据。</p><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> x: &lt;<span class="class"><span class="keyword">type</span><span class="title">&gt;</span> </span>= xxx</span><br></pre></td></tr></table></figure><ul>
+<li>类型转换：</li>
+</ul><p><code>scala</code>不允许从较高等级类型自动转换到较低等级类型。</p><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">scala&gt; <span class="keyword">val</span> l: <span class="type">Long</span> = <span class="number">20</span></span><br><span class="line"><span class="keyword">val</span> l: <span class="type">Long</span> = <span class="number">20</span></span><br><span class="line"></span><br><span class="line">scala&gt; <span class="keyword">val</span> i: <span class="type">Int</span> = l</span><br><span class="line">                    ^</span><br><span class="line">       error: <span class="class"><span class="keyword">type</span> <span class="title">mismatch</span></span>;</span><br><span class="line">        found   : <span class="type">Long</span></span><br><span class="line">        required: <span class="type">Int</span></span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/2020/06/08/Scala/Scala--Part1/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+          <div class="post-eof"></div>
+        
+      </footer>
+  </div>
+  
+  
+  
+  </article>
+
+     
+    
+     
+       
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/08/GolangNote/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -885,450 +1324,6 @@
             </div>
           
           <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-          <div class="post-eof"></div>
-        
-      </footer>
-  </div>
-  
-  
-  
-  </article>
-
-     
-    
-     
-       
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/03/27/IELTS/English%20Grammar/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Zheng Chu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar/jojo3.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Zheng Chu's Blog">
-    </span>
-      <header class="post-header">
-
-        
-          <h1 class="post-title" itemprop="name headline">
-              
-              <a href="/2020/03/27/IELTS/English%20Grammar/" class="post-title-link" itemprop="url">English Grammar</a>
-            
-          </h1>
-        
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              
-                
-              
-
-              <time title="Created: 2020-03-27 12:21:09 / Modified: 11:11:06" itemprop="dateCreated datePublished" datetime="2020-03-27T12:21:09+08:00">2020-03-27</time>
-            </span>
-          
-            
-
-            
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/English/" itemprop="url" rel="index"><span itemprop="name">English</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="Determiners"><a href="#Determiners" class="headerlink" title="Determiners"></a>Determiners</h2><h3 id="BASIC-RULES"><a href="#BASIC-RULES" class="headerlink" title="BASIC RULES"></a>BASIC RULES</h3><ul>
-<li>The + Noun :  To say “you know which I mean”</li>
-<li>Contrariwise, a/an + <strong>singular countable noun</strong>. 这类名词一定得配上冠词或限定词使用～</li>
-<li>NO Articles before  plural noun / uncountable noun.</li>
-<li>Don’t use <strong>the</strong> to talk about things in general. Like “Elephants can swim very well”</li>
-</ul>
-          <!--noindex-->
-          
-            <div class="post-button text-center">
-              <a class="btn" href="/2020/03/27/IELTS/English%20Grammar/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-          <div class="post-eof"></div>
-        
-      </footer>
-  </div>
-  
-  
-  
-  </article>
-
-     
-    
-     
-       
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/03/21/IELTS/IELTS%20WRITING%20NOTE/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Zheng Chu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar/jojo3.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Zheng Chu's Blog">
-    </span>
-      <header class="post-header">
-
-        
-          <h1 class="post-title" itemprop="name headline">
-              
-              <a href="/2020/03/21/IELTS/IELTS%20WRITING%20NOTE/" class="post-title-link" itemprop="url">IELTS WRITING NOTE</a>
-            
-          </h1>
-        
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              
-                
-              
-
-              <time title="Created: 2020-03-21 15:21:09" itemprop="dateCreated datePublished" datetime="2020-03-21T15:21:09+08:00">2020-03-21</time>
-            </span>
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-04-01 12:47:59" itemprop="dateModified" datetime="2020-04-01T12:47:59+08:00">2020-04-01</time>
-              </span>
-            
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/English/" itemprop="url" rel="index"><span itemprop="name">English</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="PART-ONE-150-185-words-at-least"><a href="#PART-ONE-150-185-words-at-least" class="headerlink" title="PART ONE : 150-185 words at least."></a>PART ONE : 150-185 words at least.</h1><ul>
-<li><p>Remember: No conclusion. Instead write a summary(the overview). </p>
-</li>
-<li><p>Type 1 to 4 are more common, its related to <strong>numbers</strong> in ways of <strong>describe, compare, changes, trends.</strong> </p>
-</li>
-<li><p>Essays structure composed by 4 paragraphs:</p>
-<ul>
-<li><ol>
-<li>Introduction: 1 sentence to <strong>paraphrase the question</strong>.</li>
-</ol>
-</li>
-<li><ol>
-<li>Overview: 2 setences about <strong>the main, general things.</strong></li>
-</ol>
-</li>
-<li><ol>
-<li>Details.   3 + 4 sentences for details.</li>
-</ol>
-</li>
-<li><ol>
-<li>Details</li>
-</ol>
-</li>
-</ul>
-</li>
-</ul>
-          <!--noindex-->
-          
-            <div class="post-button text-center">
-              <a class="btn" href="/2020/03/21/IELTS/IELTS%20WRITING%20NOTE/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-          <div class="post-eof"></div>
-        
-      </footer>
-  </div>
-  
-  
-  
-  </article>
-
-     
-    
-     
-       
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/03/13/IELTS/Edison%20Chen%20Interview/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Zheng Chu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar/jojo3.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Zheng Chu's Blog">
-    </span>
-      <header class="post-header">
-
-        
-          <h1 class="post-title" itemprop="name headline">
-              
-              <a href="/2020/03/13/IELTS/Edison%20Chen%20Interview/" class="post-title-link" itemprop="url">Edison Chen Interview</a>
-            
-          </h1>
-        
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              
-                
-              
-
-              <time title="Created: 2020-03-13 15:21:09" itemprop="dateCreated datePublished" datetime="2020-03-13T15:21:09+08:00">2020-03-13</time>
-            </span>
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-03-21 10:27:33" itemprop="dateModified" datetime="2020-03-21T10:27:33+08:00">2020-03-21</time>
-              </span>
-            
-          
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          
-            <h1 id="Edison-Chen-Interview"><a href="#Edison-Chen-Interview" class="headerlink" title="Edison Chen Interview"></a>Edison Chen Interview</h1><blockquote>
-<p>In the initial, I was just a star and a manager told me what to do every day. And one night, i was actually sold - like I was sold to another company. It was very <strong>demeaning</strong> to me and I felt very helpless. I <strong>felt like</strong> I was not in control of anything.</p>
-<p>One a very important thing is that when I started being an actor or an entertainer in Hong Kong. People would always be making fun of the way i dress. And people would always be making fun of the way that I spoke or the way I stood.</p>
-<p>I think hip-pop wasn’t such a big thing in <strong>the late nineteenth</strong>, early <strong>two thousands</strong> in Asia. </p>
-<p>So at that moment, I was wondering why they wouldn’t understand what it was that we were doing. At the same time, in the American market there is a huge gap of  high-quality Chinese products or high-quality Chinese creativity. </p>
-<p>So what we wanted to do was to bring the people that we loved and supported so dearly to China, and <strong>showcase</strong> these people. </p>
-<p>But <strong>at the same time, being able to</strong> work with them and collaborate with them, and exchange creative ideas, so that we can be the same level. <strong>That’s the most important point,</strong> for us, it was to be recognized by people all around the world, that we are a Chinese band, but we’re fly too.</p>
-<p>We are now actually working on some projects with Polo and with Ralph Lauren. I think it’s a sign of the times, you know.</p>
-<p>So <strong>I really feel like</strong> the youths in China really need to <strong>open their eyes and realize that</strong> the world is within their grasp.</p>
-<p>They just need to believe that they can get it.</p>
-<p>Belif is something that is lacking with the youths of China.</p>
-<p><strong>They always like to watch and enjoy, but they need to work hard and persevere and excel.</strong></p>
-<p>I always tell this. In every place of the world, <strong>there are rules and regulations</strong>, not even in China, in America, in Europe- in everywhere. But in a creative world, there is no rule, there is no limit. The world is yours, your mind can expands anywhere.</p>
-<p><strong>So you need to use that freedom in your everyday struggles.</strong></p>
-<p>Now,  when they watch these hip-pop videos and they see the street culture stuff, they’re kind of like, “Wow, this is so fresh now, i like it.”</p>
-<p>Why do you like it? They might not even know why they like it.</p>
-<p>It’s because it represents something that they lack, <strong>that is</strong> to be able to think openly and <strong>be like</strong>, i can do this, and i will do this.</p>
-</blockquote>
-
-          
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-          <div class="post-eof"></div>
-        
-      </footer>
-  </div>
-  
-  
-  
-  </article>
-
-     
-    
-     
-       
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/02/13/IELTS/Joaquin%20Phoenix%20won%20the%20Best%20Actor/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Zheng Chu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar/jojo3.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Zheng Chu's Blog">
-    </span>
-      <header class="post-header">
-
-        
-          <h1 class="post-title" itemprop="name headline">
-              
-              <a href="/2020/02/13/IELTS/Joaquin%20Phoenix%20won%20the%20Best%20Actor/" class="post-title-link" itemprop="url">Joaquin Phoenix won the Best Actor</a>
-            
-          </h1>
-        
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              
-                
-              
-
-              <time title="Created: 2020-02-13 15:21:09 / Modified: 17:27:20" itemprop="dateCreated datePublished" datetime="2020-02-13T15:21:09+08:00">2020-02-13</time>
-            </span>
-          
-            
-
-            
-          
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          
-            <blockquote>
-<p>[We have to] continue to use our voice for the voiceless. </p>
-<p>I’ve been thinking a lot about some of the distressing issues that we are facing collectively. </p>
-<p>I think at times we feel, or were made to feel, that we champion different causes, but for me, I see commonality.</p>
-<p> I think, whether we’re talking about gender inequality or racism or queer rights or indigenous rights or animal rights, we’re talking about the fight against injustice.</p>
-<p> We’re talking about the fight against the belief that one nation, one people, one race, one gender or one species has the right to dominate, control and use and exploit another with impunity.</p>
-<p>I think that we’ve become very disconnected from the natural world, and many of us, what we’re guilty of is an egocentric worldview — the belief that we’re the center of the universe. </p>
-<p>We go into the natural world, and we plunder it for its resources. </p>
-<p>We feel entitled to artificially inseminate a cow, and when she gives birth, we steal her baby, even though her cries of anguish are unmistakable. Then, we take her milk, that’s intended for her calf, and we put it in our coffee and our cereal, and I think we fear the idea of personal change because we think that we have to sacrifice something to give something up. </p>
-<p>But human beings, at our best, are so inventive and creative and ingenious, and I think that when we use love and compassion as our guiding principles, we can create, develop and implement systems of change that are beneficial to all sentient beings and to the environment.</p>
-<p>Now, I have been a scoundrel in my life. I’ve been selfish. I’ve been cruel at times, hard to work with and ungrateful, but so many of you in this room have given me a second chance. </p>
-<p>And I think that’s when we’re at our best, when we support each other, not when we cancel each other out for past mistakes, but when we help each other to grow, when we educate each other, when we guide each other toward redemption. </p>
-<p>That is the best of humanity.</p>
-<p>When he was 17, my brother wrote this lyric. It said, </p>
-<p>‘Run to the rescue with love, and peace will follow.’</p>
-</blockquote>
-
-          
         
       
     </div>

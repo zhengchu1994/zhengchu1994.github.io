@@ -55,18 +55,18 @@
   };
 </script>
 
-  <meta name="description" content="summary 决策树的研究三点：特征选择、树的构造、树的剪枝。  从可能的决策树中直接选取最优决策树是NP完全问题。现实中采用启发式方法学习次优的决策树。  CART是一颗二叉树，采用二元切割法。  ID3的信息增益反映的是给定条件以后不确定性减少的程度，某特征在数据中表现得越多，意味着该特征确定性更高，条件熵越小，信息增益越大。ID3的缺点是每个样本的特征都不同（DNA），分类的泛化能力降低。">
+  <meta name="description" content="Update：2020-06-20last：2019-08-13 CART树用的Gini impurity作为划分指标：在特征满足某个条件时，该指标最小；比如那么用这个特征条件在此处进行划分，分为的做节点有58个实例，其三个类别分别是[0，49，5]，那么有GINI：$1-(0&#x2F;54)^2-(49&#x2F;54)^2 -(5&#x2F;54)^2 &#x3D; 0.168$">
 <meta property="og:type" content="article">
 <meta property="og:title" content="决策树">
-<meta property="og:url" content="http://yoursite.com/2019/08/13/Trees/Trees/index.html">
+<meta property="og:url" content="http://yoursite.com/2020/06/20/Trees/Trees/index.html">
 <meta property="og:site_name" content="Zheng Chu&#39;s Blog">
-<meta property="og:description" content="summary 决策树的研究三点：特征选择、树的构造、树的剪枝。  从可能的决策树中直接选取最优决策树是NP完全问题。现实中采用启发式方法学习次优的决策树。  CART是一颗二叉树，采用二元切割法。  ID3的信息增益反映的是给定条件以后不确定性减少的程度，某特征在数据中表现得越多，意味着该特征确定性更高，条件熵越小，信息增益越大。ID3的缺点是每个样本的特征都不同（DNA），分类的泛化能力降低。">
-<meta property="article:published_time" content="2019-08-12T18:27:09.000Z">
-<meta property="article:modified_time" content="2019-08-21T05:49:03.777Z">
+<meta property="og:description" content="Update：2020-06-20last：2019-08-13 CART树用的Gini impurity作为划分指标：在特征满足某个条件时，该指标最小；比如那么用这个特征条件在此处进行划分，分为的做节点有58个实例，其三个类别分别是[0，49，5]，那么有GINI：$1-(0&#x2F;54)^2-(49&#x2F;54)^2 -(5&#x2F;54)^2 &#x3D; 0.168$">
+<meta property="article:published_time" content="2020-06-19T18:27:09.000Z">
+<meta property="article:modified_time" content="2020-06-20T04:21:01.643Z">
 <meta property="article:author" content="Zheng Chu">
 <meta property="article:tag" content="MachineLearning">
 <meta name="twitter:card" content="summary">
-  <link rel="canonical" href="http://yoursite.com/2019/08/13/Trees/Trees/">
+  <link rel="canonical" href="http://yoursite.com/2020/06/20/Trees/Trees/">
 
 
 <script id="page-configurations">
@@ -251,7 +251,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/13/Trees/Trees/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/20/Trees/Trees/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Zheng Chu">
@@ -282,19 +282,11 @@
                 
               
 
-              <time title="Created: 2019-08-13 02:27:09" itemprop="dateCreated datePublished" datetime="2019-08-13T02:27:09+08:00">2019-08-13</time>
+              <time title="Created: 2020-06-20 02:27:09 / Modified: 12:21:01" itemprop="dateCreated datePublished" datetime="2020-06-20T02:27:09+08:00">2020-06-20</time>
             </span>
           
             
 
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2019-08-21 13:49:03" itemprop="dateModified" datetime="2019-08-21T13:49:03+08:00">2019-08-21</time>
-              </span>
             
           
             <span class="post-meta-item">
@@ -330,7 +322,17 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h3 id="summary"><a href="#summary" class="headerlink" title="summary"></a>summary</h3><ul>
+        <hr><p>Update：2020-06-20</p><p>last：2019-08-13 </p><p>CART树用的Gini impurity作为划分指标：在特征满足某个条件时，该指标最小；比如那么用这个特征条件在此处进行划分，分为的做节点有58个实例，其三个类别分别是[0，49，5]，那么有GINI：$1-(0/54)^2-(49/54)^2 -(5/54)^2 = 0.168$</p><a id="more"></a>
+
+
+
+<p>FORMAT：第$i$个节点的Gini值，其中$k$枚举所有类别，$p_{i,k}$ 是在$i$个节点上的所有属于第$k$类的样本除以该节点上的全部训练样本。</p>
+<script type="math/tex; mode=display">
+\operatorname{G}_i =1 - \sum_{k=1}^n p_{i,k}^2</script><p>另一个指标熵Entropy，上面的例子计算：$-\frac{49}{54}\log_2(\frac{49}{54})-\frac{5}{54}\log_2(\frac{5}{54})$</p>
+<p>FORMAT：</p>
+<script type="math/tex; mode=display">
+H_i = -\sum_{k = 1}^n p_{i,k}\log_2(p_{i,k}),\\ p_{i,k} \neq 0</script><hr>
+<h3 id="summary"><a href="#summary" class="headerlink" title="summary"></a>summary</h3><ul>
 <li><p>决策树的研究三点：特征选择、树的构造、树的剪枝。</p>
 </li>
 <li><p>从可能的决策树中直接选取最优决策树是NP完全问题。现实中采用启发式方法学习次优的决策树。</p>
@@ -343,7 +345,7 @@
 </li>
 <li><p>从应用的角度，ID3与C4.5只能用于分类任务，而CART可以应用于回归任务。</p>
 </li>
-</ul><a id="more"></a>
+</ul>
 <h4 id="特征选择："><a href="#特征选择：" class="headerlink" title="特征选择："></a>特征选择：</h4><hr>
 <h3 id><a href="#" class="headerlink" title=" "></a> </h3><p>1．分类决策树模型是表示基于特征对实例进行分类的树形结构。决策树可以转换成一个if-then规则的集合，也可以看作是定义在特征空间划分上的类的条件概率分布。</p>
 <p>2．决策树学习旨在构建一个与训练数据拟合很好，并且复杂度小的决策树。因为</p>
@@ -358,7 +360,7 @@
 <script type="math/tex; mode=display">g(D, A)=H(D)-H(D|A)</script><script type="math/tex; mode=display">H(D)=- \sum_{k=1}^{K} \frac{\left|C_{k}\right|}{|D|} \log_{2} \frac{\left|C_{k}\right|}{|D|}</script><script type="math/tex; mode=display">H(D | A)=\sum_{i=1}^{n} \frac{\left|D_{i}\right|}{|D|} H\left(D_{i}\right)</script><p>其中，$H(D)$是数据集$D$的熵，$H(D_i)$是数据集$D_i$的熵，$H(D|A)$是数据集$D$对特征$A$的条件熵。<br>$D_i$是$D$中特征$A$取第$i$个值的样本子集，$C_k$是$D$中属于第$k$类的样本子集。<br>$n$是特征$A$取 值的个数，$K$是类的个数。</p>
 <p>（2）样本集合$D$对特征$A$的信息增益比（C4.5）</p>
 <script type="math/tex; mode=display">g_{R}(D, A)=\frac{g(D, A)}{H(D)}</script><p>其中，$g(D,A)$是信息增益，$H(D)$是数据集$D$的熵。</p>
-<p>（3）样本集合$D$的基尼指数（CART）</p>
+<p>（3）样本集合$D$的基尼指数（<strong>CART</strong>）</p>
 <script type="math/tex; mode=display">\operatorname{Gini}(D)=1-\sum_{k=1}^{K}\left(\frac{\left|C_{k}\right|}{|D|}\right)^{2}</script><p>特征$A$条件下集合$D$的基尼指数：</p>
 <script type="math/tex; mode=display">\operatorname{Gini}(D, A)=\frac{\left|D_{1}\right|}{|D|} \operatorname{Gini}\left(D_{1}\right)+\frac{\left|D_{2}\right|}{|D|} \operatorname{Gini}\left(D_{2}\right)</script><p>4．决策树的生成。通常使用<code>信息增益最大</code>、<code>信息增益比最大</code>或<code>基尼指数最小</code>作为特征选择的准则。</p>
 <blockquote>
@@ -366,8 +368,6 @@
 </blockquote>
 <p>这相当于用信息增益或其他准则<code>不断地选取局部最优的特征</code>，或将训练集分割为能够基本正确分类的子集。</p>
 <hr>
-<p>数据熵：先计算每个标签下的数据数目与总数据数目的比。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">calc_ent</span><span class="params">(datasets)</span>:</span></span><br><span class="line">    data_length = len(datasets)</span><br><span class="line">    label_count = &#123;&#125;</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(data_length):</span><br><span class="line">        label = datasets[i][<span class="number">-1</span>]</span><br><span class="line">        <span class="keyword">if</span> label <span class="keyword">not</span> <span class="keyword">in</span> label_count:</span><br><span class="line">            label_count[label] = <span class="number">0</span></span><br><span class="line">        label_count[label] += <span class="number">1</span></span><br><span class="line">    <span class="comment"># log(对数，底数)</span></span><br><span class="line">    ent = -sum([(p / data_length) * log(p / data_length, <span class="number">2</span>)</span><br><span class="line">                <span class="keyword">for</span> p <span class="keyword">in</span> label_count.values()])</span><br><span class="line">    <span class="keyword">return</span> ent</span><br></pre></td></tr></table></figure></p>
-<p>特征条件熵：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 经验条件熵,axis表示的是第axis特征</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">cond_ent</span><span class="params">(datasets, axis=<span class="number">0</span>)</span>:</span></span><br><span class="line">    <span class="comment">#数据的总数目</span></span><br><span class="line">    data_length = len(datasets)</span><br><span class="line">    <span class="comment"># axis类特征里存在的特征类别：如【青年、老年】</span></span><br><span class="line">    feature_sets = &#123;&#125;</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(data_length):</span><br><span class="line">        feature = datasets[i][axis]</span><br><span class="line">        <span class="keyword">if</span> feature <span class="keyword">not</span> <span class="keyword">in</span> feature_sets:</span><br><span class="line">            feature_sets[feature] = []</span><br><span class="line">        feature_sets[feature].append(datasets[i])</span><br><span class="line">    cond_ent = sum(</span><br><span class="line">        [(len(p) / data_length) * calc_ent(p) <span class="keyword">for</span> p <span class="keyword">in</span> feature_sets.values()])</span><br><span class="line">    <span class="keyword">return</span> cond_ent</span><br></pre></td></tr></table></figure></p>
 
     </div>
 
@@ -393,14 +393,18 @@
           <div class="post-nav">
             <div class="post-nav-next post-nav-item">
               
+                <a href="/2020/06/16/LogisticMiximumEntropy/LogisticMiximumEntropy/" rel="next" title="逻辑与线性回归">
+                  <i class="fa fa-chevron-left"></i> 逻辑与线性回归
+                </a>
+              
             </div>
 
             <span class="post-nav-divider"></span>
 
             <div class="post-nav-prev post-nav-item">
               
-                <a href="/2019/08/13/SVM/" rel="prev" title="SVM">
-                  SVM <i class="fa fa-chevron-right"></i>
+                <a href="/2020/06/20/Scala/2020-06-15-Scala-part4/" rel="prev" title="Scala-part4">
+                  Scala-part4 <i class="fa fa-chevron-right"></i>
                 </a>
               
             </div>
@@ -821,7 +825,7 @@
       repo: 'Gitalk',
       owner: 'zhengchu1994',
       admin: ['zhengchu1994'],
-      id: '650033cfec45ad896a3769afb480608d',
+      id: '069b4547305be867166ed091ac2c1bb0',
         language: window.navigator.language || window.navigator.userLanguage,
       
       distractionFreeMode: 'true'

@@ -55,23 +55,23 @@
   };
 </script>
 
-  <meta name="description" content="overview 泛化性：用偏差与方差分解理解泛化性； 利用bagging降低方差；利用boosting降低偏差； 集成方法总览： predictor的决策被联合在一起用来对新样本做决策，如voting；  为了使每个预测器（predictor）不一样，它们应该学习不一样的学习假设（hypotheses） 有四类方法使得预测器的学习假设不一样：  不同的算法； 不同的超参数选择； 训练不同的数据；">
+  <meta name="description" content="[toc]last:2019-09-04 21:45:21update: 2020-06-20Voting：利用投票做分类 hard-voting：多个分类器的结果中选择重合数目最多的。  Soft-voting：会对预测的结果配上权重，使得预测结果最好的类别更大概率视为正确的。  比如用LR、SVM、随机森林等模型组合在一起进行投票： 123456789101112131415161718192">
 <meta property="og:type" content="article">
 <meta property="og:title" content="EnsembleLearning">
-<meta property="og:url" content="http://yoursite.com/2019/09/04/EnsembleLearning/index.html">
+<meta property="og:url" content="http://yoursite.com/2020/06/20/EnsembleLearning/index.html">
 <meta property="og:site_name" content="Zheng Chu&#39;s Blog">
-<meta property="og:description" content="overview 泛化性：用偏差与方差分解理解泛化性； 利用bagging降低方差；利用boosting降低偏差； 集成方法总览： predictor的决策被联合在一起用来对新样本做决策，如voting；  为了使每个预测器（predictor）不一样，它们应该学习不一样的学习假设（hypotheses） 有四类方法使得预测器的学习假设不一样：  不同的算法； 不同的超参数选择； 训练不同的数据；">
-<meta property="og:image" content="http://yoursite.com/2019/09/04/EnsembleLearning/KnnBiasVariance1.png">
-<meta property="og:image" content="http://yoursite.com/2019/09/04/EnsembleLearning/KnnBiasVariance2.png">
-<meta property="og:image" content="http://yoursite.com/2019/09/04/EnsembleLearning/%E5%81%8F%E5%B7%AE%E6%96%B9%E5%B7%AE%E5%AD%A6%E4%B9%A0.png">
-<meta property="og:image" content="http://yoursite.com/2019/09/04/EnsembleLearning/%E6%96%B9%E5%B7%AE%E5%8F%98%E5%B7%AE%E5%9B%BE.png">
-<meta property="article:published_time" content="2019-09-04T13:45:21.000Z">
-<meta property="article:modified_time" content="2019-09-08T09:04:14.508Z">
+<meta property="og:description" content="[toc]last:2019-09-04 21:45:21update: 2020-06-20Voting：利用投票做分类 hard-voting：多个分类器的结果中选择重合数目最多的。  Soft-voting：会对预测的结果配上权重，使得预测结果最好的类别更大概率视为正确的。  比如用LR、SVM、随机森林等模型组合在一起进行投票： 123456789101112131415161718192">
+<meta property="og:image" content="http://yoursite.com/2020/06/20/EnsembleLearning/KnnBiasVariance1.png">
+<meta property="og:image" content="http://yoursite.com/2020/06/20/EnsembleLearning/KnnBiasVariance2.png">
+<meta property="og:image" content="http://yoursite.com/2020/06/20/EnsembleLearning/%E5%81%8F%E5%B7%AE%E6%96%B9%E5%B7%AE%E5%AD%A6%E4%B9%A0.png">
+<meta property="og:image" content="http://yoursite.com/2020/06/20/EnsembleLearning/%E6%96%B9%E5%B7%AE%E5%8F%98%E5%B7%AE%E5%9B%BE.png">
+<meta property="article:published_time" content="2020-06-20T13:45:21.000Z">
+<meta property="article:modified_time" content="2020-06-20T15:21:01.015Z">
 <meta property="article:author" content="Zheng Chu">
 <meta property="article:tag" content="MachineLearning">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://yoursite.com/2019/09/04/EnsembleLearning/KnnBiasVariance1.png">
-  <link rel="canonical" href="http://yoursite.com/2019/09/04/EnsembleLearning/">
+<meta name="twitter:image" content="http://yoursite.com/2020/06/20/EnsembleLearning/KnnBiasVariance1.png">
+  <link rel="canonical" href="http://yoursite.com/2020/06/20/EnsembleLearning/">
 
 
 <script id="page-configurations">
@@ -256,7 +256,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/04/EnsembleLearning/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/20/EnsembleLearning/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Zheng Chu">
@@ -287,19 +287,11 @@
                 
               
 
-              <time title="Created: 2019-09-04 21:45:21" itemprop="dateCreated datePublished" datetime="2019-09-04T21:45:21+08:00">2019-09-04</time>
+              <time title="Created: 2020-06-20 21:45:21 / Modified: 23:21:01" itemprop="dateCreated datePublished" datetime="2020-06-20T21:45:21+08:00">2020-06-20</time>
             </span>
           
             
 
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2019-09-08 17:04:14" itemprop="dateModified" datetime="2019-09-08T17:04:14+08:00">2019-09-08</time>
-              </span>
             
           
             <span class="post-meta-item">
@@ -335,10 +327,51 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h4 id="overview"><a href="#overview" class="headerlink" title="overview"></a>overview</h4><ul>
+        <hr><p>[toc]</p><hr><p>last:2019-09-04 21:45:21</p><p>update: 2020-06-20</p><h3 id="Voting：利用投票做分类"><a href="#Voting：利用投票做分类" class="headerlink" title="Voting：利用投票做分类"></a>Voting：利用投票做分类</h3><ul>
+<li><p>hard-voting：多个分类器的结果中选择重合数目最多的。</p>
+</li>
+<li><p>Soft-voting：会对预测的结果配上权重，使得预测结果最好的类别更大概率视为正确的。</p>
+</li>
+<li><p>比如用LR、SVM、随机森林等模型组合在一起进行投票：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.ensemble <span class="keyword">import</span> RandomForestClassifier</span><br><span class="line"><span class="keyword">from</span> sklearn.ensemble <span class="keyword">import</span> VotingClassifier</span><br><span class="line"><span class="keyword">from</span> sklearn.linear_model <span class="keyword">import</span> LogisticRegression</span><br><span class="line"><span class="keyword">from</span> sklearn.svm <span class="keyword">import</span> SVC</span><br><span class="line"></span><br><span class="line">log_clf = LogisticRegression(solver=<span class="string">"lbfgs"</span>, random_state=<span class="number">42</span>)</span><br><span class="line">rnd_clf = RandomForestClassifier(n_estimators=<span class="number">100</span>, random_state=<span class="number">42</span>)</span><br><span class="line">svm_clf = SVC(gamma=<span class="string">"scale"</span>, random_state=<span class="number">42</span>)</span><br><span class="line"></span><br><span class="line">voting_clf = VotingClassifier(</span><br><span class="line">    estimators=[(<span class="string">'lr'</span>, log_clf), (<span class="string">'rf'</span>, rnd_clf), (<span class="string">'svc'</span>, svm_clf)],</span><br><span class="line">    voting=<span class="string">'hard'</span>)</span><br><span class="line"></span><br><span class="line"><span class="string">""" Soft-voting</span></span><br><span class="line"><span class="string">voting_clf = VotingClassifier(</span></span><br><span class="line"><span class="string">    estimators=[('lr', log_clf), ('rf', rnd_clf), ('svc', svm_clf)],</span></span><br><span class="line"><span class="string">    voting='soft')</span></span><br><span class="line"><span class="string">"""</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">voting_clf.fit(X_train, y_train)</span><br><span class="line"><span class="keyword">from</span> sklearn.metrics <span class="keyword">import</span> accuracy_score</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> clf <span class="keyword">in</span> (log_clf, rnd_clf, svm_clf, voting_clf):</span><br><span class="line">    clf.fit(X_train, y_train)</span><br><span class="line">    y_pred = clf.predict(X_test)</span><br><span class="line">    print(clf.__class__.__name__, accuracy_score(y_test, y_pred))</span><br><span class="line">    </span><br><span class="line"><span class="comment">## voting的结果比单个分类器好</span></span><br><span class="line">LogisticRegression <span class="number">0.864</span></span><br><span class="line">RandomForestClassifier <span class="number">0.896</span></span><br><span class="line">SVC <span class="number">0.896</span></span><br><span class="line">VotingClassifier <span class="number">0.912</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul><a id="more"></a>
+
+
+
+
+
+<ul>
+<li><p>背后原理：<strong>Law of large numbers</strong>：</p>
+</li>
+<li><p>前提：分类器独立，学习到的错误模式各不相同。</p>
+</li>
+</ul>
+<p>这一种做法是使用不同的分类器算法，</p>
+<p>另一种做法是在不同的训练集上训练分类器。</p>
+<h3 id="Bagging：（Bootstrap-aggregating）：有放回采样训练集"><a href="#Bagging：（Bootstrap-aggregating）：有放回采样训练集" class="headerlink" title="Bagging：（Bootstrap aggregating）：有放回采样训练集"></a>Bagging：（Bootstrap aggregating）：有放回采样训练集</h3><ul>
+<li>Pasting：不放回。。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.ensemble <span class="keyword">import</span> BaggingClassifier </span><br><span class="line"><span class="keyword">from</span> sklearn.tree <span class="keyword">import</span> DecisionTreeClassifier</span><br><span class="line"></span><br><span class="line"><span class="comment"># 等于随机森林</span></span><br><span class="line"><span class="comment">#500个决策树的bagging，每个采样为max_samples（可设为【0，1】作为百分比），n_jobs=-1使用全部cpu</span></span><br><span class="line">bag_clf = BaggingClassifier( DecisionTreeClassifier(), n_estimators=<span class="number">500</span>, max_samples=<span class="number">100</span>, bootstrap=<span class="literal">True</span>, n_jobs=<span class="number">-1</span>)</span><br><span class="line">bag_clf.fit(X_train, y_train) y_pred = bag_clf.predict(X_test)</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>Out-of-Bag Evaluation：bagging里面没被采样的训练集上的验证预测：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>bag_clf.fit(X_train, y_train)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>bag_clf.oob_score_</span><br><span class="line"><span class="number">0.90133333333333332</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>Extra variant methods：</p>
+<p>​    Random Subspaces method（Sampling features ）、 </p>
+<p>​    Random patches method（Sampling features and training instances）</p>
+<p>特征重要性显示：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.datasets <span class="keyword">import</span> load_iris</span><br><span class="line">iris = load_iris()</span><br><span class="line">rnd_clf = RandomForestClassifier(n_estimators=<span class="number">500</span>, random_state=<span class="number">42</span>)</span><br><span class="line">rnd_clf.fit(iris[<span class="string">"data"</span>], iris[<span class="string">"target"</span>])</span><br><span class="line"><span class="keyword">for</span> name, score <span class="keyword">in</span> zip(iris[<span class="string">"feature_names"</span>], rnd_clf.feature_importances_):</span><br><span class="line">    print(name, score)</span><br><span class="line"></span><br><span class="line"><span class="comment">###   </span></span><br><span class="line">sepal length (cm) <span class="number">0.11249225099876374</span></span><br><span class="line">sepal width (cm) <span class="number">0.023119288282510326</span></span><br><span class="line">petal length (cm) <span class="number">0.44103046436395765</span></span><br><span class="line">petal width (cm) <span class="number">0.4233579963547681</span></span><br></pre></td></tr></table></figure>
+<h3 id="Boosting"><a href="#Boosting" class="headerlink" title="Boosting"></a>Boosting</h3><p>做法：Train predictors sequentially，each trying to correct its predecessor.</p>
+<h4 id="AdaBoost：给每个训练样本学习一个权重"><a href="#AdaBoost：给每个训练样本学习一个权重" class="headerlink" title="AdaBoost：给每个训练样本学习一个权重"></a>AdaBoost：给每个训练样本学习一个权重</h4><p>做法：先用base classifier在训练集上分类，对分类错误的样本增加它们的权重，然后下一个base classifier继续训练集上做分类，更新权重。上述过程也对每个base classifier学到一个权重， 预测的时候，把所有分类器的预测权重结合起来做预测。</p>
+<h4 id="Gradient-Boosting"><a href="#Gradient-Boosting" class="headerlink" title="Gradient Boosting"></a>Gradient Boosting</h4><hr>
+<h4 id="overview"><a href="#overview" class="headerlink" title="overview"></a>overview</h4><ul>
 <li>泛化性：用偏差与方差分解理解泛化性；</li>
 <li>利用bagging降低方差；利用boosting降低偏差；</li>
-</ul><p>集成方法总览：</p><ol>
+</ul>
+<p>集成方法总览：</p>
+<ol>
 <li><p>predictor的决策被联合在一起用来对新样本做决策，如voting；</p>
 </li>
 <li><p>为了使每个预测器（predictor）不一样，它们应该学习不一样的学习假设（hypotheses）</p>
@@ -352,9 +385,7 @@
 </li>
 <li><p>集成学习的难点在于如何选择上述的集成目标。</p>
 </li>
-</ol><a id="more"></a>
-
-
+</ol>
 <ul>
 <li>bagging方法：在训练集的随机子集上独立的训练每一个分类器；</li>
 </ul>
@@ -371,11 +402,11 @@ Err(x) = \left(f(x)-\frac{1}{k}\sum\limits_{i=1}^k f(x_i)\right)^2+\frac{\sigma_
 Err(x) = \mathrm{Bias}^2 + \mathrm{Variance} + \mathrm{Irreducible\ Error}</script><ul>
 <li>高偏差低方差图：$k$值大的时候，平均预测值离真实值比较远，但是方差比较小，预测的结果比较集中。</li>
 </ul>
-<p><img src="/2019/09/04/EnsembleLearning/KnnBiasVariance1.png" alt="高偏差低方差"></p>
+<p><img src="/2020/06/20/EnsembleLearning/KnnBiasVariance1.png" alt="高偏差低方差"></p>
 <ul>
 <li>低偏差高方差图：$k$ 值小的时候，平均预测值离真实值比较近，但是方差太大，每一次的预测值波动性很大。</li>
 </ul>
-<p><img src="/2019/09/04/EnsembleLearning/KnnBiasVariance2.png" alt="低偏差高方差"></p>
+<p><img src="/2020/06/20/EnsembleLearning/KnnBiasVariance2.png" alt="低偏差高方差"></p>
 <p>先从一个例子出发：</p>
 <p>（1）假设训练集由$N$ 对样本组成，每个样本独立同分布地抽取于数据生成分布 $P_{\text{(data)}}$ ,</p>
 <p>​            整个训练数据集的诱导分布（induced distribution）表示为 $P_{\text{(train)}}$.</p>
@@ -385,7 +416,7 @@ Err(x) = \mathrm{Bias}^2 + \mathrm{Variance} + \mathrm{Irreducible\ Error}</scri
 <p>因为 $y=h_D(X)$ 是随机变量， </p>
 <p>我们可以讨论它在训练集$P_{\text{(train)}} $ 的期望和方差！</p>
 <p>如下图：</p>
-<p><img src="/2019/09/04/EnsembleLearning/偏差方差学习.png" alt></p>
+<p><img src="/2020/06/20/EnsembleLearning/偏差方差学习.png" alt></p>
 <ul>
 <li>上图中，假设了给定了$X$的情况，$t$ 是确定的；</li>
 </ul>
@@ -418,7 +449,7 @@ Err(x) = \mathrm{Bias}^2 + \mathrm{Variance} + \mathrm{Irreducible\ Error}</scri
 <ul>
 <li>下图：投掷飞镖=对数据集的每次采样进行预测。看出来高bias的时候，数据的预测值离真实值都比较远，低bias的时候都离真实值比较近；高bias明显欠拟合更多；然后是低variance的时候，预测值都比较集中，高variance的时候预测值都比较分散；高variance明显说明了过拟合的情况，生成不同的数据，预测值也大范围的在变化，即泛化性差，太拟合训练数据（上一次或前几次投飞镖的位置作为训练数据，但是这次投飞镖的结果（测试）却与训练结果差很远）了。</li>
 </ul>
-<p><img src="/2019/09/04/EnsembleLearning/方差变差图.png" alt="投掷飞镖=对数据集的每次绘制进行预测"></p>
+<p><img src="/2020/06/20/EnsembleLearning/方差变差图.png" alt="投掷飞镖=对数据集的每次绘制进行预测"></p>
 <h4 id="Bagging-Motivation"><a href="#Bagging-Motivation" class="headerlink" title="Bagging: Motivation"></a>Bagging: Motivation</h4><p>假设我们可以从$P_{\text{(train)}}$ 里独立地采样$m$次，作为$m$ 个独立的训练集，</p>
 <p>在每个训练集上我们可以训练$m$个预测器(predictor)：  $h<em>i=h</em>{(D_i)}$</p>
 <p>对所有的预测器的结果求平均得到 $h=\frac{1}{m}\sum_{i=1}^mh_i$ 。推导这个 $h$ 是怎么影响bias和variance的：</p>
@@ -477,7 +508,7 @@ decorrelate the predictions}</script><p>也就是说随机森林不是别的，�
 \mathbb E_{(X,D)}\left[(h_D(X)-t)^2\right] = \\\\
 \mathbb E_{(X,D)}\left[(h_D(X) - \mathbb E_D\left[(h_D(X)\right])^2\right] + \mathbb E_{(X)}\left[(\mathbb E_D[h_D(X)] - t) ^2 \right]</script><p>可以看到方差项未变，期望项里的 $t$ 成了假设的最优预测值$y_{\ast}$ ,然后便是贝叶斯误差。</p>
 <hr>
-<h4 id="Boosting"><a href="#Boosting" class="headerlink" title="Boosting"></a>Boosting</h4><ul>
+<h4 id="Boosting-1"><a href="#Boosting-1" class="headerlink" title="Boosting"></a>Boosting</h4><ul>
 <li>Boosting：按序训练分类器，每次集中训练之前分类错误的数据点</li>
 </ul>
 <p>Commonsense：</p>
@@ -562,8 +593,8 @@ H(x) = \text{sign} (\sum_{t = 1}^T\alpha_t h_t(x))</script></li>
           <div class="post-nav">
             <div class="post-nav-next post-nav-item">
               
-                <a href="/2019/09/04/DP/" rel="next" title="DP">
-                  <i class="fa fa-chevron-left"></i> DP
+                <a href="/2020/06/20/Scala/2020-06-15-Scala-part4/" rel="next" title="Scala-part4">
+                  <i class="fa fa-chevron-left"></i> Scala-part4
                 </a>
               
             </div>
@@ -571,10 +602,6 @@ H(x) = \text{sign} (\sum_{t = 1}^T\alpha_t h_t(x))</script></li>
             <span class="post-nav-divider"></span>
 
             <div class="post-nav-prev post-nav-item">
-              
-                <a href="/2019/09/04/Primer/C++---CHAPTER-2---VARIABLE/" rel="prev" title="C++---CHAPTER-2---VARIABLE">
-                  C++---CHAPTER-2---VARIABLE <i class="fa fa-chevron-right"></i>
-                </a>
               
             </div>
           </div>
@@ -805,7 +832,7 @@ H(x) = \text{sign} (\sum_{t = 1}^T\alpha_t h_t(x))</script></li>
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#overview"><span class="nav-number">1.</span> <span class="nav-text">overview</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#方差偏差理论"><span class="nav-number">2.</span> <span class="nav-text">方差偏差理论</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Bagging-Motivation"><span class="nav-number">3.</span> <span class="nav-text">Bagging: Motivation</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Bagging-Idea"><span class="nav-number">4.</span> <span class="nav-text">Bagging: Idea</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#随机森林"><span class="nav-number">5.</span> <span class="nav-text">随机森林</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#贝叶斯最优理论（Bayes-Optimality）"><span class="nav-number">6.</span> <span class="nav-text">贝叶斯最优理论（Bayes Optimality）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Boosting"><span class="nav-number">7.</span> <span class="nav-text">Boosting</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#AdaBoost-自适应提升"><span class="nav-number">8.</span> <span class="nav-text">AdaBoost(自适应提升)</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Voting：利用投票做分类"><span class="nav-number">1.</span> <span class="nav-text">Voting：利用投票做分类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Bagging：（Bootstrap-aggregating）：有放回采样训练集"><span class="nav-number">2.</span> <span class="nav-text">Bagging：（Bootstrap aggregating）：有放回采样训练集</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Boosting"><span class="nav-number">3.</span> <span class="nav-text">Boosting</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#AdaBoost：给每个训练样本学习一个权重"><span class="nav-number">3.1.</span> <span class="nav-text">AdaBoost：给每个训练样本学习一个权重</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Gradient-Boosting"><span class="nav-number">3.2.</span> <span class="nav-text">Gradient Boosting</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#overview"><span class="nav-number">3.3.</span> <span class="nav-text">overview</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#方差偏差理论"><span class="nav-number">3.4.</span> <span class="nav-text">方差偏差理论</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Bagging-Motivation"><span class="nav-number">3.5.</span> <span class="nav-text">Bagging: Motivation</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Bagging-Idea"><span class="nav-number">3.6.</span> <span class="nav-text">Bagging: Idea</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#随机森林"><span class="nav-number">3.7.</span> <span class="nav-text">随机森林</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#贝叶斯最优理论（Bayes-Optimality）"><span class="nav-number">3.8.</span> <span class="nav-text">贝叶斯最优理论（Bayes Optimality）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Boosting-1"><span class="nav-number">3.9.</span> <span class="nav-text">Boosting</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#AdaBoost-自适应提升"><span class="nav-number">3.10.</span> <span class="nav-text">AdaBoost(自适应提升)</span></a></li></ol></li></ol></div>
             
 
           </div>
@@ -994,7 +1021,7 @@ H(x) = \text{sign} (\sum_{t = 1}^T\alpha_t h_t(x))</script></li>
       repo: 'Gitalk',
       owner: 'zhengchu1994',
       admin: ['zhengchu1994'],
-      id: 'c58b9ff6fc739a3e077f28567ea047e7',
+      id: '671ebc750f532f887e4f6e3c20b69f4d',
         language: window.navigator.language || window.navigator.userLanguage,
       
       distractionFreeMode: 'true'
