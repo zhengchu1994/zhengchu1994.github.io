@@ -66,7 +66,7 @@
 <meta property="og:image" content="http://yoursite.com/2020/06/20/EnsembleLearning/%E5%81%8F%E5%B7%AE%E6%96%B9%E5%B7%AE%E5%AD%A6%E4%B9%A0.png">
 <meta property="og:image" content="http://yoursite.com/2020/06/20/EnsembleLearning/%E6%96%B9%E5%B7%AE%E5%8F%98%E5%B7%AE%E5%9B%BE.png">
 <meta property="article:published_time" content="2020-06-20T13:45:21.000Z">
-<meta property="article:modified_time" content="2020-06-20T15:21:01.015Z">
+<meta property="article:modified_time" content="2020-06-21T15:11:01.958Z">
 <meta property="article:author" content="Zheng Chu">
 <meta property="article:tag" content="MachineLearning">
 <meta name="twitter:card" content="summary">
@@ -287,11 +287,19 @@
                 
               
 
-              <time title="Created: 2020-06-20 21:45:21 / Modified: 23:21:01" itemprop="dateCreated datePublished" datetime="2020-06-20T21:45:21+08:00">2020-06-20</time>
+              <time title="Created: 2020-06-20 21:45:21" itemprop="dateCreated datePublished" datetime="2020-06-20T21:45:21+08:00">2020-06-20</time>
             </span>
           
             
 
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-06-21 23:11:01" itemprop="dateModified" datetime="2020-06-21T23:11:01+08:00">2020-06-21</time>
+              </span>
             
           
             <span class="post-meta-item">
@@ -366,7 +374,7 @@
 <h3 id="Boosting"><a href="#Boosting" class="headerlink" title="Boosting"></a>Boosting</h3><p>做法：Train predictors sequentially，each trying to correct its predecessor.</p>
 <h4 id="AdaBoost：给每个训练样本学习一个权重"><a href="#AdaBoost：给每个训练样本学习一个权重" class="headerlink" title="AdaBoost：给每个训练样本学习一个权重"></a>AdaBoost：给每个训练样本学习一个权重</h4><p>做法：先用base classifier在训练集上分类，对分类错误的样本增加它们的权重，然后下一个base classifier继续训练集上做分类，更新权重。上述过程也对每个base classifier学到一个权重， 预测的时候，把所有分类器的预测权重结合起来做预测。</p>
 <h4 id="Gradient-Boosting"><a href="#Gradient-Boosting" class="headerlink" title="Gradient Boosting"></a>Gradient Boosting</h4><hr>
-<h4 id="overview"><a href="#overview" class="headerlink" title="overview"></a>overview</h4><ul>
+<h1 id="overview"><a href="#overview" class="headerlink" title="overview"></a>overview</h1><ul>
 <li>泛化性：用偏差与方差分解理解泛化性；</li>
 <li>利用bagging降低方差；利用boosting降低偏差；</li>
 </ul>
@@ -836,7 +844,7 @@ H(x) = \text{sign} (\sum_{t = 1}^T\alpha_t h_t(x))</script></li>
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Voting：利用投票做分类"><span class="nav-number">1.</span> <span class="nav-text">Voting：利用投票做分类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Bagging：（Bootstrap-aggregating）：有放回采样训练集"><span class="nav-number">2.</span> <span class="nav-text">Bagging：（Bootstrap aggregating）：有放回采样训练集</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Boosting"><span class="nav-number">3.</span> <span class="nav-text">Boosting</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#AdaBoost：给每个训练样本学习一个权重"><span class="nav-number">3.1.</span> <span class="nav-text">AdaBoost：给每个训练样本学习一个权重</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Gradient-Boosting"><span class="nav-number">3.2.</span> <span class="nav-text">Gradient Boosting</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#overview"><span class="nav-number">3.3.</span> <span class="nav-text">overview</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#方差偏差理论"><span class="nav-number">3.4.</span> <span class="nav-text">方差偏差理论</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Bagging-Motivation"><span class="nav-number">3.5.</span> <span class="nav-text">Bagging: Motivation</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Bagging-Idea"><span class="nav-number">3.6.</span> <span class="nav-text">Bagging: Idea</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#随机森林"><span class="nav-number">3.7.</span> <span class="nav-text">随机森林</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#贝叶斯最优理论（Bayes-Optimality）"><span class="nav-number">3.8.</span> <span class="nav-text">贝叶斯最优理论（Bayes Optimality）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Boosting-1"><span class="nav-number">3.9.</span> <span class="nav-text">Boosting</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#AdaBoost-自适应提升"><span class="nav-number">3.10.</span> <span class="nav-text">AdaBoost(自适应提升)</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Voting：利用投票做分类"><span class="nav-number">1.</span> <span class="nav-text">Voting：利用投票做分类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Bagging：（Bootstrap-aggregating）：有放回采样训练集"><span class="nav-number">2.</span> <span class="nav-text">Bagging：（Bootstrap aggregating）：有放回采样训练集</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Boosting"><span class="nav-number">3.</span> <span class="nav-text">Boosting</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#AdaBoost：给每个训练样本学习一个权重"><span class="nav-number">3.1.</span> <span class="nav-text">AdaBoost：给每个训练样本学习一个权重</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Gradient-Boosting"><span class="nav-number">3.2.</span> <span class="nav-text">Gradient Boosting</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#overview"><span class="nav-number"></span> <span class="nav-text">overview</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#方差偏差理论"><span class="nav-number">0.1.</span> <span class="nav-text">方差偏差理论</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Bagging-Motivation"><span class="nav-number">0.2.</span> <span class="nav-text">Bagging: Motivation</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Bagging-Idea"><span class="nav-number">0.3.</span> <span class="nav-text">Bagging: Idea</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#随机森林"><span class="nav-number">0.4.</span> <span class="nav-text">随机森林</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#贝叶斯最优理论（Bayes-Optimality）"><span class="nav-number">0.5.</span> <span class="nav-text">贝叶斯最优理论（Bayes Optimality）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Boosting-1"><span class="nav-number">0.6.</span> <span class="nav-text">Boosting</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#AdaBoost-自适应提升"><span class="nav-number">0.7.</span> <span class="nav-text">AdaBoost(自适应提升)</span></a></li></ol></li></ol></div>
             
 
           </div>
