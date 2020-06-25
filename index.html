@@ -289,7 +289,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-06-24 22:45:53" itemprop="dateModified" datetime="2020-06-24T22:45:53+08:00">2020-06-24</time>
+                <time title="Modified: 2020-06-25 10:43:35" itemprop="dateModified" datetime="2020-06-25T10:43:35+08:00">2020-06-25</time>
               </span>
             
           
@@ -318,7 +318,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <hr><h1 id="CodeWar-WEEK-2"><a href="#CodeWar-WEEK-2" class="headerlink" title="CodeWar-WEEK 2"></a>CodeWar-WEEK 2</h1><h4 id="14-最长公共前缀"><a href="#14-最长公共前缀" class="headerlink" title="14. 最长公共前缀"></a>14. 最长公共前缀</h4><ul>
+          <hr><h1 id="CodeWar-WEEK-2"><a href="#CodeWar-WEEK-2" class="headerlink" title="CodeWar-WEEK 2"></a>CodeWar-WEEK 2</h1><hr><h4 id="14-最长公共前缀"><a href="#14-最长公共前缀" class="headerlink" title="14. 最长公共前缀"></a>14. 最长公共前缀</h4><ul>
 <li>Scala</li>
 </ul><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">object</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">longestCommonPrefix</span></span>(strs: <span class="type">Array</span>[<span class="type">String</span>]): <span class="type">String</span> = &#123;</span><br><span class="line">        <span class="keyword">if</span>(strs.isEmpty || strs.size == <span class="number">0</span>) <span class="keyword">return</span> <span class="string">""</span>;</span><br><span class="line">        <span class="keyword">for</span> &#123;i &lt;- <span class="number">0</span>  to strs(<span class="number">0</span>).size </span><br><span class="line">            s &lt;- strs&#125;</span><br><span class="line">        <span class="keyword">if</span> (i &gt;= s.size || strs(<span class="number">0</span>).charAt(i) != s.charAt(i)) <span class="keyword">return</span> s.substring(<span class="number">0</span>, i);</span><br><span class="line">        strs(<span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
           <!--noindex-->
