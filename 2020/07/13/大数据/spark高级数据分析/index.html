@@ -1,0 +1,972 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="generator" content="Hexo 4.2.1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon-moon_32px.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-moon_32px.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-moon_16px.png?v=7.3.0">
+  <link rel="mask-icon" href="/images/favicon-moon_32px.png?v=7.3.0" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.3.0">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.3.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    save_scroll: false,
+    copycode: {"enable":false,"show_result":false,"style":"mac"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: 'Copy',
+      copy_success: 'Copied',
+      copy_failure: 'Copy failed'
+    }
+  };
+</script>
+
+  <meta name="description" content="一、大数据分析Spark 继承了 MapReduce 的线性扩展性和容错性，同时对它做了一些重量级扩展。差异：Spark 摒弃了 MapReduce 先 map 再 reduce这样的严格方式，Spark 引擎可以执行更通用的有向无环图(directed acyclic graph，DAG)算子。这就意味着，在 MapReduce 中需要将中间结果写入分布式文件系统时，Spark 能将中间结果直接">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hadoop学习记录">
+<meta property="og:url" content="http://yoursite.com/2020/07/13/%E5%A4%A7%E6%95%B0%E6%8D%AE/spark%E9%AB%98%E7%BA%A7%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/index.html">
+<meta property="og:site_name" content="Zheng Chu&#39;s Blog">
+<meta property="og:description" content="一、大数据分析Spark 继承了 MapReduce 的线性扩展性和容错性，同时对它做了一些重量级扩展。差异：Spark 摒弃了 MapReduce 先 map 再 reduce这样的严格方式，Spark 引擎可以执行更通用的有向无环图(directed acyclic graph，DAG)算子。这就意味着，在 MapReduce 中需要将中间结果写入分布式文件系统时，Spark 能将中间结果直接">
+<meta property="article:published_time" content="2020-07-12T16:00:10.000Z">
+<meta property="article:modified_time" content="2020-07-12T16:12:04.261Z">
+<meta property="article:author" content="Zheng Chu">
+<meta property="article:tag" content="大数据">
+<meta name="twitter:card" content="summary">
+  <link rel="canonical" href="http://yoursite.com/2020/07/13/%E5%A4%A7%E6%95%B0%E6%8D%AE/spark%E9%AB%98%E7%BA%A7%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>Hadoop学习记录 | Zheng Chu's Blog</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?<622a1a023f2bb8cdefcf61e3855bf317>";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <div class="container sidebar-position-left">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Zheng Chu's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">让希望永驻</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-主页">
+      
+    
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home  //"></i> <br>主页</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-所有专栏">
+      
+    
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th //"></i> <br>所有专栏</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-历史文章">
+      
+    
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive //"></i> <br>历史文章</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-标签">
+      
+    
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags  //"></i> <br>标签</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-关于我">
+      
+    
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user //"></i> <br>关于我</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+
+  <a href="https://github.com/zhengchu1994" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+            
+
+          <div id="content" class="content page-post-detail">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/13/%E5%A4%A7%E6%95%B0%E6%8D%AE/spark%E9%AB%98%E7%BA%A7%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zheng Chu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar/jojo3.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zheng Chu's Blog">
+    </span>
+      <header class="post-header">
+
+        
+          <h1 class="post-title" itemprop="name headline">Hadoop学习记录
+
+            
+          </h1>
+        
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              
+                
+              
+
+              <time title="Created: 2020-07-13 00:00:10 / Modified: 00:12:04" itemprop="dateCreated datePublished" datetime="2020-07-13T00:00:10+08:00">2020-07-13</time>
+            </span>
+          
+            
+
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/" itemprop="url" rel="index"><span itemprop="name">大数据</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            <span class="post-meta-item" title="Views">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="一、大数据分析"><a href="#一、大数据分析" class="headerlink" title="一、大数据分析"></a>一、大数据分析</h1><p>Spark 继承了 MapReduce 的线性扩展性和容错性，同时对它做了一些重量级扩展。</p><p>差异：Spark 摒弃了 <code>MapReduce</code> 先 <code>map</code> 再 <code>reduce</code>这样的严格方式，Spark 引擎可以执行更通用的有向无环图(directed acyclic graph，DAG)算子。这就意味着，<strong>在 MapReduce 中需要将中间结果写入分布式文件系统时，Spark 能将中间结果直接传到流水作业线的下一步</strong>。</p><a id="more"></a>
+
+<p>跨集群节点内存：Spark它的<code>Dataset</code> 和<code>DataFrame</code> 抽象使开发人员将流水处理线上的任何点物化在跨越集群节点的<strong>内存中</strong>。<strong>这样后续步骤如果需要相同数据集就不必重新计算或从磁盘加载。</strong></p>
+<p>反应式应用：Spark 非常适用于涉及大量迭代的算法，这些算法需要多次遍历相同的数据集。<strong>Spark 也适用于反应式(reactive)应用，这些应用需要扫描大量内存数据并快速响应用户的查询。</strong></p>
+<p>构建：<strong>由于构建于 JVM 之上，它可以利用 Java 技术栈里的许多操作和调 试工具。</strong></p>
+<p>继承：Spark 还紧密集成 Hadoop 生态系统里的许多工具。它能读写 MapReduce 支持的所有数据格式，可以与 Hadoop 上的常用数据格式，如 Apache Avro 和 Apache Parquet(当然也 包括古老的 CSV)，进行交互。它能读写 NoSQL 数据库，比如 Apache HBase 和 Apache Cassandra。它的流式处理组件 Spark Streaming 能连续从 Apache Flume 和 Apache Kafka 之类的系统读取数据。它的 SQL 库 SparkSQL 能和 Apache Hive Metastore 交互，而且通过 Hive on Spark，Spark 还能替代 MapReduce 作为 Hive 的底层执行引擎。它可以运行在Hadoop 集群调度和资源管理器YARN 之上，这样 Spark 可以和 MapReduce 及 Apache Impala 等其他处理引擎动态共享集群资源和管理策略。</p>
+<h3 id="弹性分布式数据集-Resilient-Distributed-Dataset，RDD"><a href="#弹性分布式数据集-Resilient-Distributed-Dataset，RDD" class="headerlink" title="弹性分布式数据集(Resilient Distributed Dataset，RDD)"></a>弹性分布式数据集(Resilient Distributed Dataset，RDD)</h3><p>存在两个问题：</p>
+<ul>
+<li>RDD 难以高效且稳定地执行任务。由于依赖 Java 和 Python 对象，RDD 对内存的使用效率较低，而且会导致 Spark 程序受长时间垃圾回收的影响。</li>
+<li>第二，Spark 的 API 忽视了一个事实—— 数据往往能用一个结构化的关系形式来表示;当出现这种情况的时候，API 应该提供一些原语，使数据更加易于操作。</li>
+</ul>
+<h3 id="Spark2-0"><a href="#Spark2-0" class="headerlink" title="Spark2.0"></a>Spark2.0</h3><p><strong>Spark 2.0 用 Dataset 和 DataFrame 替换掉 RDD 来解决上述问题</strong>.</p>
+<ul>
+<li><strong>Dataset</strong>：Dataset 与 RDD 十分相似，不同之处在于 <strong>Dataset</strong> 可以将它们所代表的对象映射到<strong>编码器</strong>(encoder)，从而实现了 一种更为高效的内存表示方法。</li>
+<li><p><strong>DataFrame</strong>：<strong>DataFrame</strong> 是 <strong>Dataset</strong> 的子类，专门用于存储关系型数据(也就是用行和固定列表示的数据)。DataFrame 还可以与 <strong>Spark SQL</strong> 互相操作，这意味着用户可以写一 个 <strong>SQL</strong> 查询来获取一个 DataFrame，然后选择一种 Spark 支持的语言对这个 DataFrame 进行编程操作。</p>
+</li>
+<li><p>Spark 2.0 包含了 <strong>Spark ML API</strong>，它引入了一个框架，可以将多种机器学习算法 和特征转换步骤<strong>管道化</strong>。</p>
+</li>
+</ul>
+<h1 id="二、用Scala和Spark进行数据分析"><a href="#二、用Scala和Spark进行数据分析" class="headerlink" title="二、用Scala和Spark进行数据分析"></a>二、用Scala和Spark进行数据分析</h1><h3 id="Scala"><a href="#Scala" class="headerlink" title="Scala"></a>Scala</h3><p>优势： Spark 框架是用 <strong>Scala</strong> 语言编写的，在向数据科学家介绍 Spark 时，采用与底层框架相同的编程语言有很多好处：</p>
+<p>​    • 性能开销小：为了能在基于 JVM 的语言(比如 Scala）上运行用 R 或 Python 编写的算法，我们必须 在不同环境中传递代码和数据，在转换过程中信息时有丢失。但 是，<strong>如果数据分析算法用 Spark Scala API 编写，你会对程序正确运行更有信心。</strong></p>
+<p>• 能用上最新的版本和最好的功能：<strong>Spark 的机器学习、流处理和图分析库全都是用 Scala 写的</strong>，而新功能对 Python 和 R 绑 定支持可能要慢得多。</p>
+<p>• 有助于你了解Spark的原理：你知道如何在 Scala 中使用 Spark，即使你平时主要还是在 其他语言中使用 Spark，<strong>你还是会更理解系统，因此会更好地“用 Spark 思考”</strong>。</p>
+<ul>
+<li><strong>使用 Spark 和 Scala 做数据分析则是一种完全不同的体验</strong>，因为你可以选择用同样的语言完成所有事情。</li>
+</ul>
+<h3 id="Spark编程模型"><a href="#Spark编程模型" class="headerlink" title="Spark编程模型"></a>Spark编程模型</h3><ul>
+<li><p>Spark 编程始于数据集，而数据集往往存放在分布式持久化存储之上，比如 <strong>HDFS</strong>。</p>
+<p>数据处理相关步骤：</p>
+<p> (1) 在输入数据集上<strong>定义一组转换</strong>。<br> (2) <strong>调用 action</strong>，可以将转换后的数据集保存到持久化存储上，或者把结果返回到驱动程序的本地内存。<br> (3) <strong>运行本地计算</strong>，处理分布式计算的结果。本地计算有助于你确定下一步的转换和 action。</p>
+</li>
+</ul>
+<h3 id="小试牛刀-Spark-shell和SparkContext"><a href="#小试牛刀-Spark-shell和SparkContext" class="headerlink" title="小试牛刀:Spark shell和SparkContext"></a>小试牛刀:Spark shell和SparkContext</h3><p><strong>Spark-shell</strong>: spark-shell 是 Scala 语言的一个 <strong>REPL</strong> 环 境，它同时针对 <strong>Spark</strong> 做了一些扩展。如果这是你第一次见到 REPL 这个术语，可以把它 看成一个类似 R 的控制台:可以在其中用 Scala 编程语言定义函数并操作数据。</p>
+<p>如果手头有 Hadoop 集群，可以先在 HDFS 上为块数据创建一个目录，然后将数据集文件 复制到 HDFS 上:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> hadoop fs -mkdir linkage</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> hadoop fs -put block_*.csv linkage</span></span><br></pre></td></tr></table></figure>
+<p>如果你有一个 <strong>Hadoop</strong> 集群，并且 <strong>Hadoop</strong> 版本支持 <strong>YARN</strong>，通过为 <strong>Spark master</strong> 设定 <strong>yarn</strong> 参数值，就可以在集群上启动 <strong>Spark</strong> 作业：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> spark-shell --master yarn --deploy-mode client</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>配置：<strong>Installing Hadoop on Mac</strong>：<a href="https://medium.com/beeranddiapers/installing-hadoop-on-mac-a9a3649dbc4d" target="_blank" rel="noopener">https://medium.com/beeranddiapers/installing-hadoop-on-mac-a9a3649dbc4d</a></li>
+<li><strong>spark-shell 设置资源为yarn</strong>：<a href="https://blog.csdn.net/weixin_42660202/article/details/88040644" target="_blank" rel="noopener">https://blog.csdn.net/weixin_42660202/article/details/88040644</a></li>
+</ul>
+<p>本地模式：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> spark-shell --master <span class="built_in">local</span>[*]</span></span><br></pre></td></tr></table></figure>
+<p><code>sc</code>：<strong>SparkContext</strong> 对象的一个引用，含有很多方法，常用是创建RDD，RDD 是 Spark 所提供的最基本的抽象，代表分布在集群中多台机器上的对象集合。</p>
+<ul>
+<li>用 SparkContext 基于外部数据源创建 RDD</li>
+<li>在一个或多个已有 RDD 上执行转换操作来创建 RDD</li>
+</ul>
+<ul>
+<li>运行依赖外部类库的代码：需要在 Spark 进程中通过 classpath 将所需类库的 JAR 文件包含进来。为此，一种好的做法 是使用 <strong>Maven</strong> 来打包 <strong>JAR</strong>，使生成的 JAR 包含应用程序的所有依赖文件。接着在启动 shell 时通过 —jars 属性引用该 JAR。</li>
+</ul>
+<p><strong>只要在 Scala 中定义新变量，就必须在变量名称前加上 val 或 var</strong>。</p>
+<p>名称前带 <strong>val</strong> 的变量是不 可变变量。一旦给不可变变量赋完初值，就不能改变它，让它指向另一个值。</p>
+<p>而以 <strong>var</strong> 开头的变量则可以改变其指向，让它指向同一类型的不同对象</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">scala&gt; <span class="keyword">val</span> rawbloks = sc.textFile(<span class="string">"linkage"</span>)</span><br><span class="line">rawbloks: org.apache.spark.rdd.<span class="type">RDD</span>[<span class="type">String</span>] = linkage <span class="type">MapPartitionsRDD</span>[<span class="number">1</span>] at textFile at &lt;console&gt;:<span class="number">24</span></span><br><span class="line"></span><br><span class="line">scala&gt; rawbloks.first</span><br><span class="line">res0: <span class="type">String</span> = <span class="string">"id_1"</span>,<span class="string">"id_2"</span>,<span class="string">"cmp_fname_c1"</span>,<span class="string">"cmp_fname_c2"</span>,<span class="string">"cmp_lname_c1"</span>,<span class="string">"cmp_lname_c2"</span>,<span class="string">"cmp_sex"</span>,<span class="string">"cmp_bd"</span>,<span class="string">"cmp_bm"</span>,<span class="string">"cmp_by"</span>,<span class="string">"cmp_plz"</span>,<span class="string">"is_match"</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><p><code>parallelize</code> 方法:    <strong>第一个参数代表待并行化的对象集合，第二个参数代表分区的个数</strong>。</p>
+</li>
+<li><p><code>collect</code>方法：如果知道 RDD 只包含少量记录，可以用 collect 方法向客户返回一个包含所有 RDD 内容 的数组；</p>
+</li>
+<li><code>take</code> 方法，这个方法在 <code>first</code> 和 <code>collect</code> 之间做了一些折衷，可以向客户端返回 一个包含指定数量记录的数组.</li>
+</ul>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">scala&gt; <span class="keyword">val</span> head = rawbloks.take(<span class="number">10</span>)</span><br><span class="line">head: <span class="type">Array</span>[<span class="type">String</span>] = <span class="type">Array</span>(<span class="string">"id_1"</span>,<span class="string">"id_2"</span>,<span class="string">"cmp_fname_c1"</span>,<span class="string">"cmp_fname_c2"</span>,<span class="string">"cmp_lname_c1"</span>,<span class="string">"cmp_lname_c2"</span>,<span class="string">"cmp_sex"</span>,<span class="string">"cmp_bd"</span>,<span class="string">"cmp_bm"</span>,<span class="string">"cmp_by"</span>,<span class="string">"cmp_plz"</span>,<span class="string">"is_match"</span>, <span class="number">607</span>,<span class="number">53170</span>,<span class="number">1</span>,?,<span class="number">1</span>,?,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="type">TRUE</span>, <span class="number">88569</span>,<span class="number">88592</span>,<span class="number">1</span>,?,<span class="number">1</span>,?,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="type">TRUE</span>, <span class="number">21282</span>,<span class="number">26255</span>,<span class="number">1</span>,?,<span class="number">1</span>,?,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="type">TRUE</span>, <span class="number">20995</span>,<span class="number">42541</span>,<span class="number">1</span>,?,<span class="number">1</span>,?,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="type">TRUE</span>, <span class="number">27989</span>,<span class="number">34739</span>,<span class="number">1</span>,?,<span class="number">1</span>,?,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="type">TRUE</span>, <span class="number">32442</span>,<span class="number">69159</span>,<span class="number">1</span>,?,<span class="number">1</span>,?,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="type">TRUE</span>, <span class="number">24738</span>,<span class="number">29196</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,?,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="type">TRUE</span>, <span class="number">9904</span>,<span class="number">89061</span>,<span class="number">1</span>,?,<span class="number">1</span>,?,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="type">TRUE</span>, <span class="number">29926</span>,<span class="number">36578</span>,<span class="number">1</span>,?,<span class="number">1</span>,?,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="type">TRUE</span>)</span><br><span class="line"></span><br><span class="line">scala&gt; head.length</span><br><span class="line">res1: <span class="type">Int</span> = <span class="number">10</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">scala&gt; <span class="keyword">val</span> rdd = sc.parallelize(<span class="type">Array</span>(<span class="number">1</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">4</span>), <span class="number">4</span>)</span><br><span class="line">rdd: org.apache.spark.rdd.<span class="type">RDD</span>[<span class="type">Int</span>] = <span class="type">ParallelCollectionRDD</span>[<span class="number">2</span>] at parallelize at &lt;console&gt;:<span class="number">24</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//count 动作返回 RDD 中对象的个数:</span></span><br><span class="line">scala&gt; rdd.count()</span><br><span class="line">res6: <span class="type">Long</span> = <span class="number">4</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><strong>创建 RDD 的操作并不会导致集群执行分布式计算</strong>。</li>
+<li>相反，RDD 只是定义了作为计算过程中间步骤的逻辑数据集。<strong>只有调用 RDD 上的 action(动作)时分布式计算才会执行</strong>。</li>
+</ul>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//collect 动作返回一个包含 RDD 中所有对象的 Array(数组):</span></span><br><span class="line">scala&gt; rdd.collect()</span><br><span class="line">res7: <span class="type">Array</span>[<span class="type">Int</span>] = <span class="type">Array</span>(<span class="number">1</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">4</span>)</span><br></pre></td></tr></table></figure>
+<ul>
+<li><strong>saveAsTextFile</strong>方法： 动作将 RDD 的内容保存到持久化存 储(比如HDFS)上: <code>rdd.saveAsTextFile(&quot;xxx&quot;)</code></li>
+</ul>
+<ul>
+<li><strong>foreach</strong> 方法：并结合 println 来打印 出数组中的每个值，并且每一行打印一个值</li>
+</ul>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//把函数 println作为参数传递给另一个函数以执行某个动作</span></span><br><span class="line">scala&gt; head.foreach(println)</span><br><span class="line"><span class="string">"id_1"</span>,<span class="string">"id_2"</span>,<span class="string">"cmp_fname_c1"</span>,<span class="string">"cmp_fname_c2"</span>,<span class="string">"cmp_lname_c1"</span>,<span class="string">"cmp_lname_c2"</span>,<span class="string">"cmp_sex"</span>,<span class="string">"cmp_bd"</span>,<span class="string">"cmp_bm"</span>,<span class="string">"cmp_by"</span>,<span class="string">"cmp_plz"</span>,<span class="string">"is_match"</span></span><br><span class="line"><span class="number">607</span>,<span class="number">53170</span>,<span class="number">1</span>,?,<span class="number">1</span>,?,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="type">TRUE</span></span><br><span class="line"><span class="number">88569</span>,<span class="number">88592</span>,<span class="number">1</span>,?,<span class="number">1</span>,?,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="type">TRUE</span></span><br><span class="line"><span class="number">21282</span>,<span class="number">26255</span>,<span class="number">1</span>,?,<span class="number">1</span>,?,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="type">TRUE</span></span><br><span class="line"><span class="number">20995</span>,<span class="number">42541</span>,<span class="number">1</span>,?,<span class="number">1</span>,?,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="type">TRUE</span></span><br><span class="line"><span class="number">27989</span>,<span class="number">34739</span>,<span class="number">1</span>,?,<span class="number">1</span>,?,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="type">TRUE</span></span><br><span class="line"><span class="number">32442</span>,<span class="number">69159</span>,<span class="number">1</span>,?,<span class="number">1</span>,?,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="type">TRUE</span></span><br><span class="line"><span class="number">24738</span>,<span class="number">29196</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,?,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="type">TRUE</span></span><br><span class="line"><span class="number">9904</span>,<span class="number">89061</span>,<span class="number">1</span>,?,<span class="number">1</span>,?,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="type">TRUE</span></span><br><span class="line"><span class="number">29926</span>,<span class="number">36578</span>,<span class="number">1</span>,?,<span class="number">1</span>,?,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="type">TRUE</span></span><br></pre></td></tr></table></figure>
+<p>目标：过滤掉一个标题</p>
+<ul>
+<li>和 Python 类似，Scala 声明函数用关键字 <strong>def</strong>。</li>
+<li>和 Python 不同，我们<strong>必须为函数指定参数类型</strong>:在示例中，我们指明 line 参数是 String</li>
+<li>可以紧跟在参数列表后面声明返回类型</li>
+</ul>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">scala&gt; <span class="function"><span class="keyword">def</span> <span class="title">isHead</span></span>(line: <span class="type">String</span>) = line.contains(<span class="string">"id_1"</span>)</span><br><span class="line">isHead: (line: <span class="type">String</span>)<span class="type">Boolean</span></span><br></pre></td></tr></table></figure>
+<p>通过用 Scala 的 <strong>Array 类的 filter 方法</strong>打印出结果：</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 过滤出满足filter条件的元素并打印</span></span><br><span class="line">scala&gt; head.filter(isHead).foreach(println)</span><br><span class="line"><span class="string">"id_1"</span>,<span class="string">"id_2"</span>,<span class="string">"cmp_fname_c1"</span>,<span class="string">"cmp_fname_c2"</span>,<span class="string">"cmp_lname_c1"</span>,<span class="string">"cmp_lname_c2"</span>,<span class="string">"cmp_sex"</span>,<span class="string">"cmp_bd"</span>,<span class="string">"cmp_bm"</span>,<span class="string">"cmp_by"</span>,<span class="string">"cmp_plz"</span>,<span class="string">"is_match"</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 过滤出不满足filter的元素 1.</span></span><br><span class="line">scala&gt; head.filterNot(isHead).length</span><br><span class="line">res3: <span class="type">Int</span> = <span class="number">9</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//2.</span></span><br><span class="line">scala&gt; head.filter(x =&gt; !isHead(x)).length</span><br><span class="line">res5: <span class="type">Int</span> = <span class="number">9</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//3. Scala 允许使用下划线(_)表示匿名函数的参数：</span></span><br><span class="line">scala&gt; head.filter(!isHead(_)).length</span><br><span class="line">res7: <span class="type">Int</span> = <span class="number">9</span></span><br></pre></td></tr></table></figure>
+<h3 id="把代码从客户端发送到集群"><a href="#把代码从客户端发送到集群" class="headerlink" title="把代码从客户端发送到集群"></a>把代码从客户端发送到集群</h3><ul>
+<li>在Spark 里把刚写好的代码应用到关联记录数据集 RDD rawblocks</li>
+</ul>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">scala&gt; <span class="keyword">val</span> noheader = rawbloks.filter(!isHead(_))</span><br><span class="line">noheader: org.apache.spark.rdd.<span class="type">RDD</span>[<span class="type">String</span>] = <span class="type">MapPartitionsRDD</span>[<span class="number">2</span>] at filter at &lt;console&gt;:<span class="number">27</span></span><br></pre></td></tr></table></figure>
+<h3 id="从RDD到DataFrame"><a href="#从RDD到DataFrame" class="headerlink" title="从RDD到DataFrame"></a>从RDD到DataFrame</h3><p>DataFrame 是一个构建在 RDD 之上的 Spark 抽象，它专门为<strong>结构规整的数据集而设计</strong>，</p>
+<p>DataFrame 的一条记录就是一行，每行都由若干个列组成，每一列的数据类型都有 严格定义。</p>
+<p>可以把 DataFrame 类型实例理解为 Spark 版本的关系数据库表</p>
+<p>要为记录关联数据集建立一个 DataFrame，我们需要用到 <strong>SparkSession 对象 spark</strong></p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// spark是sparkSession的一个对象</span></span><br><span class="line">scala&gt; spark</span><br><span class="line">res10: org.apache.spark.sql.<span class="type">SparkSession</span> = org.apache.spark.sql.<span class="type">SparkSession</span>@<span class="number">6098</span>a311</span><br></pre></td></tr></table></figure>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//创建DataFrame</span></span><br><span class="line">scala&gt; <span class="keyword">val</span> prev = spark.read.csv(<span class="string">"linkage"</span>)</span><br><span class="line"><span class="comment">//CSV 文件中的每一列都是 string 类型，列名默认为 _c0、_c1、_c2，等等</span></span><br><span class="line">prev: org.apache.spark.sql.<span class="type">DataFrame</span> = [_c0: string, _c1: string ... <span class="number">10</span> more fields]</span><br><span class="line"><span class="comment">//查看前面几行</span></span><br><span class="line">prev.show()</span><br></pre></td></tr></table></figure>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//处理dummy数据</span></span><br><span class="line">scala&gt; <span class="keyword">val</span> parse = spark.read.option(<span class="string">"header"</span>, <span class="string">"true"</span>).</span><br><span class="line">     | option(<span class="string">"nullValue"</span>, <span class="string">"?"</span>).</span><br><span class="line">     | option(<span class="string">"inferSchema"</span>, <span class="string">"true"</span>).</span><br><span class="line">     | csv(<span class="string">"linkage"</span>)</span><br><span class="line">parse: org.apache.spark.sql.<span class="type">DataFrame</span> = [id_1: string, id_2: string ... <span class="number">10</span> more fields]</span><br><span class="line"></span><br><span class="line"><span class="comment">//输出经过解析的 DataFrame 的模式信息</span></span><br><span class="line">scala&gt; parse.printSchema()</span><br><span class="line">root</span><br><span class="line"> |-- id_1: string (nullable = <span class="literal">true</span>)</span><br><span class="line"> |-- id_2: string (nullable = <span class="literal">true</span>)</span><br><span class="line"> |-- cmp_fname_c1: string (nullable = <span class="literal">true</span>)</span><br><span class="line"> |-- cmp_fname_c2: string (nullable = <span class="literal">true</span>)</span><br><span class="line"> |-- cmp_lname_c1: string (nullable = <span class="literal">true</span>)</span><br><span class="line"> |-- cmp_lname_c2: string (nullable = <span class="literal">true</span>)</span><br><span class="line"> |-- cmp_sex: string (nullable = <span class="literal">true</span>)</span><br><span class="line"> |-- cmp_bd: string (nullable = <span class="literal">true</span>)</span><br><span class="line"> |-- cmp_bm: string (nullable = <span class="literal">true</span>)</span><br><span class="line"> |-- cmp_by: integer (nullable = <span class="literal">true</span>)</span><br><span class="line"> |-- cmp_plz: integer (nullable = <span class="literal">true</span>)</span><br><span class="line"> |-- is_match: boolean (nullable = <span class="literal">true</span>)</span><br></pre></td></tr></table></figure>
+<p>为了完成模式推断，<strong>Spark 需要遍历数据集两 次:第一次找出每列的数据类型，第二次才真正进行解析</strong>。如果预先知道某个文件的模式，你可以创建一个 <strong>org.apache.spark.sql.types.StructType</strong> 实例，并使用模式函数将它 传给 Reader API。</p>
+<p>其他格式文件读取：</p>
+<p><strong>json</strong></p>
+<p>支持 CSV 格式具有的模式推断功能。 </p>
+<p><strong>parquet和orc</strong></p>
+<p>两种二进制列式存储格式，这两种格式可以相互替代。</p>
+<p><strong>jdbc</strong></p>
+<p>通过 JDBC 数据连接标准连接到关系型数据库。 </p>
+<p><strong>libsvm</strong></p>
+<p>一种常用于表示特征稀疏并且带有标号信息的数据集的文本格式。</p>
+<p><strong>text</strong></p>
+<p>文件的每行作为字符串整体映射到 DataFrame 的一列。</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> d1 = spark.read.format(<span class="string">"json"</span>).load(<span class="string">"file.json"</span>) <span class="keyword">val</span> d2 = spark.read.json(<span class="string">"file.json"</span>)</span><br></pre></td></tr></table></figure>
+<h4 id="文件保存"><a href="#文件保存" class="headerlink" title="文件保存"></a>文件保存</h4><p>枚举类型 <strong>SaveMode</strong>：可以选择强制覆盖(<strong>Overwrite</strong>)、在文件末尾追加(<strong>Append</strong>)，或者文件已存在时跳过这次写入(<strong>Ignore</strong>):</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">d1.write.format(<span class="string">"parquet"</span>).save(<span class="string">"file.parquet"</span>) </span><br><span class="line">d1.write.parquet(<span class="string">"file.parquet"</span>)</span><br><span class="line"></span><br><span class="line">d2.write.mode(<span class="type">SaveMode</span>.<span class="type">Ignore</span>).parquet(<span class="string">"file.parquet"</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="2-8-用DataFrame-API来分析数据"><a href="#2-8-用DataFrame-API来分析数据" class="headerlink" title="2.8 用DataFrame API来分析数据"></a>2.8 用DataFrame API来分析数据</h3><p>每次处理数据集中的数据时， Spark 得重新打开文件，再重新解析每一行，然后才能执行所需的操作，例如显示前几行 或计算记录的总数</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">scala&gt; parse.count()</span><br><span class="line">res18: <span class="type">Long</span> = <span class="number">5749136</span></span><br></pre></td></tr></table></figure>
+<p>调用 <strong>cache</strong> 方 法，告诉 RDD 或 DataFrame 在创建时将它缓存在内存中:</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">parse.cache()</span><br></pre></td></tr></table></figure>
+<p>虽然默认情况下 DataFrame 和 RDD 的内容是临时的，但是 Spark 提供了一种持久化底 层数据的机制:</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cached.cache() </span><br><span class="line"></span><br><span class="line">cached.count() </span><br><span class="line"></span><br><span class="line">cached.take(<span class="number">10</span>)</span><br></pre></td></tr></table></figure>
+<p>cache() 是 persist(StorageLevel.Memory) 的简写，它将所有 Row 对象存储为未序列化的 Java 对象</p>
+<p>在对象需要频繁访问或低延访问时，适合使用<code>StorageLevel.MEMORY</code>，因为它可以避免序列化的开销.</p>
+<p>Spark 也提供了 MEMORY_SER 的存储级别，用于在内存中分配大字节缓冲区，以存储记 录的序列化内容</p>
+<p><strong>带来的问题</strong>：StorageLevel. MEMORY 的问题是要占用更大的内存空间。另外，大量小对象会对 Java 的垃圾回收施加 压力，会导致程序停顿和常见的速度缓慢问题。</p>
+<p>经验：一般来说，当数据可 能被多个操作依赖时，并且相对于集群可用的内存和磁盘空间而言，如果数据集较小， 而且重新生成的代价很高，那么数据就应该被缓存起来。</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//DataFrame 封装的 RDD 由 org.apache.spark.sql.Row 的实例组成，</span></span><br><span class="line"><span class="comment">//包括通过索引位置(从 0 开始计数)获取每个记录中值的访问方法，</span></span><br><span class="line"><span class="comment">//以及允许通过名称查找给定类型的字段的 getAs[T] 方法。</span></span><br><span class="line">scala&gt; parse.rdd.map(_.getAs[<span class="type">Boolean</span>](<span class="string">"is_match"</span>)).countByValue()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">res20: scala.collection.<span class="type">Map</span>[<span class="type">Boolean</span>,<span class="type">Long</span>] = <span class="type">Map</span>(<span class="literal">true</span> -&gt; <span class="number">20931</span>, <span class="literal">false</span> -&gt; <span class="number">5728205</span>)</span><br></pre></td></tr></table></figure>
+<p>有两种方式引用 DataFrame 的列名:</p>
+<ul>
+<li>作为字面量引用，例如 <code>groupBy (&quot;is_match&quot;)</code>;</li>
+<li>或者作为 Column 对象应用，例如 count 列上使用的特殊语法 “\<col\>“。</col\></li>
+<li>这 两种方法在大多数情况下都是合法的，但是在 count 列上调用 desc 方法时需要使用语法 “\<col\>“.</col\></li>
+</ul>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">scala&gt; parse.groupBy(<span class="string">"is_match"</span>).count().orderBy($<span class="string">"count"</span>.desc).show()</span><br><span class="line">+--------+-------+</span><br><span class="line">|is_match|  count|</span><br><span class="line">+--------+-------+</span><br><span class="line">|   <span class="literal">false</span>|<span class="number">5728201</span>|</span><br><span class="line">|    <span class="literal">true</span>|  <span class="number">20931</span>|</span><br><span class="line">|    <span class="literal">null</span>|      <span class="number">4</span>|</span><br><span class="line">+--------+-------+</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>agg</code>  from DataFrame, avg/stddev from spark.sql.functions</li>
+<li>默认情况下 Spark 只计算样本标准差;要计算总体标准差，需要使用 <code>stddev_ pop</code>函数。</li>
+</ul>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">scala&gt; parse.agg(avg($<span class="string">"cmp_sex"</span>), stddev($<span class="string">"cmp_sex"</span>)).show()</span><br><span class="line">+------------------+--------------------+</span><br><span class="line">|      avg(cmp_sex)|stddev_samp(cmp_sex)|</span><br><span class="line">+------------------+--------------------+</span><br><span class="line">|<span class="number">0.9550012294607436</span>|  <span class="number">0.2073014119031234</span>|</span><br><span class="line">+------------------+--------------------+</span><br></pre></td></tr></table></figure>
+<ul>
+<li>DataFrame 都看作数据库中的一张表，并且可以使用熟悉而又强大的 SQL 语法来表达我们的问题。</li>
+<li>首先，将 DataFrame 对象 parsed 所关联的表名告诉 Spark SQL 引擎，因为 parsed 这个变量名对于 Spark SQL 引擎是不可用的</li>
+</ul>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//注册临时表</span></span><br><span class="line">parsed.createOrReplaceTempView(<span class="string">"linkage"</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">//用spark SQL进行查询（也可以用hiveQL）</span></span><br><span class="line">spark.sql(<span class="string">""</span><span class="string">"</span></span><br><span class="line"><span class="string">SELECT is_match, COUNT(*) cnt FROM linkage</span></span><br><span class="line"><span class="string">GROUP BY is_match</span></span><br><span class="line"><span class="string">ORDER BY cnt DESC</span></span><br><span class="line"><span class="string">"</span><span class="string">""</span>).show()</span><br></pre></td></tr></table></figure>
+<ul>
+<li>调用 SparkSession Builder API 的 enableHiveSupport 方法来使用 HiveQL 语法进行查询：    </li>
+</ul>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> sparkSession = <span class="type">SparkSession</span>.builder. master(<span class="string">"local[4]"</span>)</span><br><span class="line">.enableHiveSupport()</span><br><span class="line">.getOrCreate()</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>describe()</code>函数总结</li>
+</ul>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">scala&gt; parse.describe()</span><br><span class="line">res30: org.apache.spark.sql.<span class="type">DataFrame</span> = [summary: string, id_1: string ... <span class="number">10</span> more fields]</span><br><span class="line"></span><br><span class="line">scala&gt; <span class="keyword">val</span> summary = parse.describe()</span><br><span class="line">summary: org.apache.spark.sql.<span class="type">DataFrame</span> = [summary: string, id_1: string ... <span class="number">10</span> more fields]</span><br><span class="line"></span><br><span class="line">scala&gt; summary.show()</span><br></pre></td></tr></table></figure>
+<p>为了让 <code>summary</code>的统计信息更便于阅读和比较，我们可以使用<code>select</code> 方法来选出一部分列：</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">summary.select(<span class="string">"summary"</span>, <span class="string">"cmp_fname_c1"</span>, <span class="string">"cmp_fname_c2"</span>).show()</span><br></pre></td></tr></table></figure>
+<p>既可以使用 SQL 风格的 <code>where</code> 语法，也可以使用 DataFrame API 的 Column 对象来过滤 DataFrame</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//where 函数是 filter 函数的一个别名</span></span><br><span class="line"><span class="keyword">val</span> matches = parsed.where(<span class="string">"is_match = true"</span>) </span><br><span class="line"><span class="keyword">val</span> matchSummary = matches.describe()</span><br><span class="line"></span><br><span class="line"><span class="comment">//需要对列 $"is_match" 使用 === 操作符，并且还需要用 lit 方法封装布尔文字 false，这样就可以将其转换成能与 is_ match 做对比的 Column 对象</span></span><br><span class="line"><span class="keyword">val</span> misses = parsed.filter($<span class="string">"is_match"</span> === <span class="literal">false</span>) </span><br><span class="line"><span class="keyword">val</span> missSummary = misses.describe()</span><br></pre></td></tr></table></figure>
+<h4 id="宽表-长表"><a href="#宽表-长表" class="headerlink" title="宽表\长表"></a>宽表\长表</h4><p>宽表中行代表指标，列代表变量;</p>
+<p>长表的每一行代 表一个指标、一个变量，以及指标和变量对应的值.</p>
+<ul>
+<li>flatMap: 将宽表转换成长表，可以利用 DataFrame 的 flatMap 方法，它是 RDD.flatMap 的一个封装。 flatMap 是 Spark 中最有用的转换函数之一:<strong>它接受一个函数作为参数，该函数处理一条输入记录，并返回一个包含零条或多条输出记录的序列</strong>。</li>
+<li>你可以将 flatMap 看作我们使用过的 map 和 filter 转换函数的一般形式:map 是 flatMap 的一种特殊形式，即一条输入记录仅产 生一条输出记录;filter 是 flatMap 的另一种特殊形式，即输入和输出类型相同，并且基于 一个布尔函数决定返回零条或一条记录。</li>
+</ul>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//取出第一个字符串作为指标row.getString(0)</span></span><br><span class="line"><span class="comment">// 对第二个到最后一个元素，每一个都被映射为一个tuple：(metric, schema(i).name, row.getString(i).toDouble)</span></span><br><span class="line"></span><br><span class="line">scala&gt; <span class="keyword">val</span> summary = parse.describe()</span><br><span class="line">scala&gt; <span class="keyword">val</span> longForm = summary.flatMap(row =&gt; &#123;</span><br><span class="line">     | <span class="keyword">val</span> metric = row.getString(<span class="number">0</span>)</span><br><span class="line">     | (<span class="number">1</span> until row.size).map(i=&gt;&#123;</span><br><span class="line">     | (metric, schema(i).name, row.getString(i).toDouble)</span><br><span class="line">     | &#125;)</span><br><span class="line">     | &#125;)</span><br><span class="line">longForm: org.apache.spark.sql.<span class="type">Dataset</span>[(<span class="type">String</span>, <span class="type">String</span>, <span class="type">Double</span>)] = [_1: string, _2: string ... <span class="number">1</span> more field]</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>toDouble 方法是隐式转换的一个实例；</p>
+</li>
+<li><p>隐式转换：隐式转换的工作原理如下:当在 Scala 的对象上调用一个方法，并且 Scala 编译器没有在该 对象上的类定义中找到这个方法，那么编译器就会尝试将你的对象转换成拥有这个方法的 类的实例</p>
+</li>
+</ul>
+<p>longForm是<code>Dataset[T]</code> 接口，<code>DataFrame</code> 其实是 <code>Dataset[Row]</code>类型的别名.</p>
+<p>总是可以将 <code>Dataset</code> 转换回<code>DataFrame</code>:</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">scala&gt; <span class="keyword">val</span> longDF = longForm.toDF(<span class="string">"metric"</span>, <span class="string">"field"</span>, <span class="string">"value"</span>)</span><br><span class="line">longDF: org.apache.spark.sql.<span class="type">DataFrame</span> = [metric: string, field: string ... <span class="number">1</span> more field]</span><br><span class="line"></span><br><span class="line">scala&gt; longDF.show()</span><br><span class="line">+------+------------+-------------------+</span><br><span class="line">|metric|       field|              value|</span><br><span class="line">+------+------------+-------------------+</span><br><span class="line">| count|        id_1|          <span class="number">5749136.0</span>|</span><br><span class="line">| count|        id_2|          <span class="number">5749133.0</span>|</span><br><span class="line">| count|cmp_fname_c1|          <span class="number">5748126.0</span>|</span><br><span class="line">| count|cmp_fname_c2|           <span class="number">103699.0</span>|</span><br><span class="line">| count|cmp_lname_c1|          <span class="number">5749133.0</span>|</span><br><span class="line">| count|cmp_lname_c2|             <span class="number">2465.0</span>|</span><br><span class="line">| count|     cmp_sex|          <span class="number">5749133.0</span>|</span><br><span class="line">| count|      cmp_bd|          <span class="number">5748338.0</span>|</span><br><span class="line">| count|      cmp_bm|          <span class="number">5748338.0</span>|</span><br><span class="line">| count|      cmp_by|          <span class="number">5748337.0</span>|</span><br><span class="line">| count|     cmp_plz|          <span class="number">5736289.0</span>|</span><br><span class="line">|  mean|        id_1|  <span class="number">33324.47979999771</span>|</span><br></pre></td></tr></table></figure>
+<p><code>Pivot.scala</code>文件，<code>:load Pivot.scala</code>加载到REPL中：</p>
+<p><code>pivot</code> 操作需要知道转置列的所有不同值， 对列 values 使用 agg(first) 操作，我们就可以指定宽表中每个单元格的值，因为每个 field 和 metric 的组合都只有一个值</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> org.apache.spark.sql.<span class="type">DataFrame</span> </span><br><span class="line"><span class="keyword">import</span> org.apache.spark.sql.functions.first</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">pivotSummary</span></span>(desc: <span class="type">DataFrame</span>): <span class="type">DataFrame</span> = &#123;</span><br><span class="line">    <span class="keyword">val</span> schema = desc.schema</span><br><span class="line">    <span class="keyword">import</span> desc.sparkSession.implicits._</span><br><span class="line"></span><br><span class="line">    <span class="keyword">val</span> lf = desc.flatMap(row =&gt;&#123;</span><br><span class="line">        <span class="keyword">val</span> metric = row.getString(<span class="number">0</span>)</span><br><span class="line">        (<span class="number">1</span> until row.size).map(i =&gt;&#123;</span><br><span class="line">            (metric, schema(i).name, row.getString(i).toDouble)</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;).toDF(<span class="string">"metric"</span>, <span class="string">"field"</span>, <span class="string">"value"</span>)</span><br><span class="line">    lf.groupBy(<span class="string">"field"</span>).pivot(<span class="string">"metric"</span>, <span class="type">Seq</span>(<span class="string">"count"</span>, <span class="string">"mean"</span>, <span class="string">"stddev"</span>,</span><br><span class="line">    <span class="string">"min"</span>, <span class="string">"max"</span>)).agg(first(<span class="string">"value"</span>))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">scala&gt; matchSummaryT.show()</span><br><span class="line">+------------+-------+------------------+--------------------+-------+-------+</span><br><span class="line">|       field|  count|              mean|              stddev|    min|    max|</span><br><span class="line">+------------+-------+------------------+--------------------+-------+-------+</span><br><span class="line">|        id_2|<span class="number">20931.0</span>| <span class="number">51259.95939037791</span>|   <span class="number">24345.73345377519</span>|<span class="number">10010.0</span>|<span class="number">99996.0</span>|</span><br><span class="line">|     cmp_plz|<span class="number">20902.0</span>|<span class="number">0.9584250310975027</span>| <span class="number">0.19962063345931919</span>|    <span class="number">0.0</span>|    <span class="number">1.0</span>|</span><br><span class="line">|cmp_lname_c1|<span class="number">20931.0</span>|<span class="number">0.9970152595958817</span>|<span class="number">0.043118807533945126</span>|    <span class="number">0.0</span>|    <span class="number">1.0</span>|</span><br><span class="line">|cmp_lname_c2|  <span class="number">475.0</span>| <span class="number">0.969370167843852</span>| <span class="number">0.15345280740388917</span>|    <span class="number">0.0</span>|    <span class="number">1.0</span>|</span><br><span class="line">|     cmp_sex|<span class="number">20931.0</span>| <span class="number">0.987291577086618</span>| <span class="number">0.11201570591216435</span>|    <span class="number">0.0</span>|    <span class="number">1.0</span>|</span><br><span class="line">|      cmp_bm|<span class="number">20925.0</span>|<span class="number">0.9979450418160095</span>|<span class="number">0.045286127452170664</span>|    <span class="number">0.0</span>|    <span class="number">1.0</span>|</span><br><span class="line">|cmp_fname_c2| <span class="number">1333.0</span>|<span class="number">0.9898900320318176</span>| <span class="number">0.08251973727615237</span>|    <span class="number">0.0</span>|    <span class="number">1.0</span>|</span><br><span class="line">|cmp_fname_c1|<span class="number">20922.0</span>|<span class="number">0.9973163859635038</span>| <span class="number">0.03650667584833679</span>|    <span class="number">0.0</span>|    <span class="number">1.0</span>|</span><br><span class="line">|        id_1|<span class="number">20931.0</span>| <span class="number">34575.72117911232</span>|   <span class="number">21950.31285196913</span>|<span class="number">10001.0</span>|<span class="number">99946.0</span>|</span><br><span class="line">|      cmp_bd|<span class="number">20925.0</span>|<span class="number">0.9970848267622461</span>| <span class="number">0.05391487659807981</span>|    <span class="number">0.0</span>|    <span class="number">1.0</span>|</span><br><span class="line">|      cmp_by|<span class="number">20925.0</span>|<span class="number">0.9961290322580645</span>| <span class="number">0.06209804856731055</span>|    <span class="number">0.0</span>|    <span class="number">1.0</span>|</span><br><span class="line">+------------+-------+------------------+--------------------+-------+-------+</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+        
+      
+
+      <footer class="post-footer">
+          
+            
+          
+          <div class="post-tags">
+            
+              <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" rel="tag"># 大数据</a>
+            
+          </div>
+        
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/2020/07/12/%E5%A4%A7%E6%95%B0%E6%8D%AE/Docker%E8%AE%B0%E5%BD%95/" rel="next" title="Docker记录">
+                  <i class="fa fa-chevron-left"></i> Docker记录
+                </a>
+              
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+                <a href="/2020/07/13/%E5%A4%A7%E6%95%B0%E6%8D%AE/Hadoop%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/" rel="prev" title="Hadoop学习记录">
+                  Hadoop学习记录 <i class="fa fa-chevron-right"></i>
+                </a>
+              
+            </div>
+          </div>
+        
+      </footer>
+    
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+    
+    <div class="comments" id="gitalk-container"></div>
+  
+
+        </div>
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image"
+      src="/images/avatar/jojo3.jpg"
+      alt="Zheng Chu">
+  <p class="site-author-name" itemprop="name">Zheng Chu</p>
+  <div class="site-description motion-element" itemprop="description"></div>
+</div>
+  <nav class="site-state motion-element">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives">
+        
+          <span class="site-state-item-count">75</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">categories</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">23</span>
+        <span class="site-state-item-name">tags</span>
+        </a>
+      </div>
+    
+  </nav>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://github.com/zhengchu1994" title="GitHub &rarr; https://github.com/zhengchu1994" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://www.jianshu.com/u/d4875c485cff" title="简书 &rarr; https://www.jianshu.com/u/d4875c485cff" rel="noopener" target="_blank"><i class="fa fa-fw fa-heartbeat"></i>简书</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://blog.csdn.net/NockinOnHeavensDoor" title="CSDN &rarr; https://blog.csdn.net/NockinOnHeavensDoor" rel="noopener" target="_blank"><i class="fa fa-fw fa-globe"></i>CSDN</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="mailto:zhengchu@tju.edu.cn" title="E-Mail &rarr; mailto:zhengchu@tju.edu.cn" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+    
+  </div>
+
+
+
+        </div>
+      </div>
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#一、大数据分析"><span class="nav-number">1.</span> <span class="nav-text">一、大数据分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#弹性分布式数据集-Resilient-Distributed-Dataset，RDD"><span class="nav-number">1.0.1.</span> <span class="nav-text">弹性分布式数据集(Resilient Distributed Dataset，RDD)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Spark2-0"><span class="nav-number">1.0.2.</span> <span class="nav-text">Spark2.0</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二、用Scala和Spark进行数据分析"><span class="nav-number">2.</span> <span class="nav-text">二、用Scala和Spark进行数据分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Scala"><span class="nav-number">2.0.1.</span> <span class="nav-text">Scala</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Spark编程模型"><span class="nav-number">2.0.2.</span> <span class="nav-text">Spark编程模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#小试牛刀-Spark-shell和SparkContext"><span class="nav-number">2.0.3.</span> <span class="nav-text">小试牛刀:Spark shell和SparkContext</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#把代码从客户端发送到集群"><span class="nav-number">2.0.4.</span> <span class="nav-text">把代码从客户端发送到集群</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#从RDD到DataFrame"><span class="nav-number">2.0.5.</span> <span class="nav-text">从RDD到DataFrame</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#文件保存"><span class="nav-number">2.0.5.1.</span> <span class="nav-text">文件保存</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-8-用DataFrame-API来分析数据"><span class="nav-number">2.0.6.</span> <span class="nav-text">2.8 用DataFrame API来分析数据</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#宽表-长表"><span class="nav-number">2.0.6.1.</span> <span class="nav-text">宽表\长表</span></a></li></ol></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Zheng Chu</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.2.1</div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.3.0</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="Total Visitors">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+    <span class="post-meta-divider">|</span>
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="Total Views">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+      </div>
+
+    
+
+  </div>
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+<script src="/js/utils.js?v=7.3.0"></script>
+  <script src="/js/motion.js?v=7.3.0"></script>
+
+
+  <script src="/js/affix.js?v=7.3.0"></script>
+  <script src="/js/schemes/pisces.js?v=7.3.0"></script>
+
+
+<script src="/js/next-boot.js?v=7.3.0"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+    
+      
+<script type="text/x-mathjax-config">
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') {
+          next = next.nextSibling;
+        }
+        if (next && next.nodeName.toLowerCase() === 'br') {
+          next.parentNode.removeChild(next);
+        }
+      }
+    });
+  });
+
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      element = document.getElementById(all[i].inputID + '-Frame').parentNode;
+      if (element.nodeName.toLowerCase() == 'li') {
+        element = element.parentNode;
+      }
+      element.classList.add('has-jax');
+    }
+  });
+</script>
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML', function() {
+    MathJax.Hub.Typeset();
+  }, window.MathJax);
+</script>
+
+    
+  
+
+  
+
+  
+
+
+  
+  <script src="/js/scrollspy.js?v=7.3.0"></script>
+<script src="/js/post-details.js?v=7.3.0"></script>
+
+
+    
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', function() {
+    var gitalk = new Gitalk({
+      clientID: '0911ce8ceab7f12409f0',
+      clientSecret: '6fa693e25bfc0f98e5cc0907c97cb2fe9f54bb5e',
+      repo: 'Gitalk',
+      owner: 'zhengchu1994',
+      admin: ['zhengchu1994'],
+      id: 'fe1052acac0fe6491101ee9c49235c4b',
+        language: window.navigator.language || window.navigator.userLanguage,
+      
+      distractionFreeMode: 'true'
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+</script>
+
+</body>
+</html>
