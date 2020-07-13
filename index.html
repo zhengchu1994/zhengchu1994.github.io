@@ -491,7 +491,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-07-13 00:10:08" itemprop="dateModified" datetime="2020-07-13T00:10:08+08:00">2020-07-13</time>
+                <time title="Modified: 2020-07-13 08:19:55" itemprop="dateModified" datetime="2020-07-13T08:19:55+08:00">2020-07-13</time>
               </span>
             
           
@@ -521,7 +521,10 @@
 
       
           <h4 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h4><p>Docker架构：客户端——服务器模式</p><p>客户端 + 服务器（守护进程） + 注册处（可选）</p><p>注册处：存储Docker映像和映像的元数据。</p><p>服务器（守护进程）：可以在任意多个服务器中运行，作用是构建、运行、管理容器。</p><p>客户端：告诉服务器做什么</p><p>Docker 包括三个基本概念:</p><ul>
-<li><code>镜像（Image）</code>：相当于是一个 root 文件系统。比如官方镜像 ubuntu:16.04 就包含了完整的一套 Ubuntu16.04 最小系统的 root 文件系统。比如说nginx,mysql,redis等软件可以做成一个镜像。</li>
+<li><p><strong>镜像（Image）</strong>：一种底层定义，指明把什么放入容器中，是容器的文件系统。           </p>
+<p>可以使用远程仓库中别人制作好的镜像文件，也可以自己制作镜像文件。要制作镜像文件就要编写 <strong>Dockerfile</strong> 文件，其类似于 Makefile 文件。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 列出本机的所有image文件</span></span><br><span class="line">docker image ls</span><br><span class="line">docker images</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 删除指定的image文件</span></span><br><span class="line">docker image rm &lt;image-name&gt;</span><br><span class="line">docker rmi &lt;image-name&gt;</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 将指定的image文件从远程仓库拉取到本地</span></span><br><span class="line">docker image pull &lt;image-name&gt;[:tag]</span><br><span class="line">docker pull &lt;image-name&gt;[:tag]</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 利用当前文件夹中的Dockerfile制作一个名为demo、tag为0.0.1的image文件</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 若不指定tag，则默认的标签为latest</span></span><br><span class="line">docker image build -t demo:0.0.1 .</span><br><span class="line">docker build -t demo:0.0.1 .</span><br></pre></td></tr></table></figure>
+</li>
 </ul>
           <!--noindex-->
           
@@ -1208,7 +1211,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-07-13 00:09:49" itemprop="dateModified" datetime="2020-07-13T00:09:49+08:00">2020-07-13</time>
+                <time title="Modified: 2020-07-13 10:44:46" itemprop="dateModified" datetime="2020-07-13T10:44:46+08:00">2020-07-13</time>
               </span>
             
           
