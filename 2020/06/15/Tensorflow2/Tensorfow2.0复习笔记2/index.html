@@ -61,14 +61,14 @@
 <meta property="og:url" content="http://yoursite.com/2020/06/15/Tensorflow2/Tensorfow2.0%E5%A4%8D%E4%B9%A0%E7%AC%94%E8%AE%B02/index.html">
 <meta property="og:site_name" content="Zheng Chu&#39;s Blog">
 <meta property="og:description" content="Tensorfow2.0复习笔记2梯度消失&#x2F;爆炸问题：Gradients often get smaller and smaller as the algorithm progresses down to the lower layers.  原因：通过神经网络输出后的参数方差（Variance）都要大于输入时的参数方差，层数越多，在经过顶层的激活函数后最终满溢（Saturation）">
-<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlly1gft91cdupcj310c0d0q4c.jpg">
-<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlly1gfta28kx9jj30yg0q076w.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlly1gh7jnhfr7bj31g60byabt.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlly1gh7jpacz6ij311u0jw0us.jpg">
 <meta property="article:published_time" content="2020-06-15T11:00:00.000Z">
-<meta property="article:modified_time" content="2020-06-19T14:32:45.316Z">
+<meta property="article:modified_time" content="2020-07-29T00:40:37.944Z">
 <meta property="article:author" content="Zheng Chu">
 <meta property="article:tag" content="DeepLearning">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://tva1.sinaimg.cn/large/007S8ZIlly1gft91cdupcj310c0d0q4c.jpg">
+<meta name="twitter:image" content="https://tva1.sinaimg.cn/large/007S8ZIlly1gh7jnhfr7bj31g60byabt.jpg">
   <link rel="canonical" href="http://yoursite.com/2020/06/15/Tensorflow2/Tensorfow2.0%E5%A4%8D%E4%B9%A0%E7%AC%94%E8%AE%B02/">
 
 
@@ -296,7 +296,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-06-19 22:32:45" itemprop="dateModified" datetime="2020-06-19T22:32:45+08:00">2020-06-19</time>
+                <time title="Modified: 2020-07-29 08:40:37" itemprop="dateModified" datetime="2020-07-29T08:40:37+08:00">2020-07-29</time>
               </span>
             
           
@@ -345,7 +345,7 @@
 </li>
 </ul>
 <script type="math/tex; mode=display">
-\text{fan}_{\text{avg}} = (\text{fan}_{\text{in}} + \text{fan}_{\text{out}}) / 2</script><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gft91cdupcj310c0d0q4c.jpg" alt="image-20200615203136155"></p>
+\text{fan}_{\text{avg}} = (\text{fan}_{\text{in}} + \text{fan}_{\text{out}}) / 2</script><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gh7jnhfr7bj31g60byabt.jpg" alt="image-20200729083706156"></p>
 <p>——API：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 1.</span></span><br><span class="line">keras.layers.Dense(<span class="number">10</span>, activation=<span class="string">"relu"</span>, kernel_initializer=<span class="string">"he_normal"</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#2.</span></span><br><span class="line">init = keras.initializers.VarianceScaling(scale=<span class="number">2.</span>, mode=<span class="string">'fan_avg'</span>,</span><br><span class="line">                                          distribution=<span class="string">'uniform'</span>)</span><br><span class="line">keras.layers.Dense(<span class="number">10</span>, activation=<span class="string">"relu"</span>, kernel_initializer=init)</span><br></pre></td></tr></table></figure>
 <h4 id="激活函数的问题"><a href="#激活函数的问题" class="headerlink" title="激活函数的问题"></a>激活函数的问题</h4><ul>
@@ -388,7 +388,11 @@
 <p>解决方法：<strong>Batch Normalization (BN)</strong> ：an operation in the model just <strong>before or after the activation function of each hidden layer</strong>。</p>
 <p>做法：evaluating the <strong>mean</strong> and <strong>standard deviation</strong> of the input over the current <strong>mini-batch</strong>：</p>
 <p>​    * 每个样本计算一个均值和方差，然后对输入做normalization，然后参数化的平移。</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gfta28kx9jj30yg0q076w.jpg" alt="image-20200615210705656"></p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gh7jpacz6ij311u0jw0us.jpg" alt="image-20200729083853198"></p>
+<ul>
+<li>Batch Normalization acts like a regularizer, reducing the need for other regularization techniques</li>
+<li></li>
+</ul>
 
     </div>
 
@@ -486,7 +490,7 @@
         
           <a href="/archives">
         
-          <span class="site-state-item-count">77</span>
+          <span class="site-state-item-count">81</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -537,7 +541,9 @@
         
           
         
-        <span class="site-state-item-count">18</span>
+          
+        
+        <span class="site-state-item-count">19</span>
         <span class="site-state-item-name">categories</span>
         </a>
       </div>
@@ -598,7 +604,9 @@
         
           
         
-        <span class="site-state-item-count">23</span>
+          
+        
+        <span class="site-state-item-count">24</span>
         <span class="site-state-item-name">tags</span>
         </a>
       </div>

@@ -55,16 +55,16 @@
   };
 </script>
 
-  <meta name="description" content="Tensorfow2.0—LowerAPICustomizing Models and Training Algorithms Custom Loss Functions 123456def huber_fn(y_true, y_pred):    error &#x3D; y_true - y_pred    is_small_error &#x3D; tf.abs(error) &lt; 1    squared">
+  <meta name="description" content="Tensorfow2.0—LowerAPInumpy to tensorflowNotice that NumPy uses 64-bit precision by default, while Tensor‐ Flow uses 32-bit. This is because 32-bit precision is generally more than enough for neural ne">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Tensorfow2复习--LowerAPI">
 <meta property="og:url" content="http://yoursite.com/2020/07/04/Tensorflow2/2020-07-04-Tensorfow2%E5%A4%8D%E4%B9%A0--LowerAPI/index.html">
 <meta property="og:site_name" content="Zheng Chu&#39;s Blog">
-<meta property="og:description" content="Tensorfow2.0—LowerAPICustomizing Models and Training Algorithms Custom Loss Functions 123456def huber_fn(y_true, y_pred):    error &#x3D; y_true - y_pred    is_small_error &#x3D; tf.abs(error) &lt; 1    squared">
+<meta property="og:description" content="Tensorfow2.0—LowerAPInumpy to tensorflowNotice that NumPy uses 64-bit precision by default, while Tensor‐ Flow uses 32-bit. This is because 32-bit precision is generally more than enough for neural ne">
 <meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlly1ggf4nplhfnj31700u07hf.jpg">
 <meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlly1ggf4pqf5g2j312q0hg77u.jpg">
 <meta property="article:published_time" content="2020-07-04T11:00:00.000Z">
-<meta property="article:modified_time" content="2020-07-04T17:06:49.225Z">
+<meta property="article:modified_time" content="2020-07-29T01:03:18.692Z">
 <meta property="article:author" content="Zheng Chu">
 <meta property="article:tag" content="DeepLearning">
 <meta name="twitter:card" content="summary">
@@ -296,7 +296,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-07-05 01:06:49" itemprop="dateModified" datetime="2020-07-05T01:06:49+08:00">2020-07-05</time>
+                <time title="Modified: 2020-07-29 09:03:18" itemprop="dateModified" datetime="2020-07-29T09:03:18+08:00">2020-07-29</time>
               </span>
             
           
@@ -333,12 +333,15 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="Tensorfow2-0—LowerAPI"><a href="#Tensorfow2-0—LowerAPI" class="headerlink" title="Tensorfow2.0—LowerAPI"></a>Tensorfow2.0—LowerAPI</h1><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggf4nplhfnj31700u07hf.jpg" alt="image-20200704184231346"></p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggf4pqf5g2j312q0hg77u.jpg" alt="image-20200704184431104"></p><h4 id="Customizing-Models-and-Training-Algorithms"><a href="#Customizing-Models-and-Training-Algorithms" class="headerlink" title="Customizing Models and Training Algorithms"></a>Customizing Models and Training Algorithms</h4><ul>
+        <h1 id="Tensorfow2-0—LowerAPI"><a href="#Tensorfow2-0—LowerAPI" class="headerlink" title="Tensorfow2.0—LowerAPI"></a>Tensorfow2.0—LowerAPI</h1><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggf4nplhfnj31700u07hf.jpg" alt="image-20200704184231346"></p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggf4pqf5g2j312q0hg77u.jpg" alt="image-20200704184431104"></p><h4 id="numpy-to-tensorflow"><a href="#numpy-to-tensorflow" class="headerlink" title="numpy to tensorflow"></a>numpy to tensorflow</h4><p>Notice that NumPy uses <strong>64-bit</strong> precision <strong>by default</strong>, while Tensor‐ Flow uses 32-bit. </p><p>This is because 32-bit precision is generally more than enough for neural networks, plus it runs faster and uses less RAM. </p><a id="more"></a>
+
+
+
+<p>So when you create a tensor from a NumPy array, make sure to set <strong>dtype=tf.float32</strong>.</p>
+<h4 id="Customizing-Models-and-Training-Algorithms"><a href="#Customizing-Models-and-Training-Algorithms" class="headerlink" title="Customizing Models and Training Algorithms"></a>Customizing Models and Training Algorithms</h4><ul>
 <li>Custom Loss Functions</li>
-</ul><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">huber_fn</span><span class="params">(y_true, y_pred)</span>:</span></span><br><span class="line">    error = y_true - y_pred</span><br><span class="line">    is_small_error = tf.abs(error) &lt; <span class="number">1</span></span><br><span class="line">    squared_loss = tf.square(error) / <span class="number">2</span></span><br><span class="line">    linear_loss = tf.abs(error) - <span class="number">0.5</span></span><br><span class="line">    <span class="keyword">return</span> tf.where(is_small_error, squared_loss, linear_loss)</span><br></pre></td></tr></table></figure><a id="more"></a>
-
-
-
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">huber_fn</span><span class="params">(y_true, y_pred)</span>:</span></span><br><span class="line">    error = y_true - y_pred</span><br><span class="line">    is_small_error = tf.abs(error) &lt; <span class="number">1</span></span><br><span class="line">    squared_loss = tf.square(error) / <span class="number">2</span></span><br><span class="line">    linear_loss = tf.abs(error) - <span class="number">0.5</span></span><br><span class="line">    <span class="keyword">return</span> tf.where(is_small_error, squared_loss, linear_loss)</span><br></pre></td></tr></table></figure>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">input_shape = X_train.shape[<span class="number">1</span>:]</span><br><span class="line"></span><br><span class="line">model = keras.models.Sequential([</span><br><span class="line">    keras.layers.Dense(<span class="number">30</span>, activation=<span class="string">"selu"</span>, kernel_initializer=<span class="string">"lecun_normal"</span>,</span><br><span class="line">                       input_shape=input_shape),</span><br><span class="line">    keras.layers.Dense(<span class="number">1</span>),</span><br><span class="line">])</span><br><span class="line"></span><br><span class="line">model.compile(loss=huber_fn, optimizer=<span class="string">"nadam"</span>, metrics=[<span class="string">"mae"</span>])</span><br><span class="line">model.fit(X_train_scaled, y_train, epochs=<span class="number">2</span>,</span><br><span class="line">          validation_data=(X_valid_scaled, y_valid))</span><br></pre></td></tr></table></figure>
 <h4 id="Saving-and-Loading-Models-That-Contain-Custom-Components"><a href="#Saving-and-Loading-Models-That-Contain-Custom-Components" class="headerlink" title="Saving and Loading Models That Contain Custom Components"></a>Saving and Loading Models That Contain Custom Components</h4><ul>
 <li>需求：对于自定义的损失函数，需要把阈值threshold设为超参数，需要继承<code>keras.losses.Loss</code>类，并重载<code>get_config()</code>方法：</li>
@@ -478,7 +481,7 @@
         
           <a href="/archives">
         
-          <span class="site-state-item-count">77</span>
+          <span class="site-state-item-count">81</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -529,7 +532,9 @@
         
           
         
-        <span class="site-state-item-count">18</span>
+          
+        
+        <span class="site-state-item-count">19</span>
         <span class="site-state-item-name">categories</span>
         </a>
       </div>
@@ -590,7 +595,9 @@
         
           
         
-        <span class="site-state-item-count">23</span>
+          
+        
+        <span class="site-state-item-count">24</span>
         <span class="site-state-item-name">tags</span>
         </a>
       </div>
@@ -657,7 +664,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Tensorfow2-0—LowerAPI"><span class="nav-number">1.</span> <span class="nav-text">Tensorfow2.0—LowerAPI</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Customizing-Models-and-Training-Algorithms"><span class="nav-number">1.0.0.1.</span> <span class="nav-text">Customizing Models and Training Algorithms</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Saving-and-Loading-Models-That-Contain-Custom-Components"><span class="nav-number">1.0.0.2.</span> <span class="nav-text">Saving and Loading Models That Contain Custom Components</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Custom-Activation-Functions-Initializers-Regularizers-and-Constraints"><span class="nav-number">1.0.0.3.</span> <span class="nav-text">Custom Activation Functions, Initializers, Regularizers, and Constraints</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Custom-Metrics"><span class="nav-number">1.0.0.4.</span> <span class="nav-text">Custom Metrics</span></a></li></ol></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Tensorfow2-0—LowerAPI"><span class="nav-number">1.</span> <span class="nav-text">Tensorfow2.0—LowerAPI</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#numpy-to-tensorflow"><span class="nav-number">1.0.0.1.</span> <span class="nav-text">numpy to tensorflow</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Customizing-Models-and-Training-Algorithms"><span class="nav-number">1.0.0.2.</span> <span class="nav-text">Customizing Models and Training Algorithms</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Saving-and-Loading-Models-That-Contain-Custom-Components"><span class="nav-number">1.0.0.3.</span> <span class="nav-text">Saving and Loading Models That Contain Custom Components</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Custom-Activation-Functions-Initializers-Regularizers-and-Constraints"><span class="nav-number">1.0.0.4.</span> <span class="nav-text">Custom Activation Functions, Initializers, Regularizers, and Constraints</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Custom-Metrics"><span class="nav-number">1.0.0.5.</span> <span class="nav-text">Custom Metrics</span></a></li></ol></li></ol></li></ol></li></ol></div>
             
 
           </div>
