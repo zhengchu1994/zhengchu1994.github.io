@@ -246,7 +246,11 @@
   
   
   <div class="post-block">
+<<<<<<< HEAD
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/05/EM/">
+=======
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/20/%E9%AB%98%E7%B2%BE%E5%BA%A6---%E5%9F%BA%E7%A1%80%E7%AE%97%E6%B3%95%E7%AF%872/">
+>>>>>>> 7c1172c9875087286cd44bd62769ab39300c7202
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Zheng Chu">
@@ -262,7 +266,11 @@
         
           <h1 class="post-title" itemprop="name headline">
               
+<<<<<<< HEAD
               <a href="/2019/09/05/EM/" class="post-title-link" itemprop="url">EM</a>
+=======
+              <a href="/2019/10/20/%E9%AB%98%E7%B2%BE%E5%BA%A6---%E5%9F%BA%E7%A1%80%E7%AE%97%E6%B3%95%E7%AF%872/" class="post-title-link" itemprop="url">算法Basic--高精度</a>
+>>>>>>> 7c1172c9875087286cd44bd62769ab39300c7202
             
           </h1>
         
@@ -278,7 +286,11 @@
                 
               
 
+<<<<<<< HEAD
               <time title="Created: 2019-09-05 21:20:29" itemprop="dateCreated datePublished" datetime="2019-09-05T21:20:29+08:00">2019-09-05</time>
+=======
+              <time title="Created: 2019-10-20 21:53:32" itemprop="dateCreated datePublished" datetime="2019-10-20T21:53:32+08:00">2019-10-20</time>
+>>>>>>> 7c1172c9875087286cd44bd62769ab39300c7202
             </span>
           
             
@@ -289,7 +301,11 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
+<<<<<<< HEAD
                 <time title="Modified: 2020-05-05 13:31:38" itemprop="dateModified" datetime="2020-05-05T13:31:38+08:00">2020-05-05</time>
+=======
+                <time title="Modified: 2020-12-06 20:34:07" itemprop="dateModified" datetime="2020-12-06T20:34:07+08:00">2020-12-06</time>
+>>>>>>> 7c1172c9875087286cd44bd62769ab39300c7202
               </span>
             
           
@@ -299,7 +315,11 @@
               </span>
               <span class="post-meta-item-text">In</span>
               
+<<<<<<< HEAD
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">机器学习</span></a></span>
+=======
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" itemprop="url" rel="index"><span itemprop="name">算法与数据结构</span></a></span>
+>>>>>>> 7c1172c9875087286cd44bd62769ab39300c7202
 
                 
                 
@@ -318,11 +338,19 @@
     <div class="post-body" itemprop="articleBody">
 
       
+<<<<<<< HEAD
           <h3 id="EM算法"><a href="#EM算法" class="headerlink" title="EM算法"></a>EM算法</h3><p>EM算法解决的问题：有隐变量存在的概率模型参数的极大似然估计，或极大后验估计。</p><p>先给出《统计学习方法》中对隐变量、观测变量的形式化如下：</p><p>$Y$表示观测随机变量（observed）的数据，$Z$ 表示隐随机变量（hidden）的数据；</p><p>观测数据$Y$的概率分布是$P(Y|\theta)$, 其中$\theta$是需要估计的模型参数, 对数似然函数为$L(\theta)= \log P(Y|\theta) $;</p>
           <!--noindex-->
           
             <div class="post-button text-center">
               <a class="btn" href="/2019/09/05/EM/#more" rel="contents">
+=======
+          <h1 id="高精度—-基础算法篇2"><a href="#高精度—-基础算法篇2" class="headerlink" title="高精度—-基础算法篇2"></a>高精度—-基础算法篇2</h1><h4 id="791-高精度加法"><a href="#791-高精度加法" class="headerlink" title="791. 高精度加法"></a>791. 高精度加法</h4><p>题:<a href="https://www.acwing.com/problem/content/793/" target="_blank" rel="noopener">https://www.acwing.com/problem/content/793/</a></p><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; add(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;a, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;b)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">int</span> t = <span class="number">0</span>;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; res;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; a.size() || i &lt; b.size(); i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (i &lt; a.size()) t += a[i];</span><br><span class="line">        <span class="keyword">if</span> (i &lt; b.size()) t += b[i];</span><br><span class="line">        res.push_back(t % <span class="number">10</span>);</span><br><span class="line">        t /= <span class="number">10</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (t) res.push_back(t);</span><br><span class="line">    reverse(res.begin(), res.end());</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">string</span> a, b; <span class="built_in">cin</span> &gt;&gt; a &gt;&gt; b;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; avec, bvec;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = a.size() <span class="number">-1</span>; i &gt;= <span class="number">0</span>; i--) avec.push_back(a[i] - <span class="string">'0'</span>);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = b.size() - <span class="number">1</span>; i &gt;= <span class="number">0</span>; i--) bvec.push_back(b[i] - <span class="string">'0'</span>);</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; res = add(avec, bvec);</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">auto</span> num : res) <span class="built_in">cout</span> &lt;&lt; num;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/2019/10/20/%E9%AB%98%E7%B2%BE%E5%BA%A6---%E5%9F%BA%E7%A1%80%E7%AE%97%E6%B3%95%E7%AF%872/#more" rel="contents">
+>>>>>>> 7c1172c9875087286cd44bd62769ab39300c7202
                 Read more &raquo;
               </a>
             </div>
@@ -355,7 +383,11 @@
   
   
   <div class="post-block">
+<<<<<<< HEAD
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/04/C++Cook/JaccardDistance/">
+=======
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/20/WeeklyContest154/">
+>>>>>>> 7c1172c9875087286cd44bd62769ab39300c7202
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Zheng Chu">
@@ -371,7 +403,11 @@
         
           <h1 class="post-title" itemprop="name headline">
               
+<<<<<<< HEAD
               <a href="/2019/09/04/C++Cook/JaccardDistance/" class="post-title-link" itemprop="url">JaccardDistance</a>
+=======
+              <a href="/2019/09/20/WeeklyContest154/" class="post-title-link" itemprop="url">LeetCode-Weekly Contest 154</a>
+>>>>>>> 7c1172c9875087286cd44bd62769ab39300c7202
             
           </h1>
         
@@ -387,12 +423,27 @@
                 
               
 
+<<<<<<< HEAD
               <time title="Created: 2019-09-04 21:53:56 / Modified: 22:12:27" itemprop="dateCreated datePublished" datetime="2019-09-04T21:53:56+08:00">2019-09-04</time>
+=======
+              <time title="Created: 2019-09-20 21:53:34" itemprop="dateCreated datePublished" datetime="2019-09-20T21:53:34+08:00">2019-09-20</time>
+>>>>>>> 7c1172c9875087286cd44bd62769ab39300c7202
             </span>
           
             
 
             
+<<<<<<< HEAD
+=======
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-12-06 20:34:07" itemprop="dateModified" datetime="2020-12-06T20:34:07+08:00">2020-12-06</time>
+              </span>
+            
+>>>>>>> 7c1172c9875087286cd44bd62769ab39300c7202
           
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -400,7 +451,11 @@
               </span>
               <span class="post-meta-item-text">In</span>
               
+<<<<<<< HEAD
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/C/" itemprop="url" rel="index"><span itemprop="name">C++</span></a></span>
+=======
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" itemprop="url" rel="index"><span itemprop="name">算法与数据结构</span></a></span>
+>>>>>>> 7c1172c9875087286cd44bd62769ab39300c7202
 
                 
                 
@@ -419,6 +474,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
+<<<<<<< HEAD
           <h4 id="Jaccard距离"><a href="#Jaccard距离" class="headerlink" title="Jaccard距离"></a>Jaccard距离</h4><p>记录一下前几天面试遇到的一个题，计算两个字符串的<code>Jaccard</code>距离：</p><p>1.Jaccard系数的定义是：两串交集的长度比上并集的长度，当A、B串都是空串的时候，系数为1：</p><p><img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/eaef5aa86949f49e7dc6b9c8c3dd8b233332c9e7" alt></p><p>Jaccard距离的定义是1减去Jaccard系数：</p><p><img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/3d17a48a5fb6cea57b076200de6edbccbc1c38f9" alt></p><ol>
 <li>c++中对集合里的元素取交集和并集的操作分别是：<code>set_intersection</code>、<code>set_union</code>，注意两个输入串必须是按照相同排序规则排好序的串；插入的时候选择使用尾部插入迭代器<code>back_iterator</code>对空的vector做插入；</li>
 </ol>
@@ -426,6 +482,19 @@
           
             <div class="post-button text-center">
               <a class="btn" href="/2019/09/04/C++Cook/JaccardDistance/#more" rel="contents">
+=======
+          <h2 id="Weekly-Contest-154"><a href="#Weekly-Contest-154" class="headerlink" title="Weekly Contest 154"></a><a href="https://leetcode.com/contest/weekly-contest-154" target="_blank" rel="noopener">Weekly Contest 154</a></h2><h4 id="1189-Maximum-Number-of-Balloons"><a href="#1189-Maximum-Number-of-Balloons" class="headerlink" title="1189. Maximum Number of Balloons"></a>1189. Maximum Number of Balloons</h4><blockquote>
+<p>Given a string <code>text</code>, you want to use the characters of <code>text</code> to form as many instances of the word <strong>“balloon”</strong> as possible.</p>
+<p>You can use each character in <code>text</code> <strong>at most once</strong>. Return the maximum number of instances that can be formed.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt;Input: text &#x3D; &quot;nlaebolko&quot;</span><br><span class="line">&gt;Output: 1</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt;Input: text &#x3D; &quot;loonbalxballpoon&quot;</span><br><span class="line">&gt;Output: 2</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt;Input: text &#x3D; &quot;leetcode&quot;</span><br><span class="line">&gt;Output: 0</span><br></pre></td></tr></table></figure>
+</blockquote>
+          <!--noindex-->
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/2019/09/20/WeeklyContest154/#more" rel="contents">
+>>>>>>> 7c1172c9875087286cd44bd62769ab39300c7202
                 Read more &raquo;
               </a>
             </div>
@@ -458,7 +527,11 @@
   
   
   <div class="post-block">
+<<<<<<< HEAD
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/04/Primer/C++---CHAPTER-15--OBJECT-ORIENTED-PROGRAMMING/">
+=======
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/20/Weekly%20Contest%20155/">
+>>>>>>> 7c1172c9875087286cd44bd62769ab39300c7202
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Zheng Chu">
@@ -474,7 +547,11 @@
         
           <h1 class="post-title" itemprop="name headline">
               
+<<<<<<< HEAD
               <a href="/2019/09/04/Primer/C++---CHAPTER-15--OBJECT-ORIENTED-PROGRAMMING/" class="post-title-link" itemprop="url">C++---CHAPTER-15---OBJECT-ORIENTED-PROGRAMMING</a>
+=======
+              <a href="/2019/09/20/Weekly%20Contest%20155/" class="post-title-link" itemprop="url">LeetCode-Weekly Contest 155</a>
+>>>>>>> 7c1172c9875087286cd44bd62769ab39300c7202
             
           </h1>
         
@@ -490,12 +567,27 @@
                 
               
 
+<<<<<<< HEAD
               <time title="Created: 2019-09-04 21:53:40 / Modified: 22:03:10" itemprop="dateCreated datePublished" datetime="2019-09-04T21:53:40+08:00">2019-09-04</time>
+=======
+              <time title="Created: 2019-09-20 21:53:33" itemprop="dateCreated datePublished" datetime="2019-09-20T21:53:33+08:00">2019-09-20</time>
+>>>>>>> 7c1172c9875087286cd44bd62769ab39300c7202
             </span>
           
             
 
             
+<<<<<<< HEAD
+=======
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-12-06 20:34:07" itemprop="dateModified" datetime="2020-12-06T20:34:07+08:00">2020-12-06</time>
+              </span>
+            
+>>>>>>> 7c1172c9875087286cd44bd62769ab39300c7202
           
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -503,7 +595,11 @@
               </span>
               <span class="post-meta-item-text">In</span>
               
+<<<<<<< HEAD
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/C/" itemprop="url" rel="index"><span itemprop="name">C++</span></a></span>
+=======
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" itemprop="url" rel="index"><span itemprop="name">算法与数据结构</span></a></span>
+>>>>>>> 7c1172c9875087286cd44bd62769ab39300c7202
 
                 
                 
@@ -522,6 +618,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
+<<<<<<< HEAD
           <h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><ul>
 <li>OOP的核心思想：<ul>
 <li>数据抽象：类的接口与实现分离；<ul>
@@ -540,6 +637,22 @@
           
             <div class="post-button text-center">
               <a class="btn" href="/2019/09/04/Primer/C++---CHAPTER-15--OBJECT-ORIENTED-PROGRAMMING/#more" rel="contents">
+=======
+          <h2 id="Weekly-Contest-155"><a href="#Weekly-Contest-155" class="headerlink" title="Weekly Contest 155"></a>Weekly Contest 155</h2><h4 id="1200-Minimum-Absolute-Difference"><a href="#1200-Minimum-Absolute-Difference" class="headerlink" title="1200. Minimum Absolute Difference"></a>1200. Minimum Absolute Difference</h4><blockquote>
+<p>Given an array of <strong>distinct</strong> integers <code>arr</code>, find all pairs of elements with the minimum absolute difference of any two elements. </p>
+<p>Return a list of pairs in ascending order(with respect to pairs), each pair <code>[a, b]</code> follows</p>
+<ul>
+<li><code>a, b</code> are from <code>arr</code></li>
+<li><code>a &lt; b</code></li>
+<li><code>b - a</code> equals to the minimum absolute difference of any two elements in <code>arr</code></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Input: arr &#x3D; [4,2,1,3]</span><br><span class="line">Output: [[1,2],[2,3],[3,4]]</span><br><span class="line">Explanation: The minimum absolute difference is 1. List all pairs with difference equal to 1 in ascending order.</span><br></pre></td></tr></table></figure>
+</blockquote>
+          <!--noindex-->
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/2019/09/20/Weekly%20Contest%20155/#more" rel="contents">
+>>>>>>> 7c1172c9875087286cd44bd62769ab39300c7202
                 Read more &raquo;
               </a>
             </div>
@@ -572,7 +685,11 @@
   
   
   <div class="post-block">
+<<<<<<< HEAD
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/04/Primer/C++---CHAPTER-12---Dynamic-Memory/">
+=======
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/20/Biweekly%20Contest%209/">
+>>>>>>> 7c1172c9875087286cd44bd62769ab39300c7202
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Zheng Chu">
@@ -588,7 +705,11 @@
         
           <h1 class="post-title" itemprop="name headline">
               
+<<<<<<< HEAD
               <a href="/2019/09/04/Primer/C++---CHAPTER-12---Dynamic-Memory/" class="post-title-link" itemprop="url">C++---CHAPTER-12---Dynamic-Memory</a>
+=======
+              <a href="/2019/09/20/Biweekly%20Contest%209/" class="post-title-link" itemprop="url">LeetCode-Biweekly Contest 9</a>
+>>>>>>> 7c1172c9875087286cd44bd62769ab39300c7202
             
           </h1>
         
@@ -604,12 +725,27 @@
                 
               
 
+<<<<<<< HEAD
               <time title="Created: 2019-09-04 21:53:37 / Modified: 22:03:02" itemprop="dateCreated datePublished" datetime="2019-09-04T21:53:37+08:00">2019-09-04</time>
+=======
+              <time title="Created: 2019-09-20 21:53:32" itemprop="dateCreated datePublished" datetime="2019-09-20T21:53:32+08:00">2019-09-20</time>
+>>>>>>> 7c1172c9875087286cd44bd62769ab39300c7202
             </span>
           
             
 
             
+<<<<<<< HEAD
+=======
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-12-06 20:34:07" itemprop="dateModified" datetime="2020-12-06T20:34:07+08:00">2020-12-06</time>
+              </span>
+            
+>>>>>>> 7c1172c9875087286cd44bd62769ab39300c7202
           
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -617,7 +753,11 @@
               </span>
               <span class="post-meta-item-text">In</span>
               
+<<<<<<< HEAD
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/C/" itemprop="url" rel="index"><span itemprop="name">C++</span></a></span>
+=======
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" itemprop="url" rel="index"><span itemprop="name">算法与数据结构</span></a></span>
+>>>>>>> 7c1172c9875087286cd44bd62769ab39300c7202
 
                 
                 
@@ -636,6 +776,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
+<<<<<<< HEAD
           <h3 id="静态内存、栈内存、动态内存"><a href="#静态内存、栈内存、动态内存" class="headerlink" title="静态内存、栈内存、动态内存"></a>静态内存、栈内存、动态内存</h3><ul>
 <li>静态内存：保存局部<code>static</code>对象；类<code>static</code>对象、已经定义在任何函数之外的变量。</li>
 <li>栈内存：保存定义在函数内的非<code>static</code>对象；</li>
@@ -646,6 +787,17 @@
           
             <div class="post-button text-center">
               <a class="btn" href="/2019/09/04/Primer/C++---CHAPTER-12---Dynamic-Memory/#more" rel="contents">
+=======
+          <h2 id="Biweekly-Contest-9"><a href="#Biweekly-Contest-9" class="headerlink" title="Biweekly Contest 9"></a>Biweekly Contest 9</h2><h4 id="1196-How-Many-Apples-Can-You-Put-into-the-Basket"><a href="#1196-How-Many-Apples-Can-You-Put-into-the-Basket" class="headerlink" title="1196. How Many Apples Can You Put into the Basket"></a>1196. How Many Apples Can You Put into the Basket</h4><blockquote>
+<p>You have some apples, where <code>arr[i]</code> is the weight of the <code>i</code>-th apple.  You also have a basket that can carry up to <code>5000</code> units of weight.</p>
+<p>Return the maximum number of apples you can put in the basket.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt;Input: arr &#x3D; [100,200,150,1000]</span><br><span class="line">&gt;Output: 4</span><br><span class="line">&gt;Explanation: All 4 apples can be carried by the basket since their sum of weights is 1450.</span><br></pre></td></tr></table></figure>
+</blockquote>
+          <!--noindex-->
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/2019/09/20/Biweekly%20Contest%209/#more" rel="contents">
+>>>>>>> 7c1172c9875087286cd44bd62769ab39300c7202
                 Read more &raquo;
               </a>
             </div>
@@ -678,7 +830,11 @@
   
   
   <div class="post-block">
+<<<<<<< HEAD
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/04/Primer/C++---CHAPTER-11--ASSOCIATIVE-CONTAINER/">
+=======
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/20/%E8%B4%AA%E5%BF%83/">
+>>>>>>> 7c1172c9875087286cd44bd62769ab39300c7202
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Zheng Chu">
@@ -694,7 +850,11 @@
         
           <h1 class="post-title" itemprop="name headline">
               
+<<<<<<< HEAD
               <a href="/2019/09/04/Primer/C++---CHAPTER-11--ASSOCIATIVE-CONTAINER/" class="post-title-link" itemprop="url">C++---CHAPTER-11---ASSOCIATIVE-CONTAINER</a>
+=======
+              <a href="/2019/09/20/%E8%B4%AA%E5%BF%83/" class="post-title-link" itemprop="url">算法Basic--贪心</a>
+>>>>>>> 7c1172c9875087286cd44bd62769ab39300c7202
             
           </h1>
         
@@ -710,12 +870,27 @@
                 
               
 
+<<<<<<< HEAD
               <time title="Created: 2019-09-04 21:53:35 / Modified: 22:02:56" itemprop="dateCreated datePublished" datetime="2019-09-04T21:53:35+08:00">2019-09-04</time>
+=======
+              <time title="Created: 2019-09-20 21:53:32" itemprop="dateCreated datePublished" datetime="2019-09-20T21:53:32+08:00">2019-09-20</time>
+>>>>>>> 7c1172c9875087286cd44bd62769ab39300c7202
             </span>
           
             
 
             
+<<<<<<< HEAD
+=======
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-12-06 20:34:07" itemprop="dateModified" datetime="2020-12-06T20:34:07+08:00">2020-12-06</time>
+              </span>
+            
+>>>>>>> 7c1172c9875087286cd44bd62769ab39300c7202
           
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -723,7 +898,11 @@
               </span>
               <span class="post-meta-item-text">In</span>
               
+<<<<<<< HEAD
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/C/" itemprop="url" rel="index"><span itemprop="name">C++</span></a></span>
+=======
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" itemprop="url" rel="index"><span itemprop="name">算法与数据结构</span></a></span>
+>>>>>>> 7c1172c9875087286cd44bd62769ab39300c7202
 
                 
                 
@@ -742,6 +921,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
+<<<<<<< HEAD
           <h4 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h4><p>关联容器通过关键字查找和提取元素。对关键字的使用将关联容器与顺序容器区分开来，顺序容器中是通过位置访问元素的。</p><p>标准库定义了8个关联容器，每个容器：</p><ul>
 <li>是一个<code>map</code>或者是一个<code>set</code>。<code>map</code>保存关键字-值对；<code>set</code>只保存关键字。</li>
 <li>要求关键字唯一或不要求。</li>
@@ -753,6 +933,16 @@
           
             <div class="post-button text-center">
               <a class="btn" href="/2019/09/04/Primer/C++---CHAPTER-11--ASSOCIATIVE-CONTAINER/#more" rel="contents">
+=======
+          <h2 id="区间问题"><a href="#区间问题" class="headerlink" title="区间问题"></a>区间问题</h2><p>在当前选择局部最优解，依次这样选择能够到达全局最优解。</p><h4 id="区间选点"><a href="#区间选点" class="headerlink" title="区间选点"></a>区间选点</h4><ul>
+<li>1、将每个区间按右端点从小到大排序；</li>
+<li>2、从前往后依次枚举每个区间，如果当前区间已经包含点，则pass；否则选择当前区间的右端点。</li>
+</ul><p>证明：按照上述规则选出来的所有点数记为<code>cnt</code>，题目要求为<code>ans</code>，则<code>ans&lt;=cnt</code>，<code>cnt</code>同时代表了我们目前有<code>cnt</code>个区间，因此<code>ans</code>最少需要<code>cnt</code>个点，因此<code>ans&gt;=cnt</code>，因此上述<code>cnt</code>便是解。</p>
+          <!--noindex-->
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/2019/09/20/%E8%B4%AA%E5%BF%83/#more" rel="contents">
+>>>>>>> 7c1172c9875087286cd44bd62769ab39300c7202
                 Read more &raquo;
               </a>
             </div>
@@ -785,7 +975,11 @@
   
   
   <div class="post-block">
+<<<<<<< HEAD
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/04/Primer/C++---CHAPTER-10--GENERIC-ALGORITHM/">
+=======
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/19/%E9%9D%A2%E8%AF%95%E9%A2%98/">
+>>>>>>> 7c1172c9875087286cd44bd62769ab39300c7202
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Zheng Chu">
@@ -801,7 +995,11 @@
         
           <h1 class="post-title" itemprop="name headline">
               
+<<<<<<< HEAD
               <a href="/2019/09/04/Primer/C++---CHAPTER-10--GENERIC-ALGORITHM/" class="post-title-link" itemprop="url">C++---CHAPTER-10---ALGORITHM</a>
+=======
+              <a href="/2019/09/19/%E9%9D%A2%E8%AF%95%E9%A2%98/" class="post-title-link" itemprop="url">牛客面试题1</a>
+>>>>>>> 7c1172c9875087286cd44bd62769ab39300c7202
             
           </h1>
         
@@ -817,12 +1015,27 @@
                 
               
 
+<<<<<<< HEAD
               <time title="Created: 2019-09-04 21:53:34 / Modified: 22:02:50" itemprop="dateCreated datePublished" datetime="2019-09-04T21:53:34+08:00">2019-09-04</time>
+=======
+              <time title="Created: 2019-09-19 21:53:35" itemprop="dateCreated datePublished" datetime="2019-09-19T21:53:35+08:00">2019-09-19</time>
+>>>>>>> 7c1172c9875087286cd44bd62769ab39300c7202
             </span>
           
             
 
             
+<<<<<<< HEAD
+=======
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-12-06 20:34:07" itemprop="dateModified" datetime="2020-12-06T20:34:07+08:00">2020-12-06</time>
+              </span>
+            
+>>>>>>> 7c1172c9875087286cd44bd62769ab39300c7202
           
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -830,7 +1043,11 @@
               </span>
               <span class="post-meta-item-text">In</span>
               
+<<<<<<< HEAD
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/C/" itemprop="url" rel="index"><span itemprop="name">C++</span></a></span>
+=======
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" itemprop="url" rel="index"><span itemprop="name">算法与数据结构</span></a></span>
+>>>>>>> 7c1172c9875087286cd44bd62769ab39300c7202
 
                 
                 
@@ -849,6 +1066,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
+<<<<<<< HEAD
           <ul>
 <li>泛型算法：经典算法的公共接口。</li>
 <li>泛型的含义：用于不同类型的元素和多种容器类型，以及其他类型的序列。</li>
@@ -860,6 +1078,17 @@
           
             <div class="post-button text-center">
               <a class="btn" href="/2019/09/04/Primer/C++---CHAPTER-10--GENERIC-ALGORITHM/#more" rel="contents">
+=======
+          <h4 id="编程题-山寨金闪闪"><a href="#编程题-山寨金闪闪" class="headerlink" title="[编程题]山寨金闪闪"></a>[编程题]山寨金闪闪</h4><blockquote>
+<p>链接：<a href="https://www.nowcoder.com/questionTerminal/9363dcb83ca44c61a2c1a8f65aa722b8来源：牛客网" target="_blank" rel="noopener">https://www.nowcoder.com/questionTerminal/9363dcb83ca44c61a2c1a8f65aa722b8来源：牛客网</a><br>金闪闪死后，红A拿到了王之财宝，里面有n个武器，长度各不相同。红A发现，拿其中三件武器首尾相接，组成一个三角形，进行召唤仪式，就可以召唤出一个山寨金闪闪。（例如，三件武器长度为10、15、20，可以召唤成功。若长度为10、11、30，首尾相接无法组成三角形，召唤失败。）红A于是开了一个金闪闪专卖店。他把王之财宝排成一排，每个客人会随机抽取到一个区间[l,r],客人可以选取区间里的三件武器进行召唤（客人都很聪慧，如果能找出来合适的武器，一定不会放过）。召唤结束后，客人要把武器原样放回去。m个客人光顾以后，红A害怕过多的金闪闪愉悦太多男人，于是找到了你，希望你帮他统计出有多少山寨金闪闪被召唤出来。  </p>
+<p> 链接：<a href="https://www.nowcoder.com/questionTerminal/9363dcb83ca44c61a2c1a8f65aa722b8" target="_blank" rel="noopener">https://www.nowcoder.com/questionTerminal/9363dcb83ca44c61a2c1a8f65aa722b8</a><br>来源：牛客网</p>
+<p>第一行武器数量:n &lt;= 1<em>10^7<br>第二行空格分隔的n个int，表示每件武器的长度。<br>第三行顾客数量：m &lt;= 1</em>10^6<br>后面m行，每行两个int l，r，表示每个客人被分配到的区间。（l&lt;r）  </p>
+</blockquote>
+          <!--noindex-->
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/2019/09/19/%E9%9D%A2%E8%AF%95%E9%A2%98/#more" rel="contents">
+>>>>>>> 7c1172c9875087286cd44bd62769ab39300c7202
                 Read more &raquo;
               </a>
             </div>
@@ -892,7 +1121,11 @@
   
   
   <div class="post-block">
+<<<<<<< HEAD
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/04/Primer/C++---CHAPTER-9--CONTAINER/">
+=======
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/16/Strings/">
+>>>>>>> 7c1172c9875087286cd44bd62769ab39300c7202
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Zheng Chu">
@@ -908,7 +1141,11 @@
         
           <h1 class="post-title" itemprop="name headline">
               
+<<<<<<< HEAD
               <a href="/2019/09/04/Primer/C++---CHAPTER-9--CONTAINER/" class="post-title-link" itemprop="url">C++---CHAPTER-9---CONTAINER</a>
+=======
+              <a href="/2019/09/16/Strings/" class="post-title-link" itemprop="url">Strings</a>
+>>>>>>> 7c1172c9875087286cd44bd62769ab39300c7202
             
           </h1>
         
@@ -924,12 +1161,27 @@
                 
               
 
+<<<<<<< HEAD
               <time title="Created: 2019-09-04 21:53:33 / Modified: 22:02:43" itemprop="dateCreated datePublished" datetime="2019-09-04T21:53:33+08:00">2019-09-04</time>
+=======
+              <time title="Created: 2019-09-16 21:25:49" itemprop="dateCreated datePublished" datetime="2019-09-16T21:25:49+08:00">2019-09-16</time>
+>>>>>>> 7c1172c9875087286cd44bd62769ab39300c7202
             </span>
           
             
 
             
+<<<<<<< HEAD
+=======
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-12-06 20:34:07" itemprop="dateModified" datetime="2020-12-06T20:34:07+08:00">2020-12-06</time>
+              </span>
+            
+>>>>>>> 7c1172c9875087286cd44bd62769ab39300c7202
           
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -937,7 +1189,11 @@
               </span>
               <span class="post-meta-item-text">In</span>
               
+<<<<<<< HEAD
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/C/" itemprop="url" rel="index"><span itemprop="name">C++</span></a></span>
+=======
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" itemprop="url" rel="index"><span itemprop="name">算法与数据结构</span></a></span>
+>>>>>>> 7c1172c9875087286cd44bd62769ab39300c7202
 
                 
                 
@@ -956,6 +1212,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
+<<<<<<< HEAD
           <ul>
 <li>顺序容器</li>
 </ul><div class="table-container">
@@ -994,6 +1251,16 @@
           
             <div class="post-button text-center">
               <a class="btn" href="/2019/09/04/Primer/C++---CHAPTER-9--CONTAINER/#more" rel="contents">
+=======
+          <h4 id="判断两个字符串是否为变形词"><a href="#判断两个字符串是否为变形词" class="headerlink" title="判断两个字符串是否为变形词"></a>判断两个字符串是否为变形词</h4><blockquote>
+<p>给定两个字符串str1和str2，如果str1和str2中出现的字符种类出现的一样且每种字符出现的次数也一样，那么str1和str2互为变形词。请判断str1和str2是否为变形词。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">输入包括<span class="number">3</span>行，第一行包含两个整数n，m(<span class="number">1</span> \leq n,m\leq <span class="number">10</span>^<span class="number">5</span>)(<span class="number">1</span>≤n,m≤<span class="number">105</span>)分别代表str1和str2的长度，第二行和第三行为两个字符串，分别代表str1和str2。</span><br></pre></td></tr></table></figure>
+</blockquote>
+          <!--noindex-->
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/2019/09/16/Strings/#more" rel="contents">
+>>>>>>> 7c1172c9875087286cd44bd62769ab39300c7202
                 Read more &raquo;
               </a>
             </div>
@@ -1026,7 +1293,11 @@
   
   
   <div class="post-block">
+<<<<<<< HEAD
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/04/C++Cook/%E4%BB%8Emap%E4%B8%AD%E6%89%BE%E5%88%B0value%E6%88%96%E8%80%85key%E6%9C%80%E5%A4%A7%E7%9A%84iterator/">
+=======
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/15/C++Cook/CookingC++/">
+>>>>>>> 7c1172c9875087286cd44bd62769ab39300c7202
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Zheng Chu">
@@ -1042,7 +1313,11 @@
         
           <h1 class="post-title" itemprop="name headline">
               
+<<<<<<< HEAD
               <a href="/2019/09/04/C++Cook/%E4%BB%8Emap%E4%B8%AD%E6%89%BE%E5%88%B0value%E6%88%96%E8%80%85key%E6%9C%80%E5%A4%A7%E7%9A%84iterator/" class="post-title-link" itemprop="url">从map中找到value或者key最大的iterator</a>
+=======
+              <a href="/2019/09/15/C++Cook/CookingC++/" class="post-title-link" itemprop="url">CookingC++</a>
+>>>>>>> 7c1172c9875087286cd44bd62769ab39300c7202
             
           </h1>
         
@@ -1058,12 +1333,27 @@
                 
               
 
+<<<<<<< HEAD
               <time title="Created: 2019-09-04 21:53:32 / Modified: 22:11:52" itemprop="dateCreated datePublished" datetime="2019-09-04T21:53:32+08:00">2019-09-04</time>
+=======
+              <time title="Created: 2019-09-15 21:53:32" itemprop="dateCreated datePublished" datetime="2019-09-15T21:53:32+08:00">2019-09-15</time>
+>>>>>>> 7c1172c9875087286cd44bd62769ab39300c7202
             </span>
           
             
 
             
+<<<<<<< HEAD
+=======
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-12-06 20:34:07" itemprop="dateModified" datetime="2020-12-06T20:34:07+08:00">2020-12-06</time>
+              </span>
+            
+>>>>>>> 7c1172c9875087286cd44bd62769ab39300c7202
           
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -1090,6 +1380,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
+<<<<<<< HEAD
           <h4 id="从map中找到value或者key最大的iterator"><a href="#从map中找到value或者key最大的iterator" class="headerlink" title="从map中找到value或者key最大的iterator"></a>从map中找到value或者key最大的iterator</h4><p>预备点：</p><ol>
 <li><code>delctype</code> 的使用：</li>
 </ol><p>c++里的两个类型推理符号<code>auto</code> 和<code>delctype</code>：</p><ul>
@@ -1099,6 +1390,13 @@
           
             <div class="post-button text-center">
               <a class="btn" href="/2019/09/04/C++Cook/%E4%BB%8Emap%E4%B8%AD%E6%89%BE%E5%88%B0value%E6%88%96%E8%80%85key%E6%9C%80%E5%A4%A7%E7%9A%84iterator/#more" rel="contents">
+=======
+          <h4 id="把一个array拷贝到vector"><a href="#把一个array拷贝到vector" class="headerlink" title="把一个array拷贝到vector"></a>把一个array拷贝到vector</h4><p>其中的copy方法里，<code>copy(&amp;dataArray[0], &amp;dataArray[dataArraySize], back_inserter(dataVec));</code> 不会拷贝<code>dataArray[dataArraySize]</code> 元素；例子如下：</p><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> arr[] = &#123;<span class="number">1</span>,<span class="number">4</span>,<span class="number">2</span>,<span class="number">4</span>,<span class="number">56</span>,<span class="number">5</span>,<span class="number">43</span>,<span class="number">2</span>,<span class="number">2</span>,<span class="number">5</span>&#125;;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> size = <span class="keyword">sizeof</span>(arr) / <span class="keyword">sizeof</span>(<span class="keyword">int</span>);</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; table;</span><br><span class="line">    copy(&amp;arr[<span class="number">0</span>], &amp;arr[<span class="number">3</span>], back_inserter(table));</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">auto</span>  i : table)</span><br><span class="line">        <span class="built_in">cout</span> &lt;&lt; i &lt;&lt; <span class="string">" "</span>;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//打印到arr[2]处为止；</span></span><br><span class="line">$main</span><br><span class="line"><span class="number">1</span> <span class="number">4</span> <span class="number">2</span></span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/2019/09/15/C++Cook/CookingC++/#more" rel="contents">
+>>>>>>> 7c1172c9875087286cd44bd62769ab39300c7202
                 Read more &raquo;
               </a>
             </div>
@@ -1131,7 +1429,11 @@
   
   
   <div class="post-block">
+<<<<<<< HEAD
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/04/Primer/C++---CHAPTER-7--CLASS/">
+=======
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/15/C++Cook/%E7%B4%AF%E5%8A%A0%E7%B4%AF%E5%87%8F%E5%AE%B9%E5%99%A8%E4%B8%AD%E7%9A%84%E5%85%83%E7%B4%A0/">
+>>>>>>> 7c1172c9875087286cd44bd62769ab39300c7202
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Zheng Chu">
@@ -1147,7 +1449,11 @@
         
           <h1 class="post-title" itemprop="name headline">
               
+<<<<<<< HEAD
               <a href="/2019/09/04/Primer/C++---CHAPTER-7--CLASS/" class="post-title-link" itemprop="url">C++---CHAPTER-7---CLASS</a>
+=======
+              <a href="/2019/09/15/C++Cook/%E7%B4%AF%E5%8A%A0%E7%B4%AF%E5%87%8F%E5%AE%B9%E5%99%A8%E4%B8%AD%E7%9A%84%E5%85%83%E7%B4%A0/" class="post-title-link" itemprop="url">累加累减容器中的元素</a>
+>>>>>>> 7c1172c9875087286cd44bd62769ab39300c7202
             
           </h1>
         
@@ -1163,12 +1469,27 @@
                 
               
 
+<<<<<<< HEAD
               <time title="Created: 2019-09-04 21:53:32 / Modified: 22:02:38" itemprop="dateCreated datePublished" datetime="2019-09-04T21:53:32+08:00">2019-09-04</time>
+=======
+              <time title="Created: 2019-09-15 21:53:32" itemprop="dateCreated datePublished" datetime="2019-09-15T21:53:32+08:00">2019-09-15</time>
+>>>>>>> 7c1172c9875087286cd44bd62769ab39300c7202
             </span>
           
             
 
             
+<<<<<<< HEAD
+=======
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-12-06 20:34:07" itemprop="dateModified" datetime="2020-12-06T20:34:07+08:00">2020-12-06</time>
+              </span>
+            
+>>>>>>> 7c1172c9875087286cd44bd62769ab39300c7202
           
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -1195,6 +1516,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
+<<<<<<< HEAD
           <ul>
 <li><p>引入<code>this</code><br>调用一个成员函数，编译器用请求该函数的对象地址初始化<code>this</code>，所以<code>this</code>的目的总是指向这个对象，因此<code>this</code>是一个常量指针。</p>
 </li>
@@ -1211,6 +1533,15 @@
           
             <div class="post-button text-center">
               <a class="btn" href="/2019/09/04/Primer/C++---CHAPTER-7--CLASS/#more" rel="contents">
+=======
+          <h4 id="累加map中的元素"><a href="#累加map中的元素" class="headerlink" title="累加map中的元素"></a>累加map中的元素</h4><p><code>accumulate</code>函数模板：</p><ul>
+<li>Returns the result of accumulating all the values in the range <code>[first,last)</code> to init</li>
+</ul><p>模板行为：</p><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">InputIterator</span>, <span class="title">class</span> <span class="title">T</span>&gt;</span></span><br><span class="line"><span class="class">   <span class="title">T</span> <span class="title">accumulate</span> (<span class="title">InputIterator</span> <span class="title">first</span>, <span class="title">InputIterator</span> <span class="title">last</span>, <span class="title">T</span> <span class="title">init</span>)</span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">  <span class="keyword">while</span> (first!=last) &#123;</span><br><span class="line">    init = init + *first;  <span class="comment">// or: init=binary_op(init,*first) for the binary_op version</span></span><br><span class="line">    ++first;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> init;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/2019/09/15/C++Cook/%E7%B4%AF%E5%8A%A0%E7%B4%AF%E5%87%8F%E5%AE%B9%E5%99%A8%E4%B8%AD%E7%9A%84%E5%85%83%E7%B4%A0/#more" rel="contents">
+>>>>>>> 7c1172c9875087286cd44bd62769ab39300c7202
                 Read more &raquo;
               </a>
             </div>
@@ -1243,7 +1574,11 @@
   
   
   <div class="post-block">
+<<<<<<< HEAD
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/04/C++Cook/%E5%89%91%E6%8C%87offer/">
+=======
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/15/Leetocde_TopInterviewQuestions/LeetCode-TopInterviewQuestions/">
+>>>>>>> 7c1172c9875087286cd44bd62769ab39300c7202
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Zheng Chu">
@@ -1259,7 +1594,11 @@
         
           <h1 class="post-title" itemprop="name headline">
               
+<<<<<<< HEAD
               <a href="/2019/09/04/C++Cook/%E5%89%91%E6%8C%87offer/" class="post-title-link" itemprop="url">剑指offer--c++</a>
+=======
+              <a href="/2019/09/15/Leetocde_TopInterviewQuestions/LeetCode-TopInterviewQuestions/" class="post-title-link" itemprop="url">LeetCode-TopInterviewQuestions</a>
+>>>>>>> 7c1172c9875087286cd44bd62769ab39300c7202
             
           </h1>
         
@@ -1275,7 +1614,11 @@
                 
               
 
+<<<<<<< HEAD
               <time title="Created: 2019-09-04 21:53:32" itemprop="dateCreated datePublished" datetime="2019-09-04T21:53:32+08:00">2019-09-04</time>
+=======
+              <time title="Created: 2019-09-15 21:53:32" itemprop="dateCreated datePublished" datetime="2019-09-15T21:53:32+08:00">2019-09-15</time>
+>>>>>>> 7c1172c9875087286cd44bd62769ab39300c7202
             </span>
           
             
@@ -1286,7 +1629,11 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
+<<<<<<< HEAD
                 <time title="Modified: 2019-10-30 22:19:53" itemprop="dateModified" datetime="2019-10-30T22:19:53+08:00">2019-10-30</time>
+=======
+                <time title="Modified: 2020-12-06 20:34:07" itemprop="dateModified" datetime="2020-12-06T20:34:07+08:00">2020-12-06</time>
+>>>>>>> 7c1172c9875087286cd44bd62769ab39300c7202
               </span>
             
           
@@ -1296,7 +1643,11 @@
               </span>
               <span class="post-meta-item-text">In</span>
               
+<<<<<<< HEAD
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/C/" itemprop="url" rel="index"><span itemprop="name">C++</span></a></span>
+=======
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" itemprop="url" rel="index"><span itemprop="name">算法与数据结构</span></a></span>
+>>>>>>> 7c1172c9875087286cd44bd62769ab39300c7202
 
                 
                 
@@ -1315,6 +1666,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
+<<<<<<< HEAD
           <h4 id="队列和栈"><a href="#队列和栈" class="headerlink" title="队列和栈"></a>队列和栈</h4><ol>
 <li>用两个栈实现队列的头部出队，尾部入队操作：<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">push</span><span class="params">(<span class="keyword">int</span> node)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">while</span>(!stack2.empty())</span><br><span class="line">        &#123;</span><br><span class="line">            stack1.push(stack2.top());</span><br><span class="line">            stack2.pop();</span><br><span class="line">        &#125;</span><br><span class="line">        stack1.push(node);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">pop</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">while</span>(!stack1.empty())</span><br><span class="line">        &#123;</span><br><span class="line">            stack2.push(stack1.top());</span><br><span class="line">            stack1.pop();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> ans = stack2.top();</span><br><span class="line">        stack2.pop();</span><br><span class="line">        <span class="keyword">return</span> ans;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="built_in">stack</span>&lt;<span class="keyword">int</span>&gt; stack1;</span><br><span class="line">    <span class="built_in">stack</span>&lt;<span class="keyword">int</span>&gt; stack2;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 </li>
@@ -1323,6 +1675,15 @@
           
             <div class="post-button text-center">
               <a class="btn" href="/2019/09/04/C++Cook/%E5%89%91%E6%8C%87offer/#more" rel="contents">
+=======
+          <h4 id="two-sum"><a href="#two-sum" class="headerlink" title="two sum"></a>two sum</h4><ul>
+<li>解析：用哈希表放入每一个，下一次检查每一个target的减数是否在表中；</li>
+</ul><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; twoSum(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums, <span class="keyword">int</span> target) &#123;</span><br><span class="line">        <span class="built_in">unordered_map</span>&lt;<span class="keyword">int</span>, <span class="keyword">int</span>&gt; imap;   </span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;; ++i)&#123;</span><br><span class="line">            <span class="keyword">auto</span> it = imap.find(target-nums[i]);</span><br><span class="line">            </span><br><span class="line">            <span class="keyword">if</span>(it != imap.end())</span><br><span class="line">                <span class="keyword">return</span> <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&#123;i, it-&gt;second&#125;;     </span><br><span class="line">            imap[nums[i]] = i;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/2019/09/15/Leetocde_TopInterviewQuestions/LeetCode-TopInterviewQuestions/#more" rel="contents">
+>>>>>>> 7c1172c9875087286cd44bd62769ab39300c7202
                 Read more &raquo;
               </a>
             </div>
@@ -1351,7 +1712,11 @@
 
   
   <nav class="pagination">
+<<<<<<< HEAD
     <a class="extend prev" rel="prev" href="/page/6/">&lt;</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/8/">&gt;</a>
+=======
+    <a class="extend prev" rel="prev" href="/page/6/">&lt;</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="extend next" rel="next" href="/page/8/">&gt;</a>
+>>>>>>> 7c1172c9875087286cd44bd62769ab39300c7202
   </nav>
 
 
@@ -1387,7 +1752,11 @@
         
           <a href="/archives">
         
+<<<<<<< HEAD
           <span class="site-state-item-count">79</span>
+=======
+          <span class="site-state-item-count">91</span>
+>>>>>>> 7c1172c9875087286cd44bd62769ab39300c7202
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -1440,7 +1809,13 @@
         
           
         
+<<<<<<< HEAD
         <span class="site-state-item-count">19</span>
+=======
+          
+        
+        <span class="site-state-item-count">20</span>
+>>>>>>> 7c1172c9875087286cd44bd62769ab39300c7202
         <span class="site-state-item-name">categories</span>
         </a>
       </div>
@@ -1503,7 +1878,13 @@
         
           
         
+<<<<<<< HEAD
         <span class="site-state-item-count">24</span>
+=======
+          
+        
+        <span class="site-state-item-count">25</span>
+>>>>>>> 7c1172c9875087286cd44bd62769ab39300c7202
         <span class="site-state-item-name">tags</span>
         </a>
       </div>
