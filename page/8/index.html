@@ -821,6 +821,129 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/04/Primer/C++---CHAPTER-3---CONTAINER/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zheng Chu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar/jojo3.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zheng Chu's Blog">
+    </span>
+      <header class="post-header">
+
+        
+          <h1 class="post-title" itemprop="name headline">
+              
+              <a href="/2019/09/04/Primer/C++---CHAPTER-3---CONTAINER/" class="post-title-link" itemprop="url">C++---CHAPTER-3---CONTAINER</a>
+            
+          </h1>
+        
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              
+                
+              
+
+              <time title="Created: 2019-09-04 21:53:15" itemprop="dateCreated datePublished" datetime="2019-09-04T21:53:15+08:00">2019-09-04</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-12-06 20:34:07" itemprop="dateModified" datetime="2020-12-06T20:34:07+08:00">2020-12-06</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/C/" itemprop="url" rel="index"><span itemprop="name">C++</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <ul>
+<li><p>迭代器：<br>标准容器迭代器的运算符, 其中 <code>-&gt;</code> 运算符把解引用和成员访问两个操作结合在一起：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">*iter 返回迭代器iter所指元素的引用</span><br><span class="line">iter-&gt;mem   等价于 (*iter).mem ，解引用iter并获取该元素的名为mem的成员</span><br><span class="line">++iter 令iter指示容器中的下一个元素</span><br><span class="line">--iter 零iter指示容器中的上一个元素</span><br><span class="line">iter1 &#x3D;&#x3D; iter2   iter1 !&#x3D; iter2  判断两个迭代器是否相等</span><br></pre></td></tr></table></figure>
+<ul>
+<li>迭代器的类型：<br><code>const_iterator</code>和常量指针差不多：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">string:: const_iterator it4;  &#x2F;&#x2F;it4只能读字符，不能写字符</span><br><span class="line"></span><br><span class="line">const vector&lt;int&gt; cv;</span><br><span class="line">auto it2 &#x3D; cv.begin();  &#x2F;&#x2F; it2的类型是vector&lt;int&gt;::const_iterator</span><br></pre></td></tr></table></figure>
+<ul>
+<li>警告：任何使用迭代器的循环体，不该向迭代器所属的容器添加元素，如<code>push_back</code>等。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>string与vector的迭代器支持更多运算符：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">auto mid &#x3D; vi.begin() + vi.size() &#x2F; 2</span><br><span class="line"></span><br><span class="line">if (it &lt; mid)   &#x2F;&#x2F; 迭代器的比较，返回difference_type类型的有符号整型数</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+          <!--noindex-->
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/2019/09/04/Primer/C++---CHAPTER-3---CONTAINER/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+          <div class="post-eof"></div>
+        
+      </footer>
+  </div>
+  
+  
+  
+  </article>
+
+     
+    
+     
+       
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/04/Primer/C++---CHAPTER-2---VARIABLE/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -926,129 +1049,6 @@
           
             <div class="post-button text-center">
               <a class="btn" href="/2019/09/04/Primer/C++---CHAPTER-2---VARIABLE/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-          <div class="post-eof"></div>
-        
-      </footer>
-  </div>
-  
-  
-  
-  </article>
-
-     
-    
-     
-       
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/04/Primer/C++---CHAPTER-3---CONTAINER/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Zheng Chu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar/jojo3.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Zheng Chu's Blog">
-    </span>
-      <header class="post-header">
-
-        
-          <h1 class="post-title" itemprop="name headline">
-              
-              <a href="/2019/09/04/Primer/C++---CHAPTER-3---CONTAINER/" class="post-title-link" itemprop="url">C++---CHAPTER-3---CONTAINER</a>
-            
-          </h1>
-        
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              
-                
-              
-
-              <time title="Created: 2019-09-04 21:53:15" itemprop="dateCreated datePublished" datetime="2019-09-04T21:53:15+08:00">2019-09-04</time>
-            </span>
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-12-06 20:34:07" itemprop="dateModified" datetime="2020-12-06T20:34:07+08:00">2020-12-06</time>
-              </span>
-            
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/C/" itemprop="url" rel="index"><span itemprop="name">C++</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <ul>
-<li><p>迭代器：<br>标准容器迭代器的运算符, 其中 <code>-&gt;</code> 运算符把解引用和成员访问两个操作结合在一起：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">*iter 返回迭代器iter所指元素的引用</span><br><span class="line">iter-&gt;mem   等价于 (*iter).mem ，解引用iter并获取该元素的名为mem的成员</span><br><span class="line">++iter 令iter指示容器中的下一个元素</span><br><span class="line">--iter 零iter指示容器中的上一个元素</span><br><span class="line">iter1 &#x3D;&#x3D; iter2   iter1 !&#x3D; iter2  判断两个迭代器是否相等</span><br></pre></td></tr></table></figure>
-<ul>
-<li>迭代器的类型：<br><code>const_iterator</code>和常量指针差不多：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">string:: const_iterator it4;  &#x2F;&#x2F;it4只能读字符，不能写字符</span><br><span class="line"></span><br><span class="line">const vector&lt;int&gt; cv;</span><br><span class="line">auto it2 &#x3D; cv.begin();  &#x2F;&#x2F; it2的类型是vector&lt;int&gt;::const_iterator</span><br></pre></td></tr></table></figure>
-<ul>
-<li>警告：任何使用迭代器的循环体，不该向迭代器所属的容器添加元素，如<code>push_back</code>等。</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>string与vector的迭代器支持更多运算符：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">auto mid &#x3D; vi.begin() + vi.size() &#x2F; 2</span><br><span class="line"></span><br><span class="line">if (it &lt; mid)   &#x2F;&#x2F; 迭代器的比较，返回difference_type类型的有符号整型数</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-          <!--noindex-->
-          
-            <div class="post-button text-center">
-              <a class="btn" href="/2019/09/04/Primer/C++---CHAPTER-3---CONTAINER/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
