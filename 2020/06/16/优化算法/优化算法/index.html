@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="generator" content="Hexo 4.2.1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon-moon_32px.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-moon_32px.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-moon_16px.png?v=7.3.0">
+  <link rel="mask-icon" href="/images/favicon-moon_32px.png?v=7.3.0" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.3.0">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.3.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    save_scroll: false,
+    copycode: {"enable":false,"show_result":false,"style":"mac"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: 'Copy',
+      copy_success: 'Copied',
+      copy_failure: 'Copy failed'
+    }
+  };
+</script>
+
+  <meta name="description" content="This：2020.06.16last：date: 2019-08-17 08:21:58梯度如何下降一、先抓一部分数学分析的知识（1）方向导数的出场：偏导数刻画了函数在特定坐标轴方向上的变化率，而方向导数设法获取函数在特定方向上的变化率。★ 既然是变化率，由极限定义斜率可以猜测，这也是一个极限值；即然是极限值，那么假设在目标点$P_0$附近存在一个微小变化，导致该变化率突然增大或减小，可以想像这">
+<meta property="og:type" content="article">
+<meta property="og:title" content="优化算法">
+<meta property="og:url" content="http://yoursite.com/2020/06/16/%E4%BC%98%E5%8C%96%E7%AE%97%E6%B3%95/%E4%BC%98%E5%8C%96%E7%AE%97%E6%B3%95/index.html">
+<meta property="og:site_name" content="Zheng Chu&#39;s Blog">
+<meta property="og:description" content="This：2020.06.16last：date: 2019-08-17 08:21:58梯度如何下降一、先抓一部分数学分析的知识（1）方向导数的出场：偏导数刻画了函数在特定坐标轴方向上的变化率，而方向导数设法获取函数在特定方向上的变化率。★ 既然是变化率，由极限定义斜率可以猜测，这也是一个极限值；即然是极限值，那么假设在目标点$P_0$附近存在一个微小变化，导致该变化率突然增大或减小，可以想像这">
+<meta property="article:published_time" content="2020-06-16T00:21:58.000Z">
+<meta property="article:modified_time" content="2020-12-06T12:34:07.859Z">
+<meta property="article:author" content="Zheng Chu">
+<meta property="article:tag" content="MachineLearning">
+<meta name="twitter:card" content="summary">
+  <link rel="canonical" href="http://yoursite.com/2020/06/16/%E4%BC%98%E5%8C%96%E7%AE%97%E6%B3%95/%E4%BC%98%E5%8C%96%E7%AE%97%E6%B3%95/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>优化算法 | Zheng Chu's Blog</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?<622a1a023f2bb8cdefcf61e3855bf317>";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <div class="container sidebar-position-left">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Zheng Chu's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">让希望永驻</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-主页">
+      
+    
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home  //"></i> <br>主页</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-所有专栏">
+      
+    
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th //"></i> <br>所有专栏</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-历史文章">
+      
+    
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive //"></i> <br>历史文章</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-标签">
+      
+    
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags  //"></i> <br>标签</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-关于我">
+      
+    
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user //"></i> <br>关于我</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+
+  <a href="https://github.com/zhengchu1994" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+            
+
+          <div id="content" class="content page-post-detail">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/16/%E4%BC%98%E5%8C%96%E7%AE%97%E6%B3%95/%E4%BC%98%E5%8C%96%E7%AE%97%E6%B3%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zheng Chu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar/jojo3.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zheng Chu's Blog">
+    </span>
+      <header class="post-header">
+
+        
+          <h1 class="post-title" itemprop="name headline">优化算法
+
+            
+          </h1>
+        
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              
+                
+              
+
+              <time title="Created: 2020-06-16 08:21:58" itemprop="dateCreated datePublished" datetime="2020-06-16T08:21:58+08:00">2020-06-16</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-12-06 20:34:07" itemprop="dateModified" datetime="2020-12-06T20:34:07+08:00">2020-12-06</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">机器学习</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            <span class="post-meta-item" title="Views">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>This：2020.06.16</p><p>last：date: 2019-08-17 08:21:58</p><h3 id="梯度如何下降"><a href="#梯度如何下降" class="headerlink" title="梯度如何下降"></a>梯度如何下降</h3><p>一、先抓一部分数学分析的知识</p><p>（1）方向导数的出场：偏导数刻画了函数在特定坐标轴方向上的变化率，而方向导数设法获取函数在特定方向上的变化率。</p><p>★ 既然是变化率，由极限定义斜率可以猜测，这也是一个极限值；即然是极限值，那么假设在目标点$P_0$附近存在一个微小变化，导致该变化率突然增大或减小，可以想像这个地方是陡峭的；也就是说方向导数越大，函数在该方向的变化越快。</p><a id="more"></a>
+
+
+
+
+<p>方向导数的定义为从给定点$P_0$发出一条射线$l$，若射线上任意点$P$逼近定点$P_0$ 时极限都存在：</p>
+<script type="math/tex; mode=display">
+\lim_{p\rightarrow0^+}= \frac{f(P)-f(P_0)}{p}=\lim_{p\rightarrow0^+}\frac{\Delta f}{p}</script><p>则称这个极限为函数$f$在点$P_0$沿方向$l$的方向导数，记为$f_l(P_0)$ ， 其中$p$是两点间的距离。</p>
+<p>★   一、方向导数最后是一个数（极限的值）；二、任意方向的向量（上述的射线）自然考虑可以用空间的基向量（basis vector）表示；由此来考虑下面的定理。</p>
+<p>该定理为：(存在方向导数的充分不必要条件)</p>
+<p>若函数$f$在该点$P_0$ 可微，则$f$在点$P_0$沿着任一方向$l$的方向导数都存在，为：</p>
+<script type="math/tex; mode=display">
+f_l(P_0) = \nabla f\cdot \vec v</script><p>⌧ 其中$\vec v=\sum_{i}\alpha_ie_i$ , $\sum_i\alpha_i^2=1$为任意方向上的向量, 作为向量空间的基向量$e_i$的表示。</p>
+<p>★   下面给出梯度与方向导数的关系，然后说明结论；</p>
+<p>梯度的定义：若$f$在点$P_0$存在对所有自变量的偏导数，那么梯度为：</p>
+<script type="math/tex; mode=display">
+\nabla f =(f_x(x_0),f_y(y_0),\cdots,f_z(z_0))</script><p>任意方向方向导数等于:</p>
+<script type="math/tex; mode=display">
+f_l(P_0) = \nabla f\cdot \vec v =\Vert\nabla f\Vert \Vert\vec v\Vert \cos \theta=\Vert\nabla f\Vert\cos \theta</script><p>★   一、由线性代数可知，当点积达到最大值，两个向量指向的方向一致。这意味着任意向量$\vec v$与梯度方向一致的时候，方向导数取得最大，说明梯度是对应于最陡峭的上升/下降速率；二、方向导数是一个值，每一个出发点$P_0$在任意方向都有这么一个值，而该值最大的时候说明对应的方向上函数$f$取得最大的变化率。</p>
+<p>定理：方向导数最大值为梯度$||\nabla f||$,当且仅当该方向为梯度向量的方向$\nabla f(\vec x)$。</p>
+<p>例题是：假设我处于一个高于海拔的山坡的$\left( {60,100} \right)$位置上，上坡的高由函数$z = 1000 - 0.01{x^2} - 0.02{y^2}$给出，那么海拔变化最快的方向是?我站的地方海拔的最大变化率是多少?</p>
+<p>答1:方向便是梯度方向：$\nabla f\left( {60,100} \right) = \left\langle { - 1.2, - 4} \right\rangle$</p>
+<p>答2:最大变化率便是梯度导数在梯度方向的大小，等于梯度向量的范数：$\left| {\nabla f\left( {60,100} \right)} \right| = 4.176$.</p>
+<hr>
+<p>时间：20.06.16</p>
+<h4 id="Batch-Gradient-Descent（即Gradient-Descent）"><a href="#Batch-Gradient-Descent（即Gradient-Descent）" class="headerlink" title="Batch Gradient Descent（即Gradient Descent）"></a>Batch Gradient Descent（即Gradient Descent）</h4><p>做法：在每次用梯度更新参数时，<strong>总是计算全部训练集里参数$\Theta$的梯度</strong>，然后做随机梯度下降更新模型参数。</p>
+<p>注意：避免特征尺度（Scale）影响梯度下降的过程，一般所有特征的尺度做标准化。<code>StantardScaler</code> in Sklearn。</p>
+<p>缺点：慢；陷入局部最优。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">eta = <span class="number">0.1</span>  <span class="comment"># learning rate</span></span><br><span class="line">n_iterations = <span class="number">1000</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">m = <span class="number">100</span></span><br><span class="line"></span><br><span class="line">theta = np.random.randn(<span class="number">2</span>,<span class="number">1</span>)  <span class="comment"># random initialization</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> iteration <span class="keyword">in</span> range(n_iterations):</span><br><span class="line">    gradients = <span class="number">2</span>/m * X_b.T.dot(X_b.dot(theta) - y)</span><br><span class="line">    theta = theta - eta * gradients</span><br></pre></td></tr></table></figure>
+<h4 id="Stochastic-Gradient-Descent"><a href="#Stochastic-Gradient-Descent" class="headerlink" title="Stochastic Gradient Descent"></a>Stochastic Gradient Descent</h4><p>做法：每一个轮次<strong>只使用一个样本进行梯度计算并更新</strong>。有一个learning schedule，目的是迭代后期降低学习率，使得稳定在全局最优处。</p>
+<p>优点：has a better chance of finding the global minimum than BGD does.</p>
+<p>缺点：随机性太大因此跳出全局最优，设置学习表(神似模拟退火)</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">theta_path_mgd = []</span><br><span class="line"></span><br><span class="line">n_iterations = <span class="number">50</span></span><br><span class="line">minibatch_size = <span class="number">20</span></span><br><span class="line"></span><br><span class="line">np.random.seed(<span class="number">42</span>)</span><br><span class="line">theta = np.random.randn(<span class="number">2</span>,<span class="number">1</span>)  <span class="comment"># random initialization</span></span><br><span class="line"></span><br><span class="line">t0, t1 = <span class="number">200</span>, <span class="number">1000</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">learning_schedule</span><span class="params">(t)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> t0 / (t + t1)</span><br><span class="line"></span><br><span class="line">t = <span class="number">0</span></span><br><span class="line"><span class="keyword">for</span> epoch <span class="keyword">in</span> range(n_iterations):</span><br><span class="line">    shuffled_indices = np.random.permutation(m)</span><br><span class="line">    X_b_shuffled = X_b[shuffled_indices]</span><br><span class="line">    y_shuffled = y[shuffled_indices]</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>, m, minibatch_size):</span><br><span class="line">        t += <span class="number">1</span></span><br><span class="line">        xi = X_b_shuffled[i:i+minibatch_size]</span><br><span class="line">        yi = y_shuffled[i:i+minibatch_size]</span><br><span class="line">        gradients = <span class="number">2</span>/minibatch_size * xi.T.dot(xi.dot(theta) - yi)</span><br><span class="line">        eta = learning_schedule(t)</span><br><span class="line">        theta = theta - eta * gradients</span><br><span class="line">        theta_path_mgd.append(theta)</span><br></pre></td></tr></table></figure>
+<h4 id="Mini-Batch-Gradient-Descent"><a href="#Mini-Batch-Gradient-Descent" class="headerlink" title="Mini-Batch Gradient Descent"></a>Mini-Batch Gradient Descent</h4><p>做法：computes the gradients on small random sets of instances called mini-batches.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">theta_path_mgd = []</span><br><span class="line"></span><br><span class="line">n_iterations = <span class="number">50</span></span><br><span class="line">minibatch_size = <span class="number">20</span></span><br><span class="line"></span><br><span class="line">np.random.seed(<span class="number">42</span>)</span><br><span class="line">theta = np.random.randn(<span class="number">2</span>,<span class="number">1</span>)  <span class="comment"># random initialization</span></span><br><span class="line"></span><br><span class="line">t0, t1 = <span class="number">200</span>, <span class="number">1000</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">learning_schedule</span><span class="params">(t)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> t0 / (t + t1)</span><br><span class="line"></span><br><span class="line">t = <span class="number">0</span></span><br><span class="line"><span class="keyword">for</span> epoch <span class="keyword">in</span> range(n_iterations):</span><br><span class="line">    shuffled_indices = np.random.permutation(m)</span><br><span class="line">    X_b_shuffled = X_b[shuffled_indices]</span><br><span class="line">    y_shuffled = y[shuffled_indices]</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>, m, minibatch_size):</span><br><span class="line">        t += <span class="number">1</span></span><br><span class="line">        xi = X_b_shuffled[i:i+minibatch_size]</span><br><span class="line">        yi = y_shuffled[i:i+minibatch_size]</span><br><span class="line">        gradients = <span class="number">2</span>/minibatch_size * xi.T.dot(xi.dot(theta) - yi)</span><br><span class="line">        eta = learning_schedule(t)</span><br><span class="line">        theta = theta - eta * gradients</span><br><span class="line">        theta_path_mgd.append(theta)</span><br></pre></td></tr></table></figure>
+<h4 id><a href="#" class="headerlink" title=" "></a> </h4><hr>
+<ul>
+<li>Reference: 华东师范《数学分析》</li>
+<li><a href="https://math.stackexchange.com/questions/223252/why-is-gradient-the-direction-of-steepest-ascent" target="_blank" rel="noopener">https://math.stackexchange.com/questions/223252/why-is-gradient-the-direction-of-steepest-ascent</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+        
+      
+
+      <footer class="post-footer">
+          
+            
+          
+          <div class="post-tags">
+            
+              <a href="/tags/MachineLearning/" rel="tag"># MachineLearning</a>
+            
+          </div>
+        
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/2020/06/15/Tensorflow2/Tensorfow2.0%E5%A4%8D%E4%B9%A0%E7%AC%94%E8%AE%B02/" rel="next" title="Tensorfow2复习--技巧">
+                  <i class="fa fa-chevron-left"></i> Tensorfow2复习--技巧
+                </a>
+              
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+                <a href="/2020/06/16/LogisticMiximumEntropy/LogisticMiximumEntropy/" rel="prev" title="逻辑与线性回归">
+                  逻辑与线性回归 <i class="fa fa-chevron-right"></i>
+                </a>
+              
+            </div>
+          </div>
+        
+      </footer>
+    
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+    
+    <div class="comments" id="gitalk-container"></div>
+  
+
+        </div>
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image"
+      src="/images/avatar/jojo3.jpg"
+      alt="Zheng Chu">
+  <p class="site-author-name" itemprop="name">Zheng Chu</p>
+  <div class="site-description motion-element" itemprop="description"></div>
+</div>
+  <nav class="site-state motion-element">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives">
+        
+          <span class="site-state-item-count">82</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-name">categories</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">tags</span>
+        </a>
+      </div>
+    
+  </nav>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://github.com/zhengchu1994" title="GitHub &rarr; https://github.com/zhengchu1994" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://www.jianshu.com/u/d4875c485cff" title="简书 &rarr; https://www.jianshu.com/u/d4875c485cff" rel="noopener" target="_blank"><i class="fa fa-fw fa-heartbeat"></i>简书</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://blog.csdn.net/NockinOnHeavensDoor" title="CSDN &rarr; https://blog.csdn.net/NockinOnHeavensDoor" rel="noopener" target="_blank"><i class="fa fa-fw fa-globe"></i>CSDN</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="mailto:zhengchu@tju.edu.cn" title="E-Mail &rarr; mailto:zhengchu@tju.edu.cn" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+    
+  </div>
+
+
+
+        </div>
+      </div>
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#梯度如何下降"><span class="nav-number">1.</span> <span class="nav-text">梯度如何下降</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Batch-Gradient-Descent（即Gradient-Descent）"><span class="nav-number">1.1.</span> <span class="nav-text">Batch Gradient Descent（即Gradient Descent）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Stochastic-Gradient-Descent"><span class="nav-number">1.2.</span> <span class="nav-text">Stochastic Gradient Descent</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Mini-Batch-Gradient-Descent"><span class="nav-number">1.3.</span> <span class="nav-text">Mini-Batch Gradient Descent</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#"><span class="nav-number">1.4.</span> <span class="nav-text"> </span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Zheng Chu</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.2.1</div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.3.0</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="Total Visitors">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+    <span class="post-meta-divider">|</span>
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="Total Views">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+      </div>
+
+    
+
+  </div>
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+<script src="/js/utils.js?v=7.3.0"></script>
+  <script src="/js/motion.js?v=7.3.0"></script>
+
+
+  <script src="/js/affix.js?v=7.3.0"></script>
+  <script src="/js/schemes/pisces.js?v=7.3.0"></script>
+
+
+<script src="/js/next-boot.js?v=7.3.0"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+    
+      
+<script type="text/x-mathjax-config">
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') {
+          next = next.nextSibling;
+        }
+        if (next && next.nodeName.toLowerCase() === 'br') {
+          next.parentNode.removeChild(next);
+        }
+      }
+    });
+  });
+
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      element = document.getElementById(all[i].inputID + '-Frame').parentNode;
+      if (element.nodeName.toLowerCase() == 'li') {
+        element = element.parentNode;
+      }
+      element.classList.add('has-jax');
+    }
+  });
+</script>
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML', function() {
+    MathJax.Hub.Typeset();
+  }, window.MathJax);
+</script>
+
+    
+  
+
+  
+
+  
+
+
+  
+  <script src="/js/scrollspy.js?v=7.3.0"></script>
+<script src="/js/post-details.js?v=7.3.0"></script>
+
+
+    
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', function() {
+    var gitalk = new Gitalk({
+      clientID: '0911ce8ceab7f12409f0',
+      clientSecret: '6fa693e25bfc0f98e5cc0907c97cb2fe9f54bb5e',
+      repo: 'Gitalk',
+      owner: 'zhengchu1994',
+      admin: ['zhengchu1994'],
+      id: '7686c9d232c41246bc3992c58d9718ce',
+        language: window.navigator.language || window.navigator.userLanguage,
+      
+      distractionFreeMode: 'true'
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+</script>
+
+</body>
+</html>

@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="generator" content="Hexo 4.2.1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon-moon_32px.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-moon_32px.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-moon_16px.png?v=7.3.0">
+  <link rel="mask-icon" href="/images/favicon-moon_32px.png?v=7.3.0" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.3.0">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.3.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    save_scroll: false,
+    copycode: {"enable":false,"show_result":false,"style":"mac"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: 'Copy',
+      copy_success: 'Copied',
+      copy_failure: 'Copy failed'
+    }
+  };
+</script>
+
+  <meta name="description" content="Weekly Contest 1541189. Maximum Number of Balloons Given a string text, you want to use the characters of text to form as many instances of the word “balloon” as possible. You can use each character i">
+<meta property="og:type" content="article">
+<meta property="og:title" content="LeetCode-Weekly Contest 154">
+<meta property="og:url" content="http://yoursite.com/2019/09/20/WeeklyContest154/index.html">
+<meta property="og:site_name" content="Zheng Chu&#39;s Blog">
+<meta property="og:description" content="Weekly Contest 1541189. Maximum Number of Balloons Given a string text, you want to use the characters of text to form as many instances of the word “balloon” as possible. You can use each character i">
+<meta property="og:image" content="https://assets.leetcode.com/uploads/2019/09/03/1537_ex1_2.png">
+<meta property="og:image" content="http://yoursite.com/2019/09/20/WeeklyContest154/%E5%9B%BE%E7%9A%84%E6%95%B0%E7%BB%84%E9%82%BB%E6%8E%A5%E8%A1%A8%E8%BE%93%E5%85%A5%E5%9B%BE.png">
+<meta property="article:published_time" content="2019-09-20T13:53:34.000Z">
+<meta property="article:modified_time" content="2020-12-06T12:34:07.900Z">
+<meta property="article:author" content="Zheng Chu">
+<meta property="article:tag" content="Algorithm">
+<meta property="article:tag" content="Leetcode">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://assets.leetcode.com/uploads/2019/09/03/1537_ex1_2.png">
+  <link rel="canonical" href="http://yoursite.com/2019/09/20/WeeklyContest154/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>LeetCode-Weekly Contest 154 | Zheng Chu's Blog</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?<622a1a023f2bb8cdefcf61e3855bf317>";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <div class="container sidebar-position-left">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Zheng Chu's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">让希望永驻</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-主页">
+      
+    
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home  //"></i> <br>主页</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-所有专栏">
+      
+    
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th //"></i> <br>所有专栏</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-历史文章">
+      
+    
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive //"></i> <br>历史文章</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-标签">
+      
+    
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags  //"></i> <br>标签</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-关于我">
+      
+    
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user //"></i> <br>关于我</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+
+  <a href="https://github.com/zhengchu1994" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+            
+
+          <div id="content" class="content page-post-detail">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/20/WeeklyContest154/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zheng Chu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar/jojo3.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zheng Chu's Blog">
+    </span>
+      <header class="post-header">
+
+        
+          <h1 class="post-title" itemprop="name headline">LeetCode-Weekly Contest 154
+
+            
+          </h1>
+        
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              
+                
+              
+
+              <time title="Created: 2019-09-20 21:53:34" itemprop="dateCreated datePublished" datetime="2019-09-20T21:53:34+08:00">2019-09-20</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-12-06 20:34:07" itemprop="dateModified" datetime="2020-12-06T20:34:07+08:00">2020-12-06</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" itemprop="url" rel="index"><span itemprop="name">算法与数据结构</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            <span class="post-meta-item" title="Views">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="Weekly-Contest-154"><a href="#Weekly-Contest-154" class="headerlink" title="Weekly Contest 154"></a><a href="https://leetcode.com/contest/weekly-contest-154" target="_blank" rel="noopener">Weekly Contest 154</a></h2><h4 id="1189-Maximum-Number-of-Balloons"><a href="#1189-Maximum-Number-of-Balloons" class="headerlink" title="1189. Maximum Number of Balloons"></a>1189. Maximum Number of Balloons</h4><blockquote>
+<p>Given a string <code>text</code>, you want to use the characters of <code>text</code> to form as many instances of the word <strong>“balloon”</strong> as possible.</p>
+<p>You can use each character in <code>text</code> <strong>at most once</strong>. Return the maximum number of instances that can be formed.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt;Input: text &#x3D; &quot;nlaebolko&quot;</span><br><span class="line">&gt;Output: 1</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt;Input: text &#x3D; &quot;loonbalxballpoon&quot;</span><br><span class="line">&gt;Output: 2</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt;Input: text &#x3D; &quot;leetcode&quot;</span><br><span class="line">&gt;Output: 0</span><br></pre></td></tr></table></figure>
+</blockquote><a id="more"></a>
+<ul>
+<li>解析：查看这个里面有多少个”ballon”单词，不能使用以及用过的字母。我用的map来做：</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">maxNumberOfBalloons</span><span class="params">(<span class="built_in">string</span> text)</span> </span>&#123;</span><br><span class="line">        <span class="built_in">unordered_map</span>&lt;<span class="keyword">char</span>, <span class="keyword">int</span>&gt; table;</span><br><span class="line">        <span class="built_in">string</span> s = <span class="string">"balloon"</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">auto</span> c : text)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (s.find(c) != <span class="built_in">string</span>::npos)</span><br><span class="line">                table[c]++;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">bool</span> zero = <span class="literal">true</span>;</span><br><span class="line">        <span class="keyword">int</span> res = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span>(zero)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">auto</span> c : s)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">if</span>(table[c] == <span class="number">0</span>) <span class="comment">//没有c这个字符，那么不能组成单词，返回0</span></span><br><span class="line">                    <span class="keyword">return</span> res;</span><br><span class="line">                <span class="keyword">else</span></span><br><span class="line">                &#123;</span><br><span class="line">                    table[c]--;</span><br><span class="line">                    <span class="keyword">if</span> (table[c] == <span class="number">0</span>)<span class="comment">//该类单词用完了，不可能再组成单词，退出循环。</span></span><br><span class="line">                        zero = <span class="literal">false</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            res += <span class="number">1</span>;<span class="comment">//每次循环结束说明能组成一个单词。</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>别人的方法：思路一样，找最小出现字符的数目就行。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">maxNumberOfBalloons</span><span class="params">(self, text: str)</span> -&gt; int:</span></span><br><span class="line">        ans=len(text)</span><br><span class="line">        <span class="keyword">for</span> l <span class="keyword">in</span> <span class="string">'ban'</span>:</span><br><span class="line">            ans=min(ans,text.count(l))</span><br><span class="line">        <span class="keyword">for</span> l <span class="keyword">in</span> <span class="string">'lo'</span>:</span><br><span class="line">            ans=min(ans,text.count(l)//<span class="number">2</span>)</span><br><span class="line">        <span class="keyword">return</span> ans</span><br></pre></td></tr></table></figure>
+<h4 id="1190-Reverse-Substrings-Between-Each-Pair-of-Parentheses"><a href="#1190-Reverse-Substrings-Between-Each-Pair-of-Parentheses" class="headerlink" title="1190. Reverse Substrings Between Each Pair of Parentheses"></a>1190. Reverse Substrings Between Each Pair of Parentheses</h4><blockquote>
+<p>You are given a string <code>s</code> that consists of lower case English letters and brackets. </p>
+<p>Reverse the strings in each pair of matching parentheses, starting from the innermost one.</p>
+<p>Your result should <strong>not</strong> contain any brackets.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt;Input: s &#x3D; &quot;a(bcdefghijkl(mno)p)q&quot;</span><br><span class="line">&gt;Output: &quot;apmnolkjihgfedcbq&quot;</span><br></pre></td></tr></table></figure>
+</blockquote>
+<ul>
+<li><p>解析：我用的python自带的find、rfind函数来做的,就是找到左右括号，然后切片反正：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    def reverseParentheses(self, s: str) -&gt; str:</span><br><span class="line">        <span class="keyword">while</span> <span class="number">1</span>:</span><br><span class="line">            l = s.rfind(<span class="string">'('</span>)</span><br><span class="line">            r = s[l:].find(<span class="string">')'</span>) + l</span><br><span class="line">            <span class="keyword">if</span> l == <span class="number">-1</span> <span class="keyword">or</span> r == <span class="number">-1</span>:</span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line">            s = s[:l] + s[l + <span class="number">1</span> : r][::<span class="number">-1</span>] + s[r + <span class="number">1</span>:]     </span><br><span class="line">        <span class="keyword">return</span> s</span><br></pre></td></tr></table></figure>
+<p>别人的做法：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="built_in">string</span> <span class="title">reverseParentheses</span><span class="params">(<span class="built_in">string</span> s)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> n = s.size();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (s.find(<span class="string">'('</span>) == <span class="built_in">string</span>::npos)</span><br><span class="line">            <span class="keyword">return</span> s;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> position = s.find(<span class="string">'('</span>);</span><br><span class="line">        <span class="keyword">int</span> level = <span class="number">0</span>; <span class="comment">//记录对称的括号是否平衡</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = position; i &lt; n; i++)</span><br><span class="line">            <span class="keyword">if</span> (s[i] == <span class="string">'('</span>)</span><br><span class="line">                level++;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span> (s[i] == <span class="string">')'</span>) &#123;</span><br><span class="line">                level--;</span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span> (level == <span class="number">0</span>) &#123;</span><br><span class="line">                    <span class="built_in">string</span> answer = s.substr(<span class="number">0</span>, position);<span class="comment">//不需要反转的左括号前的子串</span></span><br><span class="line">                    <span class="built_in">string</span> sub = s.substr(position + <span class="number">1</span>, i - (position + <span class="number">1</span>));<span class="comment">//最外层括号的子串</span></span><br><span class="line">                    sub = reverseParentheses(sub); <span class="comment">//对内部的括号层做反转的结果</span></span><br><span class="line">                    reverse(sub.begin(), sub.end()); <span class="comment">//最后对最外层做反转</span></span><br><span class="line">                    answer += sub; <span class="comment">//加上前后的子串</span></span><br><span class="line">                    answer += reverseParentheses(s.substr(i + <span class="number">1</span>));</span><br><span class="line">                    <span class="keyword">return</span> answer;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        assert(<span class="literal">false</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="1191-K-Concatenation-Maximum-Sum"><a href="#1191-K-Concatenation-Maximum-Sum" class="headerlink" title="1191. K-Concatenation Maximum Sum"></a>1191. K-Concatenation Maximum Sum</h4><blockquote>
+<p>Given an integer array <code>arr</code> and an integer <code>k</code>, modify the array by repeating it <code>k</code> times.</p>
+<p>For example, if <code>arr = [1, 2]</code> and <code>k = 3</code>then the modified array will be <code>[1, 2, 1, 2, 1, 2]</code>.</p>
+<p>Return the maximum sub-array sum in the modified array. Note that the length of the sub-array can be <code>0</code> and its sum in that case is <code>0</code>.</p>
+<p>As the answer can be very large, return the answer <strong>modulo</strong> <code>10^9 + 7</code>.</p>
+</blockquote>
+<ul>
+<li>解析：先知道这怎么去求解一个数组的最大子数组和：<a href="https://www.geeksforgeeks.org/largest-sum-contiguous-subarray/" target="_blank" rel="noopener">https://www.geeksforgeeks.org/largest-sum-contiguous-subarray/</a></li>
+</ul>
+<p>若整个数组的和都小于等于0，那么k大于1时，只考虑数组的前缀和数组的后缀大小和，与数组的最大子数组和的大小，谁更大。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">kConcatenationMaxSum</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; arr, <span class="keyword">int</span> k)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> mod = <span class="number">1e9</span> + <span class="number">7</span>;</span><br><span class="line">        <span class="comment">// lmax:record maximum begin at left; </span></span><br><span class="line">        <span class="comment">//rmax: record maximum begin at right;</span></span><br><span class="line">        <span class="comment">//mmax: record Largest Sum Contiguous Subarray: https://www.geeksforgeeks.org/largest-sum-contiguous-subarray/</span></span><br><span class="line">        <span class="keyword">long</span> lmax = INT_MIN, rmax =INT_MIN, mmax = INT_MIN;</span><br><span class="line">        <span class="keyword">long</span> lend = <span class="number">0</span>, rend = <span class="number">0</span>, mend = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>, j = arr.size() <span class="number">-1</span>; i &lt; arr.size() &amp;&amp; j &gt;=<span class="number">0</span>; i++, j--)</span><br><span class="line">        &#123;</span><br><span class="line">            lend += arr[i]; lmax = max(lmax, lend);</span><br><span class="line">            rend += arr[j]; rmax = max(rmax, rend);</span><br><span class="line">            mend += arr[i]; </span><br><span class="line">            <span class="keyword">if</span> (mend &lt; <span class="number">0</span>)</span><br><span class="line">                mend = <span class="number">0</span>;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">                mmax =  max(mmax, mend);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (k == <span class="number">1</span>)</span><br><span class="line">            <span class="keyword">return</span> max(<span class="keyword">long</span>(<span class="number">0</span>), mmax);</span><br><span class="line">        <span class="comment">//lend is also the sum of total array.</span></span><br><span class="line">        <span class="comment">//when little than 0, just compare 2 combined array.</span></span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (lend &lt;= <span class="number">0</span>) </span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span> max(<span class="keyword">long</span>(<span class="number">0</span>), max(lmax + rmax, mmax)) % mod;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//else plus the middle</span></span><br><span class="line">        <span class="keyword">else</span> </span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span> max(<span class="keyword">long</span>(<span class="number">0</span>), max((lend * (k - <span class="number">2</span>) + lmax + rmax), mmax)) % mod;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h4 id="1192-Critical-Connections-in-a-Network"><a href="#1192-Critical-Connections-in-a-Network" class="headerlink" title="1192. Critical Connections in a Network"></a>1192. Critical Connections in a Network</h4><blockquote>
+<p>There are <code>n</code> servers numbered from <code>0</code> to <code>n-1</code> connected by undirected server-to-server <code>connections</code> forming a network where <code>connections[i] = [a, b]</code> represents a connection between servers <code>a</code> and <code>b</code>. Any server can reach any other server directly or indirectly through the network.</p>
+<p>A <em>critical connection</em> is a connection that, if removed, will make some server unable to reach some other server.</p>
+<p>Return all critical connections in the network in any order.</p>
+<p><strong>Constraints:</strong></p>
+<ul>
+<li><code>1 &lt;= n &lt;= 10^5</code></li>
+<li><code>n-1 &lt;= connections.length &lt;= 10^5</code></li>
+<li><code>connections[i][0] != connections[i][1]</code></li>
+<li>There are no repeated connections.</li>
+</ul>
+</blockquote>
+<p><img src="https://assets.leetcode.com/uploads/2019/09/03/1537_ex1_2.png" alt></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Input: n &#x3D; 4, connections &#x3D; [[0,1],[1,2],[2,0],[1,3]]</span><br><span class="line">Output: [[1,3]]</span><br><span class="line">Explanation: [[3,1]] is also accepted.</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>解析：<a href="https://leetcode.com/problems/critical-connections-in-a-network/discuss/382473/ChineseC%2B%2B-1192.-Tarjan-O(n-%2B-e" target="_blank" rel="noopener">https://leetcode.com/problems/critical-connections-in-a-network/discuss/382473/ChineseC%2B%2B-1192.-Tarjan-O(n-%2B-e</a>)</p>
+</li>
+<li><p>先要知道的图的存储方式：</p>
+</li>
+</ul>
+<ul>
+<li><p>数组实现图的邻接表方法：<a href="https://wiki.jikexueyuan.com/project/easy-learn-algorithm/clever-adjacency-list.html" target="_blank" rel="noopener">https://wiki.jikexueyuan.com/project/easy-learn-algorithm/clever-adjacency-list.html</a></p>
+<p>输入一个图：</p>
+<p><img src="/2019/09/20/WeeklyContest154/图的数组邻接表输入图.png" alt></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">4 5    &#x2F;&#x2F;节点数目 、 边数目</span><br><span class="line">1 4 9  &#x2F;&#x2F;下面是输入的边，代表：起点、终点、权重</span><br><span class="line">4 3 8</span><br><span class="line">1 2 5</span><br><span class="line">2 4 6</span><br><span class="line">1 3 7</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<ul>
+<li><p>设数组first,长度为节点的数目，first 数组来存储每个顶点其中一条边的编号。</p>
+<p>比如1号顶点有一条边是 “1 4 9”（该条边的编号是 1），那么就将 first[1]的值设为 1。如果某个顶点 i 没有以该顶点为起始点的边，则将 first[ i ] 的值设为-1。</p>
+</li>
+<li><p>设数组next，长度为边的数目，next[i]存储的是“编号为i的边”的“前一条边”的编号。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> n = <span class="number">4</span> ,m = <span class="number">5</span>;<span class="comment">//点数和边数</span></span><br><span class="line">    <span class="comment">//u、v代表一对有向边</span></span><br><span class="line">    <span class="keyword">int</span> u[<span class="number">6</span>] = &#123;<span class="number">0</span>, <span class="number">1</span>, <span class="number">4</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">1</span>&#125;; <span class="comment">//起点</span></span><br><span class="line">    <span class="keyword">int</span> v[<span class="number">6</span>] = &#123;<span class="number">0</span>, <span class="number">4</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">4</span>, <span class="number">3</span>&#125;; <span class="comment">//终点</span></span><br><span class="line">    <span class="keyword">int</span> i;</span><br><span class="line">    <span class="keyword">int</span> first[n + <span class="number">1</span>],next[m + <span class="number">1</span>]; <span class="comment">//0位置处不用</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>; i&lt;=n; i++)</span><br><span class="line">        first[i]=<span class="number">-1</span>;</span><br><span class="line">    <span class="keyword">for</span>(i=<span class="number">1</span>; i&lt;=m; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">//当前输入第i条边;对应节点(起点)号码为u[i]</span></span><br><span class="line">        next[i] = first[u[i]]; </span><br><span class="line">        first[u[i]] = i; </span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//遍历1号顶点所有边</span></span><br><span class="line">    <span class="keyword">int</span> k = first[<span class="number">1</span>]; <span class="comment">//1号顶点其中的一条边的编号（其实也是最后读入的边）</span></span><br><span class="line">    <span class="keyword">while</span>(k != <span class="number">-1</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">cout</span> &lt;&lt; u[k] &lt;&lt; <span class="string">"---&gt;"</span> &lt;&lt; v[k] &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">        k = next[k];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">output:</span><br><span class="line"><span class="number">1</span>---&gt;<span class="number">3</span></span><br><span class="line"><span class="number">1</span>---&gt;<span class="number">2</span></span><br><span class="line"><span class="number">1</span>---&gt;<span class="number">4</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>无向图的类似存储方式：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">    <span class="comment">//因为是无向图，所以边的数目是 MAXM * 2.</span></span><br><span class="line">    <span class="comment">//Head[i]存储第i个节点的其中一条边的编号，等价于上边的first数组，next数组等价于上面的next数组</span></span><br><span class="line">	<span class="keyword">int</span> Head[MAXN], Next[MAXM*<span class="number">2</span>], To[MAXM*<span class="number">2</span>]; </span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">add_edge</span><span class="params">(<span class="keyword">int</span> x, <span class="keyword">int</span> y)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        tot++;  <span class="comment">//tot是输入的每条边被存储在Next和To中的索引;</span></span><br><span class="line">        Next[tot] = Head[x];</span><br><span class="line">        Head[x] = tot;</span><br><span class="line">        To[tot] = y;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">ReadInfo</span><span class="params">(<span class="keyword">int</span> n, <span class="built_in">vector</span>&lt; <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt;&amp; connections)</span> <span class="comment">//n为节点数，边集如： [[0,1],[1,2],[2,0],[1,3]]</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="built_in">memset</span>(Head, <span class="number">-1</span>, <span class="keyword">sizeof</span>(Head));</span><br><span class="line">        tot = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">auto</span> &amp;v: conn)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">int</span> x = v[<span class="number">0</span>];</span><br><span class="line">            <span class="keyword">int</span> y = v[<span class="number">1</span>];</span><br><span class="line">            add_edge(x, y);</span><br><span class="line">            add_edge(y, x);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="comment">//遍历顶点u的全部边</span></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = Head[u]; i != <span class="number">-1</span>; i = Next[i])</span><br></pre></td></tr></table></figure>
+<ul>
+<li>类似于Tarjan 算法：Tarjan 思想：对于一个连通图，递归可以访问到所有顶点和边。</li>
+</ul>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"> ------------</span><br><span class="line">|            |</span><br><span class="line">1 --- 2 ---- 3</span><br><span class="line"><span class="code">      |</span></span><br><span class="line"><span class="code">	  |</span></span><br><span class="line"><span class="code">      |</span></span><br><span class="line"><span class="code">	  4 --- 5</span></span><br><span class="line"><span class="code">	  |     |</span></span><br><span class="line"><span class="code">       ---- 6</span></span><br></pre></td></tr></table></figure>
+<p>而对于割边，例如<code>2-4</code>，递归的时候，<code>2-4</code>递归的所有顶点都大于<code>2</code>。<br>而对于非割边，比如<code>5-6</code>，递归的时候，<code>6</code>可以找到更小的<code>4</code>。</p>
+<p>总结一下就是，这个边递归找的最小编号都比自己大，那这个边就是割边，否则不是割边。</p>
+<p>所以我们需要做的就是递归寻找每个顶点能够到达的最小编号，然后比大小即可。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Tarjan</span><span class="params">(<span class="keyword">int</span> v, <span class="keyword">int</span> pre = <span class="number">-1</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (dfs[v] != <span class="number">-1</span>) <span class="keyword">return</span>; <span class="comment">//已经遍历过该节点</span></span><br><span class="line">    dfs[v] = low[v] = ++numIndex; <span class="comment">//分配唯一编号</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">//遍历所有顶点v出发的边</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = Head[v]; i != <span class="number">-1</span>; i = Next[i])</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">int</span> u = To[i]; <span class="comment">//u:第i条边对应的终点</span></span><br><span class="line">        <span class="keyword">if</span> (u == pre) <span class="keyword">continue</span>; <span class="comment">//因为是无向图，该终点u是上次的起点则忽略该终点</span></span><br><span class="line">        Tarjan(u, v); <span class="comment">//递归</span></span><br><span class="line">        </span><br><span class="line">        low[v] = min(low[v], low[u]); <span class="comment">//如有更小的编号，更新</span></span><br><span class="line">        <span class="keyword">if</span> (low[u] &gt; dfs[v]) <span class="comment">//找到一个答案</span></span><br><span class="line">        &#123;</span><br><span class="line">            cutEdge[numCutedge++] = &#123;v, u&#125;;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>完整代码：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> MAXN = <span class="number">1e5</span> + <span class="number">10</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> MAXE = <span class="number">1e5</span> + <span class="number">10</span>;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line">    <span class="comment">//Head:存储每一个节点出发的其中一条边, Next:存储每条边的上一条边,To:每条边的结尾节点位置</span></span><br><span class="line">    <span class="keyword">int</span> Head[MAXN], Next[MAXE * <span class="number">2</span>], To[MAXE * <span class="number">2</span>];</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//to:更新边的编号</span></span><br><span class="line">    <span class="keyword">int</span> to;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//numCutedge:记录关键边的数目，numIndex:为搜索的节点分配唯一的编号</span></span><br><span class="line">    <span class="keyword">int</span> numCutedge, numIndex;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//dfs:存储每一个节点的唯一编号; low:存储当前节点能到达的最小编号</span></span><br><span class="line">    <span class="keyword">int</span> dfs[MAXN], low[MAXN];</span><br><span class="line">    </span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">edge</span></span></span><br><span class="line"><span class="class">    &#123;</span></span><br><span class="line">        <span class="keyword">int</span> u, v;</span><br><span class="line">    &#125;cutEdge[MAXE];</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">Tarjan</span><span class="params">(<span class="keyword">int</span> v, <span class="keyword">int</span> pre = <span class="number">-1</span>)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (dfs[v] != <span class="number">-1</span>) <span class="keyword">return</span>; <span class="comment">//已经遍历过该节点</span></span><br><span class="line">        dfs[v] = low[v] = ++numIndex; <span class="comment">//分配唯一编号</span></span><br><span class="line">        </span><br><span class="line">        <span class="comment">//遍历所有顶点v出发的边</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = Head[v]; i != <span class="number">-1</span>; i = Next[i])</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">int</span> u = To[i]; <span class="comment">//u:第i条边对应的终点</span></span><br><span class="line">            <span class="keyword">if</span> (u == pre) <span class="keyword">continue</span>; <span class="comment">//因为是无向图，该终点u是上次的起点则忽略该终点</span></span><br><span class="line">            Tarjan(u, v); <span class="comment">//递归</span></span><br><span class="line">            </span><br><span class="line">            low[v] = min(low[v], low[u]); <span class="comment">//如有更小的编号，更新</span></span><br><span class="line">            <span class="keyword">if</span> (low[u] &gt; dfs[v]) <span class="comment">//找到一个答案</span></span><br><span class="line">            &#123;</span><br><span class="line">                cutEdge[numCutedge++] = &#123;v, u&#125;;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">solve</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        numCutedge = <span class="number">0</span>, numIndex = <span class="number">0</span>;</span><br><span class="line">        <span class="built_in">memset</span>(dfs, <span class="number">-1</span>, <span class="keyword">sizeof</span>(dfs));</span><br><span class="line">        <span class="built_in">memset</span>(low, <span class="number">-1</span>, <span class="keyword">sizeof</span>(low));</span><br><span class="line">        Tarjan(<span class="number">0</span>); <span class="comment">//由于是连通图，随便找个定点开始搜就行了</span></span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">outit</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt; &amp;ans)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; numCutedge; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            ans.push_back(&#123;cutEdge[i].u, cutEdge[i].v&#125;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">add_edge</span><span class="params">(<span class="keyword">int</span> x, <span class="keyword">int</span> y)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        to++;</span><br><span class="line">        Next[to] = Head[x]; <span class="comment">//next[i]存储的是“编号为i的边”的“前一条边”的编号</span></span><br><span class="line">        Head[x] = to; <span class="comment">//储存to这条边</span></span><br><span class="line">        To[to] = y;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">readInfo</span><span class="params">(<span class="keyword">int</span> n, <span class="built_in">vector</span>&lt; <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt;&amp; cons)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="built_in">memset</span>(Head, <span class="number">-1</span>, <span class="keyword">sizeof</span>(Head));</span><br><span class="line">        <span class="comment">// this-&gt;n = n;</span></span><br><span class="line">        to = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">auto</span> &amp;e: cons)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">int</span> x = e[<span class="number">0</span>];</span><br><span class="line">            <span class="keyword">int</span> y = e[<span class="number">1</span>];</span><br><span class="line">            add_edge(x, y);</span><br><span class="line">            add_edge(y, x);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt; criticalConnections(<span class="keyword">int</span> n, <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt;&amp; connections) &#123;</span><br><span class="line">        readInfo(n, connections);</span><br><span class="line">        solve();</span><br><span class="line">        <span class="built_in">vector</span>&lt; <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt; ans;</span><br><span class="line">        outit(ans);</span><br><span class="line">        <span class="keyword">return</span> ans;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>python:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> collections</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">criticalConnections</span><span class="params">(self, n: int, connections: List[List[int]])</span> -&gt; List[List[int]]:</span></span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">make_graph</span><span class="params">(cons)</span>:</span></span><br><span class="line">            graph = collections.defaultdict(list)</span><br><span class="line">            <span class="keyword">for</span> i, j <span class="keyword">in</span> cons:</span><br><span class="line">                graph[i].append(j)</span><br><span class="line">                graph[j].append(i)</span><br><span class="line">            <span class="keyword">return</span> graph</span><br><span class="line">        </span><br><span class="line">        graph = make_graph(connections)</span><br><span class="line">        connections = set(map(tuple, (map(sorted, connections))))</span><br><span class="line">        rank = [<span class="number">-2</span>] * n</span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">dfs</span><span class="params">(node, depth)</span>:</span></span><br><span class="line">            <span class="keyword">if</span> rank[node] &gt;= <span class="number">0</span>:</span><br><span class="line">                <span class="comment"># visiting (0&lt;=rank&lt;n), or visited (rank=n)</span></span><br><span class="line">                <span class="keyword">return</span> rank[node]</span><br><span class="line">            rank[node] = depth <span class="comment">#设置为深度值</span></span><br><span class="line">            </span><br><span class="line">            min_depth = n </span><br><span class="line">            <span class="keyword">for</span> neiborhood <span class="keyword">in</span> graph[node]:</span><br><span class="line">                <span class="keyword">if</span> rank[neiborhood] == depth - <span class="number">1</span>: <span class="comment">#无向图回到上一步访问点</span></span><br><span class="line">                    <span class="keyword">continue</span> </span><br><span class="line">                back_depth = dfs(neiborhood, depth + <span class="number">1</span>)</span><br><span class="line">                </span><br><span class="line">                <span class="keyword">if</span> back_depth &lt;= depth:</span><br><span class="line">                    connections.discard(tuple(sorted((node, neiborhood))))</span><br><span class="line">                min_depth = min(min_depth, back_depth) <span class="comment"># 能返回更小的深度说明循环回去有环</span></span><br><span class="line">            rank[node] = n <span class="comment">#又重新设置回来 - -</span></span><br><span class="line">            <span class="keyword">return</span> min_depth</span><br><span class="line">        dfs(<span class="number">0</span>, <span class="number">0</span>)</span><br><span class="line">        <span class="keyword">return</span> connections</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+        
+      
+
+      <footer class="post-footer">
+          
+            
+          
+          <div class="post-tags">
+            
+              <a href="/tags/Algorithm/" rel="tag"># Algorithm</a>
+            
+              <a href="/tags/Leetcode/" rel="tag"># Leetcode</a>
+            
+          </div>
+        
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/2019/09/20/Weekly%20Contest%20155/" rel="next" title="LeetCode-Weekly Contest 155">
+                  <i class="fa fa-chevron-left"></i> LeetCode-Weekly Contest 155
+                </a>
+              
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+                <a href="/2019/10/20/%E9%AB%98%E7%B2%BE%E5%BA%A6---%E5%9F%BA%E7%A1%80%E7%AE%97%E6%B3%95%E7%AF%872/" rel="prev" title="算法Basic--高精度">
+                  算法Basic--高精度 <i class="fa fa-chevron-right"></i>
+                </a>
+              
+            </div>
+          </div>
+        
+      </footer>
+    
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+    
+    <div class="comments" id="gitalk-container"></div>
+  
+
+        </div>
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image"
+      src="/images/avatar/jojo3.jpg"
+      alt="Zheng Chu">
+  <p class="site-author-name" itemprop="name">Zheng Chu</p>
+  <div class="site-description motion-element" itemprop="description"></div>
+</div>
+  <nav class="site-state motion-element">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives">
+        
+          <span class="site-state-item-count">82</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-name">categories</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">tags</span>
+        </a>
+      </div>
+    
+  </nav>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://github.com/zhengchu1994" title="GitHub &rarr; https://github.com/zhengchu1994" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://www.jianshu.com/u/d4875c485cff" title="简书 &rarr; https://www.jianshu.com/u/d4875c485cff" rel="noopener" target="_blank"><i class="fa fa-fw fa-heartbeat"></i>简书</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://blog.csdn.net/NockinOnHeavensDoor" title="CSDN &rarr; https://blog.csdn.net/NockinOnHeavensDoor" rel="noopener" target="_blank"><i class="fa fa-fw fa-globe"></i>CSDN</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="mailto:zhengchu@tju.edu.cn" title="E-Mail &rarr; mailto:zhengchu@tju.edu.cn" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+    
+  </div>
+
+
+
+        </div>
+      </div>
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Weekly-Contest-154"><span class="nav-number">1.</span> <span class="nav-text">Weekly Contest 154</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1189-Maximum-Number-of-Balloons"><span class="nav-number">1.0.1.</span> <span class="nav-text">1189. Maximum Number of Balloons</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1190-Reverse-Substrings-Between-Each-Pair-of-Parentheses"><span class="nav-number">1.0.2.</span> <span class="nav-text">1190. Reverse Substrings Between Each Pair of Parentheses</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1191-K-Concatenation-Maximum-Sum"><span class="nav-number">1.0.3.</span> <span class="nav-text">1191. K-Concatenation Maximum Sum</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1192-Critical-Connections-in-a-Network"><span class="nav-number">1.0.4.</span> <span class="nav-text">1192. Critical Connections in a Network</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Zheng Chu</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.2.1</div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.3.0</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="Total Visitors">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+    <span class="post-meta-divider">|</span>
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="Total Views">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+      </div>
+
+    
+
+  </div>
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+<script src="/js/utils.js?v=7.3.0"></script>
+  <script src="/js/motion.js?v=7.3.0"></script>
+
+
+  <script src="/js/affix.js?v=7.3.0"></script>
+  <script src="/js/schemes/pisces.js?v=7.3.0"></script>
+
+
+<script src="/js/next-boot.js?v=7.3.0"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+    
+      
+<script type="text/x-mathjax-config">
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') {
+          next = next.nextSibling;
+        }
+        if (next && next.nodeName.toLowerCase() === 'br') {
+          next.parentNode.removeChild(next);
+        }
+      }
+    });
+  });
+
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      element = document.getElementById(all[i].inputID + '-Frame').parentNode;
+      if (element.nodeName.toLowerCase() == 'li') {
+        element = element.parentNode;
+      }
+      element.classList.add('has-jax');
+    }
+  });
+</script>
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML', function() {
+    MathJax.Hub.Typeset();
+  }, window.MathJax);
+</script>
+
+    
+  
+
+  
+
+  
+
+
+  
+  <script src="/js/scrollspy.js?v=7.3.0"></script>
+<script src="/js/post-details.js?v=7.3.0"></script>
+
+
+    
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', function() {
+    var gitalk = new Gitalk({
+      clientID: '0911ce8ceab7f12409f0',
+      clientSecret: '6fa693e25bfc0f98e5cc0907c97cb2fe9f54bb5e',
+      repo: 'Gitalk',
+      owner: 'zhengchu1994',
+      admin: ['zhengchu1994'],
+      id: '053fe0d56657d38a56f6a922d67bc540',
+        language: window.navigator.language || window.navigator.userLanguage,
+      
+      distractionFreeMode: 'true'
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+</script>
+
+</body>
+</html>
