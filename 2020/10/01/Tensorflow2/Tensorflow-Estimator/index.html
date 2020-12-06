@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="generator" content="Hexo 4.2.1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon-moon_32px.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-moon_32px.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-moon_16px.png?v=7.3.0">
+  <link rel="mask-icon" href="/images/favicon-moon_32px.png?v=7.3.0" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.3.0">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.3.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    save_scroll: false,
+    copycode: {"enable":false,"show_result":false,"style":"mac"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: 'Copy',
+      copy_success: 'Copied',
+      copy_failure: 'Copy failed'
+    }
+  };
+</script>
+
+  <meta name="description" content="Estimator封装了四个主要功能： training evaluation prediction export for serving Esitmator提供了现在tf.keras正在构建中的功能： Parameter server based training Full TFX integration.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Tensorflow2-Estimator">
+<meta property="og:url" content="http://yoursite.com/2020/10/01/Tensorflow2/Tensorflow-Estimator/index.html">
+<meta property="og:site_name" content="Zheng Chu&#39;s Blog">
+<meta property="og:description" content="Estimator封装了四个主要功能： training evaluation prediction export for serving Esitmator提供了现在tf.keras正在构建中的功能： Parameter server based training Full TFX integration.">
+<meta property="article:published_time" content="2020-10-01T13:53:32.000Z">
+<meta property="article:modified_time" content="2020-12-06T13:15:25.336Z">
+<meta property="article:author" content="Zheng Chu">
+<meta property="article:tag" content="Tensorflow">
+<meta name="twitter:card" content="summary">
+  <link rel="canonical" href="http://yoursite.com/2020/10/01/Tensorflow2/Tensorflow-Estimator/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>Tensorflow2-Estimator | Zheng Chu's Blog</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?<622a1a023f2bb8cdefcf61e3855bf317>";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <div class="container sidebar-position-left">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Zheng Chu's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">让希望永驻</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-主页">
+      
+    
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home  //"></i> <br>主页</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-所有专栏">
+      
+    
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th //"></i> <br>所有专栏</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-历史文章">
+      
+    
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive //"></i> <br>历史文章</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-标签">
+      
+    
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags  //"></i> <br>标签</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-关于我">
+      
+    
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user //"></i> <br>关于我</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+
+  <a href="https://github.com/zhengchu1994" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+            
+
+          <div id="content" class="content page-post-detail">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/10/01/Tensorflow2/Tensorflow-Estimator/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zheng Chu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar/jojo3.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zheng Chu's Blog">
+    </span>
+      <header class="post-header">
+
+        
+          <h1 class="post-title" itemprop="name headline">Tensorflow2-Estimator
+
+            
+          </h1>
+        
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              
+                
+              
+
+              <time title="Created: 2020-10-01 21:53:32" itemprop="dateCreated datePublished" datetime="2020-10-01T21:53:32+08:00">2020-10-01</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-12-06 21:15:25" itemprop="dateModified" datetime="2020-12-06T21:15:25+08:00">2020-12-06</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Tensorflow/" itemprop="url" rel="index"><span itemprop="name">Tensorflow</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            <span class="post-meta-item" title="Views">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>Estimator封装了四个主要功能：</p><ul>
+<li>training</li>
+<li>evaluation</li>
+<li>prediction</li>
+<li>export for serving</li>
+</ul><p>Esitmator提供了现在<code>tf.keras</code>正在构建中的功能：</p><ul>
+<li>Parameter server based training</li>
+<li>Full <a href="http://tensorflow.org/tfx" target="_blank" rel="noopener">TFX</a> integration.</li>
+</ul><a id="more"></a>
+
+
+
+<p>Pre-made Estimators封装了很多已有的networks，便于对不同模型结构做测试。</p>
+<p>编写一个Estimator程序的步骤如下：</p>
+<ol>
+<li><p>数据处理接口：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">input_fn</span><span class="params">(dataset)</span>:</span></span><br><span class="line">    ...  <span class="comment"># manipulate dataset, extracting the feature dict and the label</span></span><br><span class="line">    <span class="keyword">return</span> feature_dict, label</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>定义<code>feature columns</code>：通过接口<code>tf.feature_column</code>定义特征的name，types，预处理方式等。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Define three numeric feature columns.</span></span><br><span class="line">population = tf.feature_column.numeric_column(<span class="string">'population'</span>)</span><br><span class="line">crime_rate = tf.feature_column.numeric_column(<span class="string">'crime_rate'</span>)</span><br><span class="line">median_education = tf.feature_column.numeric_column(</span><br><span class="line">  <span class="string">'median_education'</span>,</span><br><span class="line">  normalizer_fn=<span class="keyword">lambda</span> x: x - global_education_mean) <span class="comment">#包含数据处理</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<ol>
+<li><p>定义一个Estimator：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Instantiate an estimator, passing the feature columns.</span></span><br><span class="line">estimator = tf.estimator.LinearClassifier(</span><br><span class="line">  feature_columns=[population, crime_rate, median_education])</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<ol>
+<li><p>training，evaluate等</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># `input_fn` is the function created in Step 1</span></span><br><span class="line">estimator.train(input_fn=my_training_set, steps=<span class="number">2000</span>)</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h4 id="从keras构建Estimator"><a href="#从keras构建Estimator" class="headerlink" title="从keras构建Estimator"></a>从keras构建Estimator</h4>   <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">keras_mobilenet_v2 = tf.keras.applications.MobileNetV2(</span><br><span class="line">    input_shape=(<span class="number">160</span>, <span class="number">160</span>, <span class="number">3</span>), include_top=<span class="literal">False</span>)</span><br><span class="line">keras_mobilenet_v2.trainable = <span class="literal">False</span></span><br><span class="line"></span><br><span class="line">estimator_model = tf.keras.Sequential([</span><br><span class="line">    keras_mobilenet_v2,</span><br><span class="line">    tf.keras.layers.GlobalAveragePooling2D(),</span><br><span class="line">    tf.keras.layers.Dense(<span class="number">1</span>)</span><br><span class="line">])</span><br><span class="line"></span><br><span class="line"><span class="comment"># Compile the model</span></span><br><span class="line">estimator_model.compile(</span><br><span class="line">    optimizer=<span class="string">'adam'</span>,</span><br><span class="line">    loss=tf.keras.losses.BinaryCrossentropy(from_logits=<span class="literal">True</span>),</span><br><span class="line">    metrics=[<span class="string">'accuracy'</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 此时使用的方法与任何其他pre-estimator一样</span></span><br><span class="line">est_mobilenet_v2 = tf.keras.estimator.model_to_estimator(keras_model=estimator_model)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">IMG_SIZE = <span class="number">160</span>  <span class="comment"># All images will be resized to 160x160</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">preprocess</span><span class="params">(image, label)</span>:</span></span><br><span class="line">  image = tf.cast(image, tf.float32)</span><br><span class="line">  image = (image/<span class="number">127.5</span>) - <span class="number">1</span></span><br><span class="line">  image = tf.image.resize(image, (IMG_SIZE, IMG_SIZE))</span><br><span class="line">  <span class="keyword">return</span> image, label</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">train_input_fn</span><span class="params">(batch_size)</span>:</span></span><br><span class="line">  data = tfds.load(<span class="string">'cats_vs_dogs'</span>, as_supervised=<span class="literal">True</span>)</span><br><span class="line">  train_data = data[<span class="string">'train'</span>]</span><br><span class="line">  train_data = train_data.map(preprocess).shuffle(<span class="number">500</span>).batch(batch_size)</span><br><span class="line">  <span class="keyword">return</span> train_data</span><br><span class="line"></span><br><span class="line">est_mobilenet_v2.train(input_fn=<span class="keyword">lambda</span>: train_input_fn(<span class="number">32</span>), steps=<span class="number">500</span>)</span><br></pre></td></tr></table></figure>
+<hr>
+<h4 id="feature-columns"><a href="#feature-columns" class="headerlink" title="feature_columns"></a>feature_columns</h4><p>   <a href="https://www.tensorflow.org/tutorials/structured_data/feature_columns" target="_blank" rel="noopener">https://www.tensorflow.org/tutorials/structured_data/feature_columns</a></p>
+<p>   特征列 通常用于对结构化数据实施特征工程时候使用，图像或者文本数据一般不会用到特征列。</p>
+<p>   使用特征列可以将类别特征转换为one-hot编码特征，将连续特征构建分桶特征，以及对多个特征生成交叉特征等等。</p>
+<p>   要创建特征列，请调用 tf.feature_column 模块的函数。该模块中常用的九个函数如下图所示，所有九个函数都会返回一个 Categorical-Column 或一个 Dense-Column 对象，但却不会返回 bucketized_column，后者继承自这两个类。</p>
+<p>   注意：所有的Catogorical Column类型最终都要通过indicator_column转换成Dense Column类型才能传入模型！</p>
+<ul>
+<li><p>numeric_column 数值列，最常用。</p>
+</li>
+<li><p>bucketized_column 分桶列，由数值列生成，可以由一个数值列出多个特征，one-hot编码。</p>
+</li>
+<li><p>categorical_column_with_identity 分类标识列，one-hot编码，相当于分桶列每个桶为1个整数的情况。</p>
+</li>
+<li><p>categorical_column_with_vocabulary_list 分类词汇列，one-hot编码，由list指定词典。</p>
+</li>
+<li><p>categorical_column_with_vocabulary_file 分类词汇列，由文件file指定词典。</p>
+</li>
+<li><p>categorical_column_with_hash_bucket 哈希列，整数或词典较大时采用。</p>
+</li>
+<li><p>indicator_column 指标列，由Categorical Column生成，one-hot编码</p>
+</li>
+<li><p>embedding_column 嵌入列，由Categorical Column生成，嵌入矢量分布参数需要学习。嵌入矢量维数建议取类别数量的 4 次方根。</p>
+</li>
+<li><p>crossed_column 交叉列，可以由除categorical_column_with_hash_bucket的任意分类列构成。</p>
+</li>
+</ul>
+<hr>
+<h4 id="What’s-the-difference-between-a-Tensorflow-Keras-Model-and-Estimator"><a href="#What’s-the-difference-between-a-Tensorflow-Keras-Model-and-Estimator" class="headerlink" title="What’s the difference between a Tensorflow Keras Model and Estimator"></a>What’s the difference between a Tensorflow Keras Model and Estimator</h4><p><a href="https://stackoverflow.com/questions/51455863/whats-the-difference-between-a-tensorflow-keras-model-and-estimator" target="_blank" rel="noopener">What’s the difference between a Tensorflow Keras Model and Estimator?</a></p>
+<h4 id="最大的差别就是分布式训练："><a href="#最大的差别就是分布式训练：" class="headerlink" title="最大的差别就是分布式训练："></a>最大的差别就是分布式训练：</h4><h2 id="Distribution"><a href="#Distribution" class="headerlink" title="Distribution"></a>Distribution</h2><p>You can conduct distributed training across multiple servers with the Estimators API, but not with Keras API.</p>
+<p>From the <a href="https://www.tensorflow.org/guide/keras" target="_blank" rel="noopener">Tensorflow Keras Guide</a>, it says that:</p>
+<blockquote>
+<p>The Estimators API is used for training models for <strong>distributed environments</strong>.</p>
+</blockquote>
+<p>And from the <a href="https://www.tensorflow.org/guide/estimators#advantages_of_estimators" target="_blank" rel="noopener">Tensorflow Estimators Guide</a>, it says that:</p>
+<blockquote>
+<p>You can run Estimator-based models on a local host or on a <strong>distributed multi-server</strong> environment without changing your model. Furthermore, you can run Estimator-based models on CPUs, GPUs, or TPUs without recoding your model.</p>
+</blockquote>
+<p>PS: Keras does handle low level operations, it’s just not very standard. Its backend (<code>import keras.backend as K</code>) contains lots of functions that wrap around the backend functions. They’re meant to be used in custom layers, custom metrics, custom loss functions, etc</p>
+<h4 id="Multi-worker-training-with-Estimator"><a href="#Multi-worker-training-with-Estimator" class="headerlink" title="Multi-worker training with Estimator"></a>Multi-worker training with Estimator</h4><p><strong>Note:</strong> While you can use Estimators with <a href="https://www.tensorflow.org/api_docs/python/tf/distribute" target="_blank" rel="noopener"><code>tf.distribute</code></a> API, it’s recommended to use Keras with <a href="https://www.tensorflow.org/api_docs/python/tf/distribute" target="_blank" rel="noopener"><code>tf.distribute</code></a>, see <a href="https://www.tensorflow.org/tutorials/distribute/multi_worker_with_keras" target="_blank" rel="noopener">multi-worker training with Keras</a>. Estimator training with <a href="https://www.tensorflow.org/api_docs/python/tf/distribute/Strategy" target="_blank" rel="noopener"><code>tf.distribute.Strategy</code></a> has limited support.（用keras更方便？）</p>
+<p>when using Estimator for multi-worker training, it is necessary to shard the dataset by the number of workers to ensure model convergence. The input data is sharded by worker index, so that each worker processes <code>1/num_workers</code> distinct portions of the dataset.（需要把dataset均匀分布在多个worker上来保证收敛，根据worker的索引分配dataset）</p>
+<p>Another reasonable approach to achieve convergence would be to shuffle the dataset with distinct seeds at each worker.(另一种保证收敛，对数据在每个worker上都进行shuffle操作。 )</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">BUFFER_SIZE = <span class="number">10000</span></span><br><span class="line">BATCH_SIZE = <span class="number">64</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">input_fn</span><span class="params">(mode, input_context=None)</span>:</span></span><br><span class="line">  datasets, info = tfds.load(name=<span class="string">'mnist'</span>,</span><br><span class="line">                                with_info=<span class="literal">True</span>,</span><br><span class="line">                                as_supervised=<span class="literal">True</span>)</span><br><span class="line">  mnist_dataset = (datasets[<span class="string">'train'</span>] <span class="keyword">if</span> mode == tf.estimator.ModeKeys.TRAIN <span class="keyword">else</span></span><br><span class="line">                   datasets[<span class="string">'test'</span>])</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">scale</span><span class="params">(image, label)</span>:</span></span><br><span class="line">    image = tf.cast(image, tf.float32)</span><br><span class="line">    image /= <span class="number">255</span></span><br><span class="line">    <span class="keyword">return</span> image, label</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> input_context:</span><br><span class="line">    mnist_dataset = mnist_dataset.shard(input_context.num_input_pipelines,</span><br><span class="line">                                        input_context.input_pipeline_id)</span><br><span class="line">  <span class="keyword">return</span> mnist_dataset.map(scale).cache().shuffle(BUFFER_SIZE).batch(BATCH_SIZE)</span><br></pre></td></tr></table></figure>
+<p>Write the layers, the optimizer, and the loss function for training. This tutorial defines the model with Keras layers, similar to the <a href="https://www.tensorflow.org/tutorials/distribute/keras" target="_blank" rel="noopener">multi-GPU training tutorial</a>.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">LEARNING_RATE = <span class="number">1e-4</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">model_fn</span><span class="params">(features, labels, mode)</span>:</span></span><br><span class="line">  model = tf.keras.Sequential([</span><br><span class="line">      tf.keras.layers.Conv2D(<span class="number">32</span>, <span class="number">3</span>, activation=<span class="string">'relu'</span>, input_shape=(<span class="number">28</span>, <span class="number">28</span>, <span class="number">1</span>)),</span><br><span class="line">      tf.keras.layers.MaxPooling2D(),</span><br><span class="line">      tf.keras.layers.Flatten(),</span><br><span class="line">      tf.keras.layers.Dense(<span class="number">64</span>, activation=<span class="string">'relu'</span>),</span><br><span class="line">      tf.keras.layers.Dense(<span class="number">10</span>)</span><br><span class="line">  ])</span><br><span class="line">  logits = model(features, training=<span class="literal">False</span>)</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> mode == tf.estimator.ModeKeys.PREDICT:</span><br><span class="line">    predictions = &#123;<span class="string">'logits'</span>: logits&#125;</span><br><span class="line">    <span class="keyword">return</span> tf.estimator.EstimatorSpec(labels=labels, predictions=predictions)</span><br><span class="line"></span><br><span class="line">  optimizer = tf.compat.v1.train.GradientDescentOptimizer(</span><br><span class="line">      learning_rate=LEARNING_RATE)</span><br><span class="line">  loss = tf.keras.losses.SparseCategoricalCrossentropy(</span><br><span class="line">      from_logits=<span class="literal">True</span>, reduction=tf.keras.losses.Reduction.NONE)(labels, logits)</span><br><span class="line">  loss = tf.reduce_sum(loss) * (<span class="number">1.</span> / BATCH_SIZE)</span><br><span class="line">  <span class="keyword">if</span> mode == tf.estimator.ModeKeys.EVAL:</span><br><span class="line">    <span class="keyword">return</span> tf.estimator.EstimatorSpec(mode, loss=loss)</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> tf.estimator.EstimatorSpec(</span><br><span class="line">      mode=mode,</span><br><span class="line">      loss=loss,</span><br><span class="line">      train_op=optimizer.minimize(</span><br><span class="line">          loss, tf.compat.v1.train.get_or_create_global_step()))</span><br></pre></td></tr></table></figure>
+<p><strong>Note:</strong> Although the learning rate is fixed in this example, in general it may be necessary to adjust the learning rate based on the global batch size.(学习率根据全局batchsize动态变换更合适)</p>
+<p> It is also possible to distribute the evaluation via <code>eval_distribute</code></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">strategy = tf.distribute.experimental.MultiWorkerMirroredStrategy()</span><br><span class="line"></span><br><span class="line">config = tf.estimator.RunConfig(train_distribute=strategy)</span><br><span class="line"></span><br><span class="line">classifier = tf.estimator.Estimator(</span><br><span class="line">    model_fn=model_fn, model_dir=<span class="string">'/tmp/multiworker'</span>, config=config)</span><br><span class="line">tf.estimator.train_and_evaluate(</span><br><span class="line">    classifier,</span><br><span class="line">    train_spec=tf.estimator.TrainSpec(input_fn=input_fn),</span><br><span class="line">    eval_spec=tf.estimator.EvalSpec(input_fn=input_fn)</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+        
+      
+
+      <footer class="post-footer">
+          
+            
+          
+          <div class="post-tags">
+            
+              <a href="/tags/Tensorflow/" rel="tag"># Tensorflow</a>
+            
+          </div>
+        
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/2020/10/01/Tensorflow2/Tensorflow-tf.function/" rel="next" title="Tensorflow2-tf.function">
+                  <i class="fa fa-chevron-left"></i> Tensorflow2-tf.function
+                </a>
+              
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+                <a href="/2020/10/01/Tensorflow2/Tensorflow-DistributedTraining/" rel="prev" title="Tensorflow2-DistributedTraining">
+                  Tensorflow2-DistributedTraining <i class="fa fa-chevron-right"></i>
+                </a>
+              
+            </div>
+          </div>
+        
+      </footer>
+    
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+    
+    <div class="comments" id="gitalk-container"></div>
+  
+
+        </div>
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image"
+      src="/images/avatar/jojo3.jpg"
+      alt="Zheng Chu">
+  <p class="site-author-name" itemprop="name">Zheng Chu</p>
+  <div class="site-description motion-element" itemprop="description"></div>
+</div>
+  <nav class="site-state motion-element">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives">
+        
+          <span class="site-state-item-count">91</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-name">categories</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">tags</span>
+        </a>
+      </div>
+    
+  </nav>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://github.com/zhengchu1994" title="GitHub &rarr; https://github.com/zhengchu1994" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://www.jianshu.com/u/d4875c485cff" title="简书 &rarr; https://www.jianshu.com/u/d4875c485cff" rel="noopener" target="_blank"><i class="fa fa-fw fa-heartbeat"></i>简书</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://blog.csdn.net/NockinOnHeavensDoor" title="CSDN &rarr; https://blog.csdn.net/NockinOnHeavensDoor" rel="noopener" target="_blank"><i class="fa fa-fw fa-globe"></i>CSDN</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="mailto:zhengchu@tju.edu.cn" title="E-Mail &rarr; mailto:zhengchu@tju.edu.cn" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+    
+  </div>
+
+
+
+        </div>
+      </div>
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#从keras构建Estimator"><span class="nav-number">1.</span> <span class="nav-text">从keras构建Estimator</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#feature-columns"><span class="nav-number">2.</span> <span class="nav-text">feature_columns</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#What’s-the-difference-between-a-Tensorflow-Keras-Model-and-Estimator"><span class="nav-number">3.</span> <span class="nav-text">What’s the difference between a Tensorflow Keras Model and Estimator</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#最大的差别就是分布式训练："><span class="nav-number">4.</span> <span class="nav-text">最大的差别就是分布式训练：</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Distribution"><span class="nav-number"></span> <span class="nav-text">Distribution</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Multi-worker-training-with-Estimator"><span class="nav-number">1.</span> <span class="nav-text">Multi-worker training with Estimator</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Zheng Chu</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.2.1</div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.3.0</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="Total Visitors">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+    <span class="post-meta-divider">|</span>
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="Total Views">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+      </div>
+
+    
+
+  </div>
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+<script src="/js/utils.js?v=7.3.0"></script>
+  <script src="/js/motion.js?v=7.3.0"></script>
+
+
+  <script src="/js/affix.js?v=7.3.0"></script>
+  <script src="/js/schemes/pisces.js?v=7.3.0"></script>
+
+
+<script src="/js/next-boot.js?v=7.3.0"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+    
+      
+<script type="text/x-mathjax-config">
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') {
+          next = next.nextSibling;
+        }
+        if (next && next.nodeName.toLowerCase() === 'br') {
+          next.parentNode.removeChild(next);
+        }
+      }
+    });
+  });
+
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      element = document.getElementById(all[i].inputID + '-Frame').parentNode;
+      if (element.nodeName.toLowerCase() == 'li') {
+        element = element.parentNode;
+      }
+      element.classList.add('has-jax');
+    }
+  });
+</script>
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML', function() {
+    MathJax.Hub.Typeset();
+  }, window.MathJax);
+</script>
+
+    
+  
+
+  
+
+  
+
+
+  
+  <script src="/js/scrollspy.js?v=7.3.0"></script>
+<script src="/js/post-details.js?v=7.3.0"></script>
+
+
+    
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', function() {
+    var gitalk = new Gitalk({
+      clientID: '0911ce8ceab7f12409f0',
+      clientSecret: '6fa693e25bfc0f98e5cc0907c97cb2fe9f54bb5e',
+      repo: 'Gitalk',
+      owner: 'zhengchu1994',
+      admin: ['zhengchu1994'],
+      id: '349cc9942b2f928b08a5b99b94fa620c',
+        language: window.navigator.language || window.navigator.userLanguage,
+      
+      distractionFreeMode: 'true'
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+</script>
+
+</body>
+</html>
