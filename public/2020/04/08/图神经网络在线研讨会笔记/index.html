@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="generator" content="Hexo 4.2.1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon-moon_32px.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-moon_32px.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-moon_16px.png?v=7.3.0">
+  <link rel="mask-icon" href="/images/favicon-moon_32px.png?v=7.3.0" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.3.0">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.3.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    save_scroll: false,
+    copycode: {"enable":false,"show_result":false,"style":"mac"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: 'Copy',
+      copy_success: 'Copied',
+      copy_failure: 'Copy failed'
+    }
+  };
+</script>
+
+  <meta name="description" content="地址：https:&#x2F;&#x2F;www.bilibili.com&#x2F;video&#x2F;BV1zp4y117bB&#x2F;?p&#x3D;1图卷积神经网络—中科院沈华伟老师The power of CNN lies in : 优势是平移不变性（translation- or shift-invariant）：识别目标独有的特征，尽管其特征的空间位置发生变化。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="图卷积神经网络研讨会笔记">
+<meta property="og:url" content="http://yoursite.com/2020/04/08/%E5%9B%BE%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%9C%A8%E7%BA%BF%E7%A0%94%E8%AE%A8%E4%BC%9A%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="Zheng Chu&#39;s Blog">
+<meta property="og:description" content="地址：https:&#x2F;&#x2F;www.bilibili.com&#x2F;video&#x2F;BV1zp4y117bB&#x2F;?p&#x3D;1图卷积神经网络—中科院沈华伟老师The power of CNN lies in : 优势是平移不变性（translation- or shift-invariant）：识别目标独有的特征，尽管其特征的空间位置发生变化。">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/00831rSTgy1gdmrjxa6zxj31ay07c0ta.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/00831rSTgy1gdmrkasf6gj30y00lcjt3.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/00831rSTgy1gdms6rl20xj31cx0u0dky.jpg">
+<meta property="article:published_time" content="2020-04-08T08:00:00.000Z">
+<meta property="article:modified_time" content="2020-12-06T12:34:07.870Z">
+<meta property="article:author" content="Zheng Chu">
+<meta property="article:tag" content="推荐系统">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://tva1.sinaimg.cn/large/00831rSTgy1gdmrjxa6zxj31ay07c0ta.jpg">
+  <link rel="canonical" href="http://yoursite.com/2020/04/08/%E5%9B%BE%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%9C%A8%E7%BA%BF%E7%A0%94%E8%AE%A8%E4%BC%9A%E7%AC%94%E8%AE%B0/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>图卷积神经网络研讨会笔记 | Zheng Chu's Blog</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?<622a1a023f2bb8cdefcf61e3855bf317>";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <div class="container sidebar-position-left">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Zheng Chu's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">让希望永驻</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-主页">
+      
+    
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home  //"></i> <br>主页</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-所有专栏">
+      
+    
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th //"></i> <br>所有专栏</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-历史文章">
+      
+    
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive //"></i> <br>历史文章</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-标签">
+      
+    
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags  //"></i> <br>标签</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-关于我">
+      
+    
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user //"></i> <br>关于我</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+
+  <a href="https://github.com/zhengchu1994" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+            
+
+          <div id="content" class="content page-post-detail">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/08/%E5%9B%BE%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%9C%A8%E7%BA%BF%E7%A0%94%E8%AE%A8%E4%BC%9A%E7%AC%94%E8%AE%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zheng Chu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar/jojo3.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zheng Chu's Blog">
+    </span>
+      <header class="post-header">
+
+        
+          <h1 class="post-title" itemprop="name headline">图卷积神经网络研讨会笔记
+
+            
+          </h1>
+        
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              
+                
+              
+
+              <time title="Created: 2020-04-08 16:00:00" itemprop="dateCreated datePublished" datetime="2020-04-08T16:00:00+08:00">2020-04-08</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-12-06 20:34:07" itemprop="dateModified" datetime="2020-12-06T20:34:07+08:00">2020-12-06</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Deeplearning/" itemprop="url" rel="index"><span itemprop="name">Deeplearning</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            <span class="post-meta-item" title="Views">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>地址：<a href="https://www.bilibili.com/video/BV1zp4y117bB/?p=1" target="_blank" rel="noopener">https://www.bilibili.com/video/BV1zp4y117bB/?p=1</a></p><h2 id="图卷积神经网络—中科院沈华伟老师"><a href="#图卷积神经网络—中科院沈华伟老师" class="headerlink" title="图卷积神经网络—中科院沈华伟老师"></a>图卷积神经网络—中科院沈华伟老师</h2><p>The power of CNN lies in : 优势是平移不变性（translation- or shift-invariant）：识别目标独有的特征，尽管其特征的空间位置发生变化。</p><a id="more"></a>
+
+<p>卷积是什么：卷积（convolution）是在两个函数上的数学操作，$f$与$g$，生成第三个函数$h$。<strong>卷积更为本质的是对原始信号的处理，使得信号更平滑。</strong></p>
+<p>连续空间里卷积定义为积分：比如时间$t$上的函数，此处原始信号$f$，卷积核为$g$（局部的方波），生成新的函数$h$比原有信号<strong>更加平滑</strong>。</p>
+<script type="math/tex; mode=display">
+h(t) = (f * g)(t) =\int f(t)g(t -\tau)d\tau</script><p><img src="https://tva1.sinaimg.cn/large/00831rSTgy1gdmrjxa6zxj31ay07c0ta.jpg" alt="image-20200408231230478"></p>
+<p>离散空间里卷积定义为求和如下：</p>
+<script type="math/tex; mode=display">
+h(x,y) = (f * g) (x, y) =\sum_{m,n}f(x-m, y -n)g(m,n)</script><p><img src="https://tva1.sinaimg.cn/large/00831rSTgy1gdmrkasf6gj30y00lcjt3.jpg" alt="image-20200408231259959"></p>
+<p>两类卷积方法：Spectral methods谱方法（空间方法的一类）和Spatial methods空间方法。</p>
+<ul>
+<li>谱方法：卷积定义在谱域（spectral domain）；通过图傅立叶变换和卷积理论。最大的挑战是：convolution filter defined in sepcrtal domain is not localized in vertex domain.<ul>
+<li>直接定义图上的卷积不满足平移不变性，因此谱方法是将图上的信号变换到谱域，通过谱域进行卷积，然后再变换到空间域上。</li>
+</ul>
+</li>
+<li>空间方法：卷积定义在点域（vertex domain）；卷积此时作为目标节点在局部的一个带权聚合函数(weighted average function)。最大的挑战是：the size of neighborhood varies remarkably across nodes, e.g.,幂律分布。（难点：参数共享问题）</li>
+</ul>
+<p>先给出预先的定义：</p>
+<p>这里值得看的是特征矩阵$\mathbf{X}$的每一列可以看作是定义在图上的一个信号。</p>
+<p>拉普拉斯矩阵刻画了信号在图上的平滑程度。</p>
+<p><img src="https://tva1.sinaimg.cn/large/00831rSTgy1gdms6rl20xj31cx0u0dky.jpg" alt="image-20200408233436109"></p>
+<ul>
+<li>图的傅里叶基（Fourier basis of graph） $\mathbf{G}$：设图拉普拉斯矩阵的正交基向量为${u<em>l}</em>{l=1}^n$，对应的非负特征值为${\lambda<em>l }</em>{l=1}^n$ 。图拉普拉斯矩阵可以对角化为:</li>
+</ul>
+<script type="math/tex; mode=display">
+L=𝑈\Lambda𝑈^T</script><p>​        这里$U = [u_1, u_2, …, u_n ]$，$\Lambda = diag([\lambda_1,\dots,\lambda_n])$</p>
+<ul>
+<li><p>图傅立叶变化（Graph Fourier transform）：信号$\mathbf{x}\in R^n$的图傅立叶变化定义如下：</p>
+<script type="math/tex; mode=display">
+\mathbf{\hat x} = U^T\mathbf{x}</script><p>图傅立叶逆变化（Graph Fourier inverse transform）：</p>
+<script type="math/tex; mode=display">
+\mathbf{x} = U \mathbf{\hat x}</script></li>
+<li><p>卷积理论（Convolution theorem）：The Fourier transform of a convolution of two signals is the <strong>point-wise product</strong> of their Fourier transforms：</p>
+</li>
+</ul>
+<script type="math/tex; mode=display">
+\mathcal{F}(f * g) = \mathcal{F}(f) * \mathcal{F}(g)</script><p>根据卷积理论，给定一个信号$\mathbf{x}$作为输入，$\mathbf{y}$作为滤波（filter），图卷积$*_G$ 定义为：</p>
+<script type="math/tex; mode=display">
+\mathbf{x} *_G \mathbf{y} = U((U^T\mathbf{x})\bigodot(U^T\mathbf{y}))</script><p>此时谱域上的卷积滤波（convolution filter）为$U^Ty$。定义：</p>
+<script type="math/tex; mode=display">
+U^T \mathbf{y} = [\theta_1，\theta_2，\dots，\theta_n]</script><script type="math/tex; mode=display">
+g_{\theta} = diag( [\theta_1，\theta_2，\dots，\theta_n])</script><p>我们有：</p>
+<script type="math/tex; mode=display">
+\mathbf{x} *_G \mathbf{y} = Ug_{\theta} U^T\mathbf{x}</script>
+    </div>
+
+    
+    
+    
+        
+      
+
+      <footer class="post-footer">
+          
+            
+          
+          <div class="post-tags">
+            
+              <a href="/tags/%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F/" rel="tag"># 推荐系统</a>
+            
+          </div>
+        
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/2020/04/08/IELTS/Actual%20Speaking/" rel="next" title="Actual Speaking">
+                  <i class="fa fa-chevron-left"></i> Actual Speaking
+                </a>
+              
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+                <a href="/2020/04/08/%E4%B8%80%E4%BA%9B%E7%AE%97%E6%B3%95%E9%A2%98%E8%A7%A3/" rel="prev" title="一些算法题解">
+                  一些算法题解 <i class="fa fa-chevron-right"></i>
+                </a>
+              
+            </div>
+          </div>
+        
+      </footer>
+    
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+    
+    <div class="comments" id="gitalk-container"></div>
+  
+
+        </div>
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image"
+      src="/images/avatar/jojo3.jpg"
+      alt="Zheng Chu">
+  <p class="site-author-name" itemprop="name">Zheng Chu</p>
+  <div class="site-description motion-element" itemprop="description"></div>
+</div>
+  <nav class="site-state motion-element">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives">
+        
+          <span class="site-state-item-count">82</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-name">categories</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">tags</span>
+        </a>
+      </div>
+    
+  </nav>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://github.com/zhengchu1994" title="GitHub &rarr; https://github.com/zhengchu1994" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://www.jianshu.com/u/d4875c485cff" title="简书 &rarr; https://www.jianshu.com/u/d4875c485cff" rel="noopener" target="_blank"><i class="fa fa-fw fa-heartbeat"></i>简书</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://blog.csdn.net/NockinOnHeavensDoor" title="CSDN &rarr; https://blog.csdn.net/NockinOnHeavensDoor" rel="noopener" target="_blank"><i class="fa fa-fw fa-globe"></i>CSDN</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="mailto:zhengchu@tju.edu.cn" title="E-Mail &rarr; mailto:zhengchu@tju.edu.cn" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+    
+  </div>
+
+
+
+        </div>
+      </div>
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#图卷积神经网络—中科院沈华伟老师"><span class="nav-number">1.</span> <span class="nav-text">图卷积神经网络—中科院沈华伟老师</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Zheng Chu</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.2.1</div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.3.0</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="Total Visitors">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+    <span class="post-meta-divider">|</span>
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="Total Views">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+      </div>
+
+    
+
+  </div>
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+<script src="/js/utils.js?v=7.3.0"></script>
+  <script src="/js/motion.js?v=7.3.0"></script>
+
+
+  <script src="/js/affix.js?v=7.3.0"></script>
+  <script src="/js/schemes/pisces.js?v=7.3.0"></script>
+
+
+<script src="/js/next-boot.js?v=7.3.0"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+    
+      
+<script type="text/x-mathjax-config">
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') {
+          next = next.nextSibling;
+        }
+        if (next && next.nodeName.toLowerCase() === 'br') {
+          next.parentNode.removeChild(next);
+        }
+      }
+    });
+  });
+
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      element = document.getElementById(all[i].inputID + '-Frame').parentNode;
+      if (element.nodeName.toLowerCase() == 'li') {
+        element = element.parentNode;
+      }
+      element.classList.add('has-jax');
+    }
+  });
+</script>
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML', function() {
+    MathJax.Hub.Typeset();
+  }, window.MathJax);
+</script>
+
+    
+  
+
+  
+
+  
+
+
+  
+  <script src="/js/scrollspy.js?v=7.3.0"></script>
+<script src="/js/post-details.js?v=7.3.0"></script>
+
+
+    
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', function() {
+    var gitalk = new Gitalk({
+      clientID: '0911ce8ceab7f12409f0',
+      clientSecret: '6fa693e25bfc0f98e5cc0907c97cb2fe9f54bb5e',
+      repo: 'Gitalk',
+      owner: 'zhengchu1994',
+      admin: ['zhengchu1994'],
+      id: '45ba3a493c181689c69d68ed48794e46',
+        language: window.navigator.language || window.navigator.userLanguage,
+      
+      distractionFreeMode: 'true'
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+</script>
+
+</body>
+</html>

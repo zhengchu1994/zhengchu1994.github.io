@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="generator" content="Hexo 4.2.1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon-moon_32px.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-moon_32px.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-moon_16px.png?v=7.3.0">
+  <link rel="mask-icon" href="/images/favicon-moon_32px.png?v=7.3.0" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.3.0">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.3.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    save_scroll: false,
+    copycode: {"enable":false,"show_result":false,"style":"mac"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: 'Copy',
+      copy_success: 'Copied',
+      copy_failure: 'Copy failed'
+    }
+  };
+</script>
+
+  <meta name="description" content="可变对象与不可变对象对象有两种,“可更改”（mutable）与“不可更改”（immutable）对象。在python中，strings, tuples, 和numbers是不可更改的对象，而 list, dict, set 等则是可以修改的对象。(这就是这个问题的重点)所以，传入函数的是不可变对象，那函数会自动复制一份a的引用：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python-Trick">
+<meta property="og:url" content="http://yoursite.com/2020/06/30/PythonTrick/index.html">
+<meta property="og:site_name" content="Zheng Chu&#39;s Blog">
+<meta property="og:description" content="可变对象与不可变对象对象有两种,“可更改”（mutable）与“不可更改”（immutable）对象。在python中，strings, tuples, 和numbers是不可更改的对象，而 list, dict, set 等则是可以修改的对象。(这就是这个问题的重点)所以，传入函数的是不可变对象，那函数会自动复制一份a的引用：">
+<meta property="article:published_time" content="2020-06-30T11:00:00.000Z">
+<meta property="article:modified_time" content="2020-12-06T12:34:07.823Z">
+<meta property="article:author" content="Zheng Chu">
+<meta property="article:tag" content="Python">
+<meta name="twitter:card" content="summary">
+  <link rel="canonical" href="http://yoursite.com/2020/06/30/PythonTrick/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>Python-Trick | Zheng Chu's Blog</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?<622a1a023f2bb8cdefcf61e3855bf317>";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <div class="container sidebar-position-left">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Zheng Chu's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">让希望永驻</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-主页">
+      
+    
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home  //"></i> <br>主页</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-所有专栏">
+      
+    
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th //"></i> <br>所有专栏</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-历史文章">
+      
+    
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive //"></i> <br>历史文章</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-标签">
+      
+    
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags  //"></i> <br>标签</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-关于我">
+      
+    
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user //"></i> <br>关于我</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+
+  <a href="https://github.com/zhengchu1994" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+            
+
+          <div id="content" class="content page-post-detail">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/30/PythonTrick/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zheng Chu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar/jojo3.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zheng Chu's Blog">
+    </span>
+      <header class="post-header">
+
+        
+          <h1 class="post-title" itemprop="name headline">Python-Trick
+
+            
+          </h1>
+        
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              
+                
+              
+
+              <time title="Created: 2020-06-30 19:00:00" itemprop="dateCreated datePublished" datetime="2020-06-30T19:00:00+08:00">2020-06-30</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-12-06 20:34:07" itemprop="dateModified" datetime="2020-12-06T20:34:07+08:00">2020-12-06</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Python/" itemprop="url" rel="index"><span itemprop="name">Python</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            <span class="post-meta-item" title="Views">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h4 id="可变对象与不可变对象"><a href="#可变对象与不可变对象" class="headerlink" title="可变对象与不可变对象"></a>可变对象与不可变对象</h4><p>对象有两种,“可更改”（mutable）与“不可更改”（immutable）对象。在python中，strings, tuples, 和numbers是不可更改的对象，而 list, dict, set 等则是可以修改的对象。(这就是这个问题的重点)</p><p>所以，传入函数的是不可变对象，那函数会自动复制一份a的引用：</p><a id="more"></a>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">In [<span class="number">1</span>]: a =  <span class="number">1</span>                                                                                            </span><br><span class="line"></span><br><span class="line">In [<span class="number">2</span>]: <span class="function"><span class="keyword">def</span> <span class="title">func</span><span class="params">(a)</span>:</span> </span><br><span class="line">   ...:     a = <span class="number">2</span> </span><br><span class="line">   ...:     print(id(a), id(<span class="number">2</span>)) </span><br><span class="line">   ...:                                                                                                   </span><br><span class="line"></span><br><span class="line">In [<span class="number">3</span>]: func(a)                                                                                           </span><br><span class="line"><span class="number">4312986784</span> <span class="number">4312986784</span></span><br><span class="line"></span><br><span class="line">In [<span class="number">4</span>]: id(a)                                                                                             </span><br><span class="line">Out[<span class="number">4</span>]: <span class="number">4312986752</span></span><br><span class="line"></span><br><span class="line">In [<span class="number">5</span>]: a                                                                                                 </span><br><span class="line">Out[<span class="number">5</span>]: <span class="number">1</span></span><br></pre></td></tr></table></figure>
+<h4 id="staticmethod和classmethod"><a href="#staticmethod和classmethod" class="headerlink" title="staticmethod和classmethod"></a>staticmethod和classmethod</h4><p><code>classmethod</code>相当于c++中的重载构造函数，方便对类做自定义的初始化；</p>
+<p><code>staticmethod</code>相当于类方法，独立于对象，被所有类对象都适用的通用方法。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Date</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, day=<span class="number">0</span>, month=<span class="number">0</span>, year=<span class="number">0</span>)</span>:</span></span><br><span class="line">        self.day = day</span><br><span class="line">        self.month = month</span><br><span class="line">        self.year = year</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">display</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">"&#123;0&#125;-&#123;1&#125;-&#123;2&#125;"</span>.format(self.month, self.day, self.year))</span><br><span class="line">    </span><br><span class="line"><span class="meta">    @classmethod</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">from_string</span><span class="params">(cls, date_as_string)</span>:</span></span><br><span class="line">        day, month, year = map(int, date_as_string.split(<span class="string">'-'</span>))</span><br><span class="line">        date1 = cls(day, month, year)</span><br><span class="line">        <span class="keyword">return</span> date1</span><br><span class="line">    </span><br><span class="line"><span class="meta">    @staticmethod</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">is_date_valid</span><span class="params">(date_as_string)</span>:</span></span><br><span class="line">        day, month, year = map(int, date_as_string.split(<span class="string">'-'</span>))</span><br><span class="line">        <span class="keyword">return</span> day &lt;= <span class="number">31</span> <span class="keyword">and</span> month &lt;= <span class="number">12</span> <span class="keyword">and</span> year &lt;=<span class="number">2077</span></span><br></pre></td></tr></table></figure>
+<h4 id="类变量、实例变量"><a href="#类变量、实例变量" class="headerlink" title="类变量、实例变量"></a>类变量、实例变量</h4><p>实例的作用域里把类变量的引用改变了，就变成了一个实例变量,self.name不再引用Person的类变量name.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">In [<span class="number">8</span>]: <span class="class"><span class="keyword">class</span> <span class="title">Person</span>:</span> </span><br><span class="line">   ...:     name = <span class="string">'xx'</span> </span><br><span class="line">   ...:                                                                                                   </span><br><span class="line"></span><br><span class="line">In [<span class="number">9</span>]: a1 = Person()                                                                                     </span><br><span class="line"></span><br><span class="line">In [<span class="number">10</span>]: a1.name                                                                                          </span><br><span class="line">Out[<span class="number">10</span>]: <span class="string">'xx'</span></span><br><span class="line"></span><br><span class="line">In [<span class="number">11</span>]: a2 = Person()                                                                                    </span><br><span class="line"></span><br><span class="line">In [<span class="number">12</span>]: a1.name = <span class="string">"zc"</span>                                                                                   </span><br><span class="line"></span><br><span class="line">In [<span class="number">13</span>]: a1.name                                                                                          </span><br><span class="line">Out[<span class="number">13</span>]: <span class="string">'zc'</span></span><br><span class="line"></span><br><span class="line">In [<span class="number">14</span>]: a2.name                                                                                          </span><br><span class="line">Out[<span class="number">14</span>]: <span class="string">'xx'</span></span><br></pre></td></tr></table></figure>
+<h4 id="args-and-kwargs"><a href="#args-and-kwargs" class="headerlink" title="*args and **kwargs"></a><code>*args</code> and <code>**kwargs</code></h4><p> <code>**kwargs</code>传递的是字典，</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">In [<span class="number">17</span>]: <span class="function"><span class="keyword">def</span> <span class="title">fruit</span><span class="params">(*args)</span>:</span> </span><br><span class="line">    ...:     <span class="keyword">for</span> count, thing <span class="keyword">in</span> enumerate(args): </span><br><span class="line">    ...:         print( <span class="string">"&#123;0&#125;. &#123;1&#125;"</span>.format(count, thing)) </span><br><span class="line">    ...:                                                                                                  </span><br><span class="line"></span><br><span class="line">In [<span class="number">18</span>]:                                                                                                  </span><br><span class="line"></span><br><span class="line">In [<span class="number">18</span>]: fruit(<span class="string">"banana"</span>, <span class="string">"apple"</span>, <span class="string">"watermelon"</span>)                                                           </span><br><span class="line"><span class="number">0.</span> banana</span><br><span class="line"><span class="number">1.</span> apple</span><br><span class="line"><span class="number">2.</span> watermelon</span><br></pre></td></tr></table></figure>
+<p>调用函数时解包：传递列表(或者元组)的每一项并把它们解包.注意必须与它们在函数里的参数相吻合</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">In [<span class="number">19</span>]: <span class="function"><span class="keyword">def</span> <span class="title">de</span><span class="params">(a = <span class="string">'a'</span>, b = <span class="string">'b'</span>, c = <span class="string">'c'</span>)</span>:</span> </span><br><span class="line">    ...:     print(<span class="string">"&#123;0&#125; . &#123;1&#125;. &#123;2&#125;"</span>.format(a, b, c)) </span><br><span class="line">    ...:                          </span><br><span class="line">    </span><br><span class="line">In [<span class="number">20</span>]: dic = &#123;a:<span class="number">3</span>, b:<span class="number">4</span>,c:<span class="number">5</span>&#125; </span><br><span class="line"></span><br><span class="line"></span><br><span class="line">In [<span class="number">22</span>]: de(**dic)                                                                                        </span><br><span class="line"><span class="number">3</span> . <span class="number">4.</span> <span class="number">5</span></span><br></pre></td></tr></table></figure>
+<h4 id="Property"><a href="#Property" class="headerlink" title="Property"></a>Property</h4><p>用途1: 访问对象时，产生特殊行为</p>
+<p>下例得优势在于，设置其中一个属性，对应需要更改的属性也随之改变。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Resistor</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, ohms)</span>:</span></span><br><span class="line">        self.ohms = ohms</span><br><span class="line">        self.voltage = <span class="number">0</span></span><br><span class="line">        self.current = <span class="number">0</span></span><br><span class="line">r1 = Resistor(<span class="number">50e3</span>)</span><br><span class="line"><span class="comment">#r1.ohms = 10e3</span></span><br><span class="line">print(r1.ohms)</span><br><span class="line"></span><br><span class="line"><span class="number">50000.0</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 通过子类的私有属性_voltage改变继承的voltage属性</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">VoltageResistance</span><span class="params">(Resistor)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, ohms)</span>:</span></span><br><span class="line">        super().__init__(ohms)</span><br><span class="line">        self._voltage = <span class="number">0</span></span><br><span class="line"><span class="meta">    @property</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">voltage</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> self._voltage </span><br><span class="line"><span class="meta">    @voltage.setter</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">voltage</span><span class="params">(self, voltage)</span>:</span></span><br><span class="line">        self._voltage = voltage </span><br><span class="line">        self.current = self._voltage / self.ohms</span><br><span class="line">        </span><br><span class="line">r2 = VoltageResistance(<span class="number">1e3</span>)</span><br><span class="line">print(<span class="string">"Before: %5r amps"</span> % r2.current)</span><br><span class="line">r2.voltage = <span class="number">10</span></span><br><span class="line">print(<span class="string">"After: %5r amps"</span> % r2.current)</span><br><span class="line"></span><br><span class="line">Before:     <span class="number">0</span> amps</span><br><span class="line">After:  <span class="number">0.01</span> amps</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 1.</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">C</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        self._x = <span class="literal">None</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">getx</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> self._x</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">setx</span><span class="params">(self, value)</span>:</span></span><br><span class="line">        self._x = value</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">delx</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">del</span> self._x</span><br><span class="line"></span><br><span class="line">    x = property(getx, setx, delx, <span class="string">"I'm the 'x' property."</span>)</span><br><span class="line">    </span><br><span class="line"><span class="comment">#等价于1</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">C</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        self._x = <span class="literal">None</span></span><br><span class="line"></span><br><span class="line"><span class="meta">    @property</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">x</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="string">"""I'm the 'x' property."""</span></span><br><span class="line">        <span class="keyword">return</span> self._x</span><br><span class="line"></span><br><span class="line"><span class="meta">    @x.setter</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">x</span><span class="params">(self, value)</span>:</span></span><br><span class="line">        self._x = value</span><br><span class="line"></span><br><span class="line"><span class="meta">    @x.deleter</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">x</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">del</span> self._x</span><br></pre></td></tr></table></figure>
+<p>用途2：实时计算</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string">漏桶算法：桶里加水，但须在进入下一个周期时清空，也就是加水前，若水过期，需要倒掉，再加水；</span></span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Bucket</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, period)</span>:</span></span><br><span class="line">        self.period_delta = timedelta(seconds=period)</span><br><span class="line">        self.reset_time = datetime.now()</span><br><span class="line">        self.max_quota = <span class="number">0</span></span><br><span class="line">        self.quota_consumed = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__repr__</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> (<span class="string">"Bucket(max_quota=%d, quota_consumed=%d)"</span> % (self.max_quota,</span><br><span class="line">                                                             self.quota_consumed))</span><br><span class="line"><span class="meta">    @property</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">quota</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> self.max_quota - self.quota_consumed</span><br><span class="line"><span class="meta">    @quota.setter</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">quota</span><span class="params">(self, amount)</span>:</span></span><br><span class="line">        delta = self.max_quota - amount</span><br><span class="line">        <span class="comment"># 重置quota，新周期开始</span></span><br><span class="line">        <span class="keyword">if</span> amount == <span class="number">0</span>:</span><br><span class="line">            self.quota_consumed = <span class="number">0</span></span><br><span class="line">            self.max_quota = <span class="number">0</span></span><br><span class="line">        <span class="comment"># 刚开始，还没水，加水</span></span><br><span class="line">        <span class="keyword">elif</span> delta &lt; <span class="number">0</span>:</span><br><span class="line">            <span class="keyword">assert</span> self.quota_consumed == <span class="number">0</span> <span class="comment"># 没有水，所以不能消耗水</span></span><br><span class="line">            self.max_quota = amount</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="comment"># 水够用,当前周期就消耗掉amount，但是得在外面确保amount + quota_consumed &lt;= max_quota</span></span><br><span class="line">            <span class="keyword">assert</span> self.max_quota &gt;= self.quota_consumed</span><br><span class="line">            self.quota_consumed += delta</span><br><span class="line"></span><br><span class="line">            </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">fill</span><span class="params">(bucket, amount)</span>:</span></span><br><span class="line">    now = datetime.now()</span><br><span class="line">    <span class="keyword">if</span> now - bucket.reset_time &gt; bucket.period_delta:</span><br><span class="line">        bucket.quota = <span class="number">0</span></span><br><span class="line">        bucket.reset_time = now</span><br><span class="line">    bucket.quota += amount</span><br><span class="line"><span class="comment"># 消耗水时，先确认桶里有足够多的水</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">deduct</span><span class="params">(bucket, amount)</span>:</span></span><br><span class="line">    now = datetime.now()</span><br><span class="line">    <span class="comment"># 水已经过期，等于没有水</span></span><br><span class="line">    <span class="keyword">if</span> now - bucket.reset_time &gt; bucket.period_delta:</span><br><span class="line">        print(<span class="string">"++--____-____--++"</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">    <span class="comment">#水不够</span></span><br><span class="line">    <span class="keyword">if</span> bucket.quota - amount &lt; <span class="number">0</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">    bucket.quota -= amount</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line"></span><br><span class="line">bucket = Bucket(<span class="number">60</span>)</span><br><span class="line">print(<span class="string">"Initial"</span>, bucket)</span><br><span class="line">fill(bucket, <span class="number">100</span>)</span><br><span class="line">print(<span class="string">"Filled"</span>, bucket)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> deduct(bucket, <span class="number">99</span>):</span><br><span class="line">    print(<span class="string">"Had 99 quota"</span>)</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    print(<span class="string">"Not enough for 99 quota"</span>)</span><br><span class="line"></span><br><span class="line">print(<span class="string">"Now"</span>, bucket)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> deduct(bucket, <span class="number">3</span>):</span><br><span class="line">    print(<span class="string">"Had 3 quota"</span>)</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    print(<span class="string">"Not enough for 3 quota"</span>)</span><br><span class="line">print(<span class="string">"Still"</span>, bucket)</span><br></pre></td></tr></table></figure>
+<h4 id="动态属性"><a href="#动态属性" class="headerlink" title="动态属性"></a>动态属性</h4><ul>
+<li>定义了<code>__getattr__</code>的类，动态加入对象查询时不存在的属性</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">lazyDB</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        self.exists = <span class="number">5</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__getattr__</span><span class="params">(self, name)</span>:</span></span><br><span class="line">        value = <span class="string">"Value for %s"</span> % name</span><br><span class="line">        setattr(self, name, value)</span><br><span class="line">        <span class="keyword">return</span> value</span><br><span class="line">data = lazyDB()</span><br><span class="line">print(<span class="string">"Before: "</span>, data.__dict__)</span><br><span class="line">print(<span class="string">"foo: "</span>, data.foo)</span><br><span class="line">print(<span class="string">"After: "</span>, data.__dict)</span><br><span class="line"></span><br><span class="line">-------</span><br><span class="line">Before:  &#123;<span class="string">'exists'</span>: <span class="number">5</span>&#125;</span><br><span class="line">foo:  Value <span class="keyword">for</span> foo</span><br><span class="line">After:  Value <span class="keyword">for</span> __dict</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">LoggingLazyDB</span><span class="params">(lazyDB)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__getattr__</span><span class="params">(self, name)</span>:</span></span><br><span class="line">        print(<span class="string">"Called __getattr__(%s)"</span> % name)</span><br><span class="line">        <span class="keyword">return</span> super().__getattr__(name)</span><br><span class="line">      </span><br><span class="line">data = LoggingLazyDB()</span><br><span class="line">print(<span class="string">"Exists: "</span>, data.exists)</span><br><span class="line">print(<span class="string">"foo: "</span>, data.foo)</span><br><span class="line">print(<span class="string">"foo: "</span>, data.foo)</span><br><span class="line"></span><br><span class="line">------</span><br><span class="line">Exists:  <span class="number">5</span></span><br><span class="line">Called __getattr__(foo)</span><br><span class="line">foo:  Value <span class="keyword">for</span> foo</span><br><span class="line">foo:  Value <span class="keyword">for</span> foo</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 会在搜索对象属性后，调用__getattr__</span></span><br><span class="line">hasattr(data, <span class="string">'zoo'</span>)</span><br><span class="line"></span><br><span class="line">------</span><br><span class="line">Called __getattr__(zoo)</span><br><span class="line"><span class="literal">True</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">data.__dict__</span><br><span class="line">----</span><br><span class="line">&#123;<span class="string">'exists'</span>: <span class="number">5</span>, <span class="string">'foo'</span>: <span class="string">'Value for foo'</span>, <span class="string">'zoo'</span>: <span class="string">'Value for zoo'</span>&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 确保不会添加某些属性名</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MissingPropertyDB</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__getattr__</span><span class="params">(self, name)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> name == <span class="string">"bad_name"</span>:</span><br><span class="line">            <span class="keyword">raise</span> AttributeError(<span class="string">"%s is missing"</span> % name)</span><br><span class="line">data = MissingPropertyDB()</span><br><span class="line">data.bad_name</span><br></pre></td></tr></table></figure>
+<ul>
+<li>定义了<code>__getattribute__</code>的类，每次访问对象属性时都会触发</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ValidatingDB</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        self.exists = <span class="number">5</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__getattribute__</span><span class="params">(self, name)</span>:</span></span><br><span class="line">        print(<span class="string">"Called __getattribute__(%s)"</span> % name)</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            <span class="keyword">return</span> super().__getattribute__(name)</span><br><span class="line">        <span class="keyword">except</span> AttributeError:</span><br><span class="line">            value = <span class="string">"Value for %s"</span> % name</span><br><span class="line">            setattr(self, name, value)</span><br><span class="line">            <span class="keyword">return</span> value</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">data = ValidatingDB()</span><br><span class="line">print(<span class="string">"exsits: "</span>, data.exists)</span><br><span class="line">print(<span class="string">"foo: "</span>, data.foo)</span><br><span class="line">print(<span class="string">"foo: "</span>, data.foo)</span><br><span class="line"></span><br><span class="line">--------</span><br><span class="line">data = ValidatingDB()</span><br><span class="line">print(<span class="string">"exsits: "</span>, data.exists)</span><br><span class="line">print(<span class="string">"foo: "</span>, data.foo)</span><br><span class="line">print(<span class="string">"foo: "</span>, data.foo)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>使用<code>__setattr__</code>时，每次对属性赋值都会触发。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SavingDB</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__setattr__</span><span class="params">(self, name, value)</span>:</span></span><br><span class="line">        super().__setattr__(name, value)</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">LoggingSavingDB</span><span class="params">(SavingDB)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__setattr__</span><span class="params">(self, name, value)</span>:</span></span><br><span class="line">        print(<span class="string">"Called __setattr__(%s, %r) "</span> % (name, value))</span><br><span class="line">        super().__setattr__(name, value)</span><br><span class="line">data = LoggingSavingDB()</span><br><span class="line">print(<span class="string">"Before: "</span>, data.__dict__)</span><br><span class="line">data.foo = <span class="number">5</span></span><br><span class="line">print(<span class="string">"After: "</span>, data.__dict__)</span><br><span class="line">data.foo = <span class="number">7</span></span><br><span class="line">print(<span class="string">"After: "</span>, data.__dict__)</span><br><span class="line"></span><br><span class="line">--------- </span><br><span class="line">Before:  &#123;&#125;</span><br><span class="line">Called __setattr__(foo, <span class="number">5</span>) </span><br><span class="line">After:  &#123;<span class="string">'foo'</span>: <span class="number">5</span>&#125;</span><br><span class="line">Called __setattr__(foo, <span class="number">7</span>) </span><br><span class="line">After:  &#123;<span class="string">'foo'</span>: <span class="number">7</span>&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="contextlib-with-实现可复用的try-finally"><a href="#contextlib-with-实现可复用的try-finally" class="headerlink" title="contextlib + with 实现可复用的try + finally"></a>contextlib + with 实现可复用的try + finally</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">my_function</span><span class="params">()</span>:</span></span><br><span class="line">    logging.debug(<span class="string">'Some debug data'</span>)</span><br><span class="line">    logging.error(<span class="string">'Error log here'</span>)</span><br><span class="line">    logging.debug(<span class="string">'More debug data'</span>)</span><br><span class="line">    </span><br><span class="line"><span class="comment">#系统默认的级别是WARNING，所以会打印Error级别的错误    </span></span><br><span class="line">my_function()</span><br><span class="line">-----</span><br><span class="line">ERROR:root:Error log here</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@contextlib.contextmanager</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">log_level</span><span class="params">(level, name)</span>:</span></span><br><span class="line">    logger = logging.getLogger(name)</span><br><span class="line">    old_level = logger.getEffectiveLevel()</span><br><span class="line">    logger.setLevel(level)</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="keyword">yield</span> logger <span class="comment">#传递句柄</span></span><br><span class="line">    <span class="keyword">finally</span>:</span><br><span class="line">        logger.setLevel(old_level)</span><br><span class="line"></span><br><span class="line"><span class="comment">#with语句内，logger的严重级别设为debug</span></span><br><span class="line"><span class="keyword">with</span> log_level(logging.DEBUG, <span class="string">'my-log'</span>) <span class="keyword">as</span> logger:</span><br><span class="line">    logger.debug(<span class="string">"This is my  message!"</span>)</span><br><span class="line"><span class="comment">#恢复为默认的warning</span></span><br><span class="line">logger.debug(<span class="string">"This will not print"</span>)</span><br><span class="line"></span><br><span class="line">-----</span><br><span class="line">DEBUG:my-log:This <span class="keyword">is</span> my  message!</span><br></pre></td></tr></table></figure>
+<h4 id="自带函数"><a href="#自带函数" class="headerlink" title="自带函数"></a>自带函数</h4><p>双端队列，在头部插入删除元素是常数时间复杂度，<code>list</code>是线性复杂度。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> collections <span class="keyword">import</span> deque</span><br><span class="line"></span><br><span class="line">dq = deque()</span><br><span class="line">dq.append(<span class="number">1</span>)</span><br><span class="line">x = dq.popleft()</span><br></pre></td></tr></table></figure>
+<h3 id="Wraps"><a href="#Wraps" class="headerlink" title="Wraps"></a>Wraps</h3><ul>
+<li>用装饰器修饰函数，使得函数执行前后做一些事。</li>
+</ul>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## work: 打印函数调用时，接收到的参数以及函数返回值。</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">trace</span><span class="params">(func)</span>:</span></span><br><span class="line"><span class="meta">    @wraps(func)</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">wrapper</span><span class="params">(*args, **kwargs)</span>:</span></span><br><span class="line">        result = func(*args, **kwargs)</span><br><span class="line">        print(<span class="string">"%s(%r, %r) -&gt; %r"</span> % (func.__name__, args, kwargs, result))</span><br><span class="line">        <span class="keyword">return</span> result</span><br><span class="line">    <span class="keyword">return</span> wrapper</span><br><span class="line"></span><br><span class="line"><span class="meta">@trace</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">fibonacci</span><span class="params">(n)</span>:</span></span><br><span class="line">    <span class="string">"""return the n-th fibonacci number"""</span></span><br><span class="line">    <span class="keyword">if</span> n <span class="keyword">in</span> (<span class="number">0</span>, <span class="number">1</span>):</span><br><span class="line">        <span class="keyword">return</span> n</span><br><span class="line">    <span class="keyword">return</span> (fibonacci(n - <span class="number">2</span>) + fibonacci(n - <span class="number">1</span>))</span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">fibonacci(<span class="number">3</span>)</span><br><span class="line">-------</span><br><span class="line">fibonacci((1,), &#123;&#125;) -&gt; 1</span><br><span class="line">fibonacci((0,), &#123;&#125;) -&gt; 0</span><br><span class="line">fibonacci((1,), &#123;&#125;) -&gt; 1</span><br><span class="line">fibonacci((2,), &#123;&#125;) -&gt; 1</span><br><span class="line">fibonacci((3,), &#123;&#125;) -&gt; 2</span><br></pre></td></tr></table></figure>
+<h4 id="partial"><a href="#partial" class="headerlink" title="partial"></a>partial</h4><ul>
+<li>对函数上增加、替换额外参数</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> functools <span class="keyword">import</span> partial</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">pr</span><span class="params">(*arg, **kwargs)</span>:</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> arg:</span><br><span class="line">        print(i, end=<span class="string">" "</span>)</span><br><span class="line">    <span class="keyword">for</span> i, j <span class="keyword">in</span> kwargs.items():</span><br><span class="line">        print(<span class="string">"%s:%s"</span> % (i, j), end = <span class="string">" "</span>)</span><br><span class="line">        </span><br><span class="line">pr(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,a=<span class="number">1</span>,b=<span class="number">2</span>)</span><br><span class="line">------</span><br><span class="line"><span class="number">1</span> <span class="number">2</span> <span class="number">3</span> a:<span class="number">1</span> b:<span class="number">2</span> </span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#</span></span><br><span class="line">pr_partial = partial(pr, <span class="number">2077</span>, name=<span class="string">"zhengchu"</span>,time=<span class="string">"2077"</span>)</span><br><span class="line">pr_partial(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, token=<span class="string">"see you~"</span>)</span><br><span class="line"></span><br><span class="line">-------</span><br><span class="line"><span class="number">2077</span> <span class="number">1</span> <span class="number">2</span> <span class="number">3</span> name:zhengchu time:<span class="number">2077</span> token:see you~</span><br></pre></td></tr></table></figure>
+<h4 id="cmp-to-key"><a href="#cmp-to-key" class="headerlink" title="cmp_to_key"></a>cmp_to_key</h4><p>Transform an old-style comparison function to a <a href="https://docs.python.org/3.8/glossary.html#term-key-function" target="_blank" rel="noopener">key function</a>. </p>
+<p>Used with tools that accept key functions (such as <a href="https://docs.python.org/3.8/library/functions.html#sorted" target="_blank" rel="noopener"><code>sorted()</code></a>, <a href="https://docs.python.org/3.8/library/functions.html#min" target="_blank" rel="noopener"><code>min()</code></a>, <a href="https://docs.python.org/3.8/library/functions.html#max" target="_blank" rel="noopener"><code>max()</code></a>, <a href="https://docs.python.org/3.8/library/heapq.html#heapq.nlargest" target="_blank" rel="noopener"><code>heapq.nlargest()</code></a>, <a href="https://docs.python.org/3.8/library/heapq.html#heapq.nsmallest" target="_blank" rel="noopener"><code>heapq.nsmallest()</code></a>, <a href="https://docs.python.org/3.8/library/itertools.html#itertools.groupby" target="_blank" rel="noopener"><code>itertools.groupby()</code></a>). </p>
+<p>This function is primarily used as a transition tool for programs being converted from Python2 which supported the use of comparison functions.</p>
+<p>A comparison function is any callable that accept two arguments, compares them, and <strong>returns a negative number for less-than, zero for equality, or a positive number for greater-than</strong>. </p>
+<p>A key function is a callable that accepts one argument and returns another value to be used as the sort key.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> functools <span class="keyword">import</span> cmp_to_key</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">printMinNumber</span><span class="params">(self, nums)</span>:</span></span><br><span class="line">        <span class="string">""" </span></span><br><span class="line"><span class="string">        :type nums: List[int]</span></span><br><span class="line"><span class="string">        :rtype: str</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">func</span><span class="params">(x, y)</span>:</span></span><br><span class="line">            t, g = x + y, y + x</span><br><span class="line">            <span class="keyword">for</span> i, j <span class="keyword">in</span> zip(t, g):</span><br><span class="line">                <span class="keyword">if</span> i &gt; j:</span><br><span class="line">                    <span class="keyword">return</span> <span class="number">1</span></span><br><span class="line">                <span class="keyword">elif</span> i &lt; j:</span><br><span class="line">                    <span class="keyword">return</span> <span class="number">-1</span></span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">        nums = sorted(list(map(str,nums)), key = cmp_to_key(func))</span><br><span class="line">        <span class="keyword">return</span> <span class="string">""</span>.join(map(str, nums))</span><br></pre></td></tr></table></figure>
+<h4 id="format上格式控制-r"><a href="#format上格式控制-r" class="headerlink" title="format上格式控制!r"></a>format上格式控制!r</h4><p><code>{!r}</code>与<code>format()</code>配合使用，而<code>%r</code>与%配合使用，二者不可以混合使用，否则会报错！</p>
+<p>在<code>str.format</code>中，<code>!s</code>选择用于<code>str</code>设置对象格式，而<code>!r</code>选择<code>repr</code>设置值格式。</p>
+
+    </div>
+
+    
+    
+    
+        
+      
+
+      <footer class="post-footer">
+          
+            
+          
+          <div class="post-tags">
+            
+              <a href="/tags/Python/" rel="tag"># Python</a>
+            
+          </div>
+        
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/2020/06/30/c++puzzle/%E7%B2%BE%E9%80%9Ac++%E7%9A%84%E6%8B%BC%E5%86%99/" rel="next" title="精通c++的拼写">
+                  <i class="fa fa-chevron-left"></i> 精通c++的拼写
+                </a>
+              
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+                <a href="/2020/07/04/Tensorflow2/2020-07-04-Tensorfow2%E5%A4%8D%E4%B9%A0--RNN/" rel="prev" title="Tensorfow2复习--RNN">
+                  Tensorfow2复习--RNN <i class="fa fa-chevron-right"></i>
+                </a>
+              
+            </div>
+          </div>
+        
+      </footer>
+    
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+    
+    <div class="comments" id="gitalk-container"></div>
+  
+
+        </div>
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image"
+      src="/images/avatar/jojo3.jpg"
+      alt="Zheng Chu">
+  <p class="site-author-name" itemprop="name">Zheng Chu</p>
+  <div class="site-description motion-element" itemprop="description"></div>
+</div>
+  <nav class="site-state motion-element">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives">
+        
+          <span class="site-state-item-count">82</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-name">categories</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">tags</span>
+        </a>
+      </div>
+    
+  </nav>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://github.com/zhengchu1994" title="GitHub &rarr; https://github.com/zhengchu1994" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://www.jianshu.com/u/d4875c485cff" title="简书 &rarr; https://www.jianshu.com/u/d4875c485cff" rel="noopener" target="_blank"><i class="fa fa-fw fa-heartbeat"></i>简书</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://blog.csdn.net/NockinOnHeavensDoor" title="CSDN &rarr; https://blog.csdn.net/NockinOnHeavensDoor" rel="noopener" target="_blank"><i class="fa fa-fw fa-globe"></i>CSDN</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="mailto:zhengchu@tju.edu.cn" title="E-Mail &rarr; mailto:zhengchu@tju.edu.cn" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+    
+  </div>
+
+
+
+        </div>
+      </div>
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#可变对象与不可变对象"><span class="nav-number">1.</span> <span class="nav-text">可变对象与不可变对象</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#staticmethod和classmethod"><span class="nav-number">2.</span> <span class="nav-text">staticmethod和classmethod</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#类变量、实例变量"><span class="nav-number">3.</span> <span class="nav-text">类变量、实例变量</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#args-and-kwargs"><span class="nav-number">4.</span> <span class="nav-text">*args and **kwargs</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Property"><span class="nav-number">5.</span> <span class="nav-text">Property</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#动态属性"><span class="nav-number">6.</span> <span class="nav-text">动态属性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#contextlib-with-实现可复用的try-finally"><span class="nav-number">7.</span> <span class="nav-text">contextlib + with 实现可复用的try + finally</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#自带函数"><span class="nav-number">8.</span> <span class="nav-text">自带函数</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Wraps"><span class="nav-number"></span> <span class="nav-text">Wraps</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#partial"><span class="nav-number">1.</span> <span class="nav-text">partial</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#cmp-to-key"><span class="nav-number">2.</span> <span class="nav-text">cmp_to_key</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#format上格式控制-r"><span class="nav-number">3.</span> <span class="nav-text">format上格式控制!r</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Zheng Chu</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.2.1</div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.3.0</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="Total Visitors">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+    <span class="post-meta-divider">|</span>
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="Total Views">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+      </div>
+
+    
+
+  </div>
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+<script src="/js/utils.js?v=7.3.0"></script>
+  <script src="/js/motion.js?v=7.3.0"></script>
+
+
+  <script src="/js/affix.js?v=7.3.0"></script>
+  <script src="/js/schemes/pisces.js?v=7.3.0"></script>
+
+
+<script src="/js/next-boot.js?v=7.3.0"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+    
+      
+<script type="text/x-mathjax-config">
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') {
+          next = next.nextSibling;
+        }
+        if (next && next.nodeName.toLowerCase() === 'br') {
+          next.parentNode.removeChild(next);
+        }
+      }
+    });
+  });
+
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      element = document.getElementById(all[i].inputID + '-Frame').parentNode;
+      if (element.nodeName.toLowerCase() == 'li') {
+        element = element.parentNode;
+      }
+      element.classList.add('has-jax');
+    }
+  });
+</script>
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML', function() {
+    MathJax.Hub.Typeset();
+  }, window.MathJax);
+</script>
+
+    
+  
+
+  
+
+  
+
+
+  
+  <script src="/js/scrollspy.js?v=7.3.0"></script>
+<script src="/js/post-details.js?v=7.3.0"></script>
+
+
+    
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', function() {
+    var gitalk = new Gitalk({
+      clientID: '0911ce8ceab7f12409f0',
+      clientSecret: '6fa693e25bfc0f98e5cc0907c97cb2fe9f54bb5e',
+      repo: 'Gitalk',
+      owner: 'zhengchu1994',
+      admin: ['zhengchu1994'],
+      id: '624eeb6dc9e3f9227493b7cd3f25346b',
+        language: window.navigator.language || window.navigator.userLanguage,
+      
+      distractionFreeMode: 'true'
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+</script>
+
+</body>
+</html>

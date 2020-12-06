@@ -1,0 +1,1062 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="generator" content="Hexo 4.2.1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon-moon_32px.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-moon_32px.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-moon_16px.png?v=7.3.0">
+  <link rel="mask-icon" href="/images/favicon-moon_32px.png?v=7.3.0" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.3.0">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.3.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    save_scroll: false,
+    copycode: {"enable":false,"show_result":false,"style":"mac"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: 'Copy',
+      copy_success: 'Copied',
+      copy_failure: 'Copy failed'
+    }
+  };
+</script>
+
+  <meta name="description" content="[toc]last:2019-09-04 21:45:21update: 2020-06-20Voting：利用投票做分类 hard-voting：多个分类器的结果中选择重合数目最多的。  Soft-voting：会对预测的结果配上权重，使得预测结果最好的类别更大概率视为正确的。  比如用LR、SVM、随机森林等模型组合在一起进行投票： 123456789101112131415161718192">
+<meta property="og:type" content="article">
+<meta property="og:title" content="EnsembleLearning">
+<meta property="og:url" content="http://yoursite.com/2020/06/20/EnsembleLearning/index.html">
+<meta property="og:site_name" content="Zheng Chu&#39;s Blog">
+<meta property="og:description" content="[toc]last:2019-09-04 21:45:21update: 2020-06-20Voting：利用投票做分类 hard-voting：多个分类器的结果中选择重合数目最多的。  Soft-voting：会对预测的结果配上权重，使得预测结果最好的类别更大概率视为正确的。  比如用LR、SVM、随机森林等模型组合在一起进行投票： 123456789101112131415161718192">
+<meta property="og:image" content="http://yoursite.com/2020/06/20/EnsembleLearning/KnnBiasVariance1.png">
+<meta property="og:image" content="http://yoursite.com/2020/06/20/EnsembleLearning/KnnBiasVariance2.png">
+<meta property="og:image" content="http://yoursite.com/2020/06/20/EnsembleLearning/%E5%81%8F%E5%B7%AE%E6%96%B9%E5%B7%AE%E5%AD%A6%E4%B9%A0.png">
+<meta property="og:image" content="http://yoursite.com/2020/06/20/EnsembleLearning/%E6%96%B9%E5%B7%AE%E5%8F%98%E5%B7%AE%E5%9B%BE.png">
+<meta property="article:published_time" content="2020-06-20T13:45:21.000Z">
+<meta property="article:modified_time" content="2020-12-06T12:34:07.876Z">
+<meta property="article:author" content="Zheng Chu">
+<meta property="article:tag" content="MachineLearning">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2020/06/20/EnsembleLearning/KnnBiasVariance1.png">
+  <link rel="canonical" href="http://yoursite.com/2020/06/20/EnsembleLearning/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>EnsembleLearning | Zheng Chu's Blog</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?<622a1a023f2bb8cdefcf61e3855bf317>";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <div class="container sidebar-position-left">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Zheng Chu's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">让希望永驻</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-主页">
+      
+    
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home  //"></i> <br>主页</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-所有专栏">
+      
+    
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th //"></i> <br>所有专栏</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-历史文章">
+      
+    
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive //"></i> <br>历史文章</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-标签">
+      
+    
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags  //"></i> <br>标签</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-关于我">
+      
+    
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user //"></i> <br>关于我</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+
+  <a href="https://github.com/zhengchu1994" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+            
+
+          <div id="content" class="content page-post-detail">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/20/EnsembleLearning/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zheng Chu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar/jojo3.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zheng Chu's Blog">
+    </span>
+      <header class="post-header">
+
+        
+          <h1 class="post-title" itemprop="name headline">EnsembleLearning
+
+            
+          </h1>
+        
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              
+                
+              
+
+              <time title="Created: 2020-06-20 21:45:21" itemprop="dateCreated datePublished" datetime="2020-06-20T21:45:21+08:00">2020-06-20</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-12-06 20:34:07" itemprop="dateModified" datetime="2020-12-06T20:34:07+08:00">2020-12-06</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">机器学习</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            <span class="post-meta-item" title="Views">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <hr><p>[toc]</p><hr><p>last:2019-09-04 21:45:21</p><p>update: 2020-06-20</p><h3 id="Voting：利用投票做分类"><a href="#Voting：利用投票做分类" class="headerlink" title="Voting：利用投票做分类"></a>Voting：利用投票做分类</h3><ul>
+<li><p>hard-voting：多个分类器的结果中选择重合数目最多的。</p>
+</li>
+<li><p>Soft-voting：会对预测的结果配上权重，使得预测结果最好的类别更大概率视为正确的。</p>
+</li>
+<li><p>比如用LR、SVM、随机森林等模型组合在一起进行投票：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.ensemble <span class="keyword">import</span> RandomForestClassifier</span><br><span class="line"><span class="keyword">from</span> sklearn.ensemble <span class="keyword">import</span> VotingClassifier</span><br><span class="line"><span class="keyword">from</span> sklearn.linear_model <span class="keyword">import</span> LogisticRegression</span><br><span class="line"><span class="keyword">from</span> sklearn.svm <span class="keyword">import</span> SVC</span><br><span class="line"></span><br><span class="line">log_clf = LogisticRegression(solver=<span class="string">"lbfgs"</span>, random_state=<span class="number">42</span>)</span><br><span class="line">rnd_clf = RandomForestClassifier(n_estimators=<span class="number">100</span>, random_state=<span class="number">42</span>)</span><br><span class="line">svm_clf = SVC(gamma=<span class="string">"scale"</span>, random_state=<span class="number">42</span>)</span><br><span class="line"></span><br><span class="line">voting_clf = VotingClassifier(</span><br><span class="line">    estimators=[(<span class="string">'lr'</span>, log_clf), (<span class="string">'rf'</span>, rnd_clf), (<span class="string">'svc'</span>, svm_clf)],</span><br><span class="line">    voting=<span class="string">'hard'</span>)</span><br><span class="line"></span><br><span class="line"><span class="string">""" Soft-voting</span></span><br><span class="line"><span class="string">voting_clf = VotingClassifier(</span></span><br><span class="line"><span class="string">    estimators=[('lr', log_clf), ('rf', rnd_clf), ('svc', svm_clf)],</span></span><br><span class="line"><span class="string">    voting='soft')</span></span><br><span class="line"><span class="string">"""</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">voting_clf.fit(X_train, y_train)</span><br><span class="line"><span class="keyword">from</span> sklearn.metrics <span class="keyword">import</span> accuracy_score</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> clf <span class="keyword">in</span> (log_clf, rnd_clf, svm_clf, voting_clf):</span><br><span class="line">    clf.fit(X_train, y_train)</span><br><span class="line">    y_pred = clf.predict(X_test)</span><br><span class="line">    print(clf.__class__.__name__, accuracy_score(y_test, y_pred))</span><br><span class="line">    </span><br><span class="line"><span class="comment">## voting的结果比单个分类器好</span></span><br><span class="line">LogisticRegression <span class="number">0.864</span></span><br><span class="line">RandomForestClassifier <span class="number">0.896</span></span><br><span class="line">SVC <span class="number">0.896</span></span><br><span class="line">VotingClassifier <span class="number">0.912</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul><a id="more"></a>
+
+
+
+
+
+<ul>
+<li><p>背后原理：<strong>Law of large numbers</strong>：</p>
+</li>
+<li><p>前提：分类器独立，学习到的错误模式各不相同。</p>
+</li>
+</ul>
+<p>这一种做法是使用不同的分类器算法，</p>
+<p>另一种做法是在不同的训练集上训练分类器。</p>
+<h3 id="Bagging：（Bootstrap-aggregating）：有放回采样训练集"><a href="#Bagging：（Bootstrap-aggregating）：有放回采样训练集" class="headerlink" title="Bagging：（Bootstrap aggregating）：有放回采样训练集"></a>Bagging：（Bootstrap aggregating）：有放回采样训练集</h3><ul>
+<li>Pasting：不放回。。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.ensemble <span class="keyword">import</span> BaggingClassifier </span><br><span class="line"><span class="keyword">from</span> sklearn.tree <span class="keyword">import</span> DecisionTreeClassifier</span><br><span class="line"></span><br><span class="line"><span class="comment"># 等于随机森林</span></span><br><span class="line"><span class="comment">#500个决策树的bagging，每个采样为max_samples（可设为【0，1】作为百分比），n_jobs=-1使用全部cpu</span></span><br><span class="line">bag_clf = BaggingClassifier( DecisionTreeClassifier(), n_estimators=<span class="number">500</span>, max_samples=<span class="number">100</span>, bootstrap=<span class="literal">True</span>, n_jobs=<span class="number">-1</span>)</span><br><span class="line">bag_clf.fit(X_train, y_train) y_pred = bag_clf.predict(X_test)</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>Out-of-Bag Evaluation：bagging里面没被采样的训练集上的验证预测：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>bag_clf.fit(X_train, y_train)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>bag_clf.oob_score_</span><br><span class="line"><span class="number">0.90133333333333332</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>Extra variant methods：</p>
+<p>​    Random Subspaces method（Sampling features ）、 </p>
+<p>​    Random patches method（Sampling features and training instances）</p>
+<p>特征重要性显示：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.datasets <span class="keyword">import</span> load_iris</span><br><span class="line">iris = load_iris()</span><br><span class="line">rnd_clf = RandomForestClassifier(n_estimators=<span class="number">500</span>, random_state=<span class="number">42</span>)</span><br><span class="line">rnd_clf.fit(iris[<span class="string">"data"</span>], iris[<span class="string">"target"</span>])</span><br><span class="line"><span class="keyword">for</span> name, score <span class="keyword">in</span> zip(iris[<span class="string">"feature_names"</span>], rnd_clf.feature_importances_):</span><br><span class="line">    print(name, score)</span><br><span class="line"></span><br><span class="line"><span class="comment">###   </span></span><br><span class="line">sepal length (cm) <span class="number">0.11249225099876374</span></span><br><span class="line">sepal width (cm) <span class="number">0.023119288282510326</span></span><br><span class="line">petal length (cm) <span class="number">0.44103046436395765</span></span><br><span class="line">petal width (cm) <span class="number">0.4233579963547681</span></span><br></pre></td></tr></table></figure>
+<h3 id="Boosting"><a href="#Boosting" class="headerlink" title="Boosting"></a>Boosting</h3><p>做法：Train predictors sequentially，each trying to correct its predecessor.</p>
+<h4 id="AdaBoost：给每个训练样本学习一个权重"><a href="#AdaBoost：给每个训练样本学习一个权重" class="headerlink" title="AdaBoost：给每个训练样本学习一个权重"></a>AdaBoost：给每个训练样本学习一个权重</h4><p>做法：先用base classifier在训练集上分类，对分类错误的样本增加它们的权重，然后下一个base classifier继续训练集上做分类，更新权重。上述过程也对每个base classifier学到一个权重， 预测的时候，把所有分类器的预测权重结合起来做预测。</p>
+<h4 id="Gradient-Boosting"><a href="#Gradient-Boosting" class="headerlink" title="Gradient Boosting"></a>Gradient Boosting</h4><hr>
+<h1 id="overview"><a href="#overview" class="headerlink" title="overview"></a>overview</h1><ul>
+<li>泛化性：用偏差与方差分解理解泛化性；</li>
+<li>利用bagging降低方差；利用boosting降低偏差；</li>
+</ul>
+<p>集成方法总览：</p>
+<ol>
+<li><p>predictor的决策被联合在一起用来对新样本做决策，如voting；</p>
+</li>
+<li><p>为了使每个预测器（predictor）不一样，它们应该学习不一样的学习假设（hypotheses）</p>
+<p>有四类方法使得预测器的学习假设不一样：</p>
+<ol>
+<li>不同的算法；</li>
+<li>不同的超参数选择；</li>
+<li>训练不同的数据；</li>
+<li>对训练样本采用不同权重的训练；</li>
+</ol>
+</li>
+<li><p>集成学习的难点在于如何选择上述的集成目标。</p>
+</li>
+</ol>
+<ul>
+<li>bagging方法：在训练集的随机子集上独立的训练每一个分类器；</li>
+</ul>
+<ul>
+<li>boosting方法：把分类器序列化的做训练，每一次的训练更关注上一轮训练中预测错误的样本。</li>
+</ul>
+<ul>
+<li>上面的两个算法各有不同，通过<strong>学习算法的偏差和方差</strong>理论来作分析。</li>
+</ul>
+<h4 id="方差偏差理论"><a href="#方差偏差理论" class="headerlink" title="方差偏差理论"></a>方差偏差理论</h4><p>可以通过KNN算法看到一种现象，不同的K的选择使得模型太简单，那么可能与数据形成欠拟合；也可能使得模型过于复杂，那么可能与数据形成过拟合；那么如何量化这种现象，那就是方差偏差理论。</p>
+<p>增大$k$ 使得方差下降但是偏差增加，减小$k$使得方差增大但是偏差下降。随着$k$的增加，方差减小了；但是如果我们增加太多$k$，那么我们就不再沿着真正的边界线，我们观察到高偏差。</p>
+<script type="math/tex; mode=display">
+Err(x) = \left(f(x)-\frac{1}{k}\sum\limits_{i=1}^k f(x_i)\right)^2+\frac{\sigma_\epsilon^2}{k} + \sigma_\epsilon^2 \\\\
+Err(x) = \mathrm{Bias}^2 + \mathrm{Variance} + \mathrm{Irreducible\ Error}</script><ul>
+<li>高偏差低方差图：$k$值大的时候，平均预测值离真实值比较远，但是方差比较小，预测的结果比较集中。</li>
+</ul>
+<p><img src="/2020/06/20/EnsembleLearning/KnnBiasVariance1.png" alt="高偏差低方差"></p>
+<ul>
+<li>低偏差高方差图：$k$ 值小的时候，平均预测值离真实值比较近，但是方差太大，每一次的预测值波动性很大。</li>
+</ul>
+<p><img src="/2020/06/20/EnsembleLearning/KnnBiasVariance2.png" alt="低偏差高方差"></p>
+<p>先从一个例子出发：</p>
+<p>（1）假设训练集由$N$ 对样本组成，每个样本独立同分布地抽取于数据生成分布 $P_{\text{(data)}}$ ,</p>
+<p>​            整个训练数据集的诱导分布（induced distribution）表示为 $P_{\text{(train)}}$.</p>
+<p>（2）取一个固定的测试点$X$，然后做这么一个实验，我们不断的从 $P_{\text{(train)}}$里独立地采样多次训练数据集；</p>
+<p>（3）我们的学习算法在每一个训练数据集$D$上做训练，产生一个分类器 $h_D$；然后对每一个分类器我们对刚才取的点做分类有 $h_D(X)=y$；</p>
+<p>  (4) 结论是 $y$，一个样本的类别，成了随机变量；原因是 $D$是随机的，因此分类器 $h_D$ 是随机的，因此它的预测$h_D(X)$也是随机的；</p>
+<p>因为 $y=h_D(X)$ 是随机变量， </p>
+<p>我们可以讨论它在训练集$P_{\text{(train)}} $ 的期望和方差！</p>
+<p>如下图：</p>
+<p><img src="/2020/06/20/EnsembleLearning/偏差方差学习.png" alt></p>
+<ul>
+<li>上图中，假设了给定了$X$的情况，$t$ 是确定的；</li>
+</ul>
+<ul>
+<li>看出来对不同的数据集，存在一个对$X$的期望损失：<script type="math/tex; mode=display">
+\mathbb E_{D\sim P_{(train)}}=\left[L(h_D(X), t)\right]</script></li>
+</ul>
+<ul>
+<li>每一个数据点$X$ 的期望损失是不同的，</li>
+</ul>
+<p>现在假设$L$是均方误差$L(y, t) = \frac{1}{2} (y - t)^2$，对上面的期望损失做分解：</p>
+<p>★：注意最后一步的时候， $\mathbb E_{(X,D)}$  是数据集 $D$ 与测试样本点 $X$  都是随机变量计算平均值，</p>
+<p> $h_D(X)$ 是对任何测试$X$都有一个训练值，它的随机变量只有训练集 $D$ ；</p>
+<p>因此对随机变量 $D$  取期望之后化为 $\mathbb E_{D}[h_D(X)]$ ，</p>
+<p>其他的值都不是变量$D$的函数，因此保持原样，最后得到的第一项为方差(<strong>Variance</strong>)，第二项为偏差(<strong>Bias</strong>)。</p>
+<script type="math/tex; mode=display">
+\mathbb E_{(X,D)}\left[(h_D(X)-t)^2\right] = \mathbb E_{(X,D)}\left[(h_D(X) - \mathbb E_D\left[h_D(X)\right]+\mathbb E_D\left[h_D(X)\right] - t)^2\right]  \\\\
+=\mathbb E_{(X,D)}\left[(h_D(X) - \mathbb E_D\left[(h_D(X)\right])^2 +(\mathbb E_D\left[h_D(X)\right] - t)^2 + \\\\
+2(h_D(X) - \mathbb E_D[h_D(X)])(\mathbb E_D[h_D(X)] - t)\right] \\\\
+= \mathbb E_{(X,D)}\left[(h_D(X) - \mathbb E_D\left[(h_D(X)\right])^2\right] +  \\\\
+\mathbb E_{(X,D)}\left[(\mathbb E_D[h_D(X)] - t)(2h_D(X)-t-E_D[h_D(X)])\right] \\\\
+= \mathbb E_{(X,D)}\left[(h_D(X) - \mathbb E_D\left[(h_D(X)\right])^2\right] + \mathbb E_{(X)}\left[(\mathbb E_D[h_D(X)] - t) ^2 \right]</script><ul>
+<li>偏置：平均来说，我们的分类器离真实目标有多近；（对应于<strong>underfitting</strong>）</li>
+</ul>
+<ul>
+<li>方差：当我们生成新的数据集时，我们的预测有多分散? (对应于<strong>overfitting</strong>)</li>
+</ul>
+<p>  偏置：由公式看出，偏置是在一个固定的预测器下，训练集是随机变量，对所有可能的训练集的训练结果取均值，然后与真实值的误差；当然对所有预测值与真实值的误差都取均值。</p>
+<p>  方差：有公式看出，训练集不一样时，预测的结果离对所有数据上的平均预测结果偏离的均值。</p>
+<ul>
+<li>下图：投掷飞镖=对数据集的每次采样进行预测。看出来高bias的时候，数据的预测值离真实值都比较远，低bias的时候都离真实值比较近；高bias明显欠拟合更多；然后是低variance的时候，预测值都比较集中，高variance的时候预测值都比较分散；高variance明显说明了过拟合的情况，生成不同的数据，预测值也大范围的在变化，即泛化性差，太拟合训练数据（上一次或前几次投飞镖的位置作为训练数据，但是这次投飞镖的结果（测试）却与训练结果差很远）了。</li>
+</ul>
+<p><img src="/2020/06/20/EnsembleLearning/方差变差图.png" alt="投掷飞镖=对数据集的每次绘制进行预测"></p>
+<h4 id="Bagging-Motivation"><a href="#Bagging-Motivation" class="headerlink" title="Bagging: Motivation"></a>Bagging: Motivation</h4><p>假设我们可以从$P_{\text{(train)}}$ 里独立地采样$m$次，作为$m$ 个独立的训练集，</p>
+<p>在每个训练集上我们可以训练$m$个预测器(predictor)：  $h<em>i=h</em>{(D_i)}$</p>
+<p>对所有的预测器的结果求平均得到 $h=\frac{1}{m}\sum_{i=1}^mh_i$ 。推导这个 $h$ 是怎么影响bias和variance的：</p>
+<ul>
+<li>对bias没有影响：因为平均预测具有相同的期望</li>
+</ul>
+<script type="math/tex; mode=display">
+\mathbb E_{D_1,...,D_m\sim P_{(train)}}[h{(x)}]= \frac{1}{m}\sum_{i=1}^m\mathbb E_{D_i \sim P_{(train)}}[h_i(x)] = \mathbb E_{D\sim P_{(train)}}[h_D(x)]</script><p>对所有数据集 $D_1,…,D_m$ 作为变量$D$的值，求该变量的均值，</p>
+<p>由期望公式 $E(X)=\sum_{i} p_i x_i$ 得到中间式子，然后写成最后的式子形式。</p>
+<ul>
+<li><strong>方差下降了</strong>：因为我们对独立样本的方差联合在一起求了均值，得到最后的方差：<script type="math/tex; mode=display">
+\text{Var}_{(D_1,...,D_m)}[h(x)]= \frac{1}{m^2}\sum_{i=1}^m\text{Var}_{(D_i)}[h_i(x)] = \frac{1}{m}\text{Var}_D[h_D(x)]</script>方差公式$\text{Var}(aX) = a^2\text{Var}(X)$, 因此，第二式的每一项前面的系数都是$\frac{1}{m^2}$，然后求平均方差值。</li>
+</ul>
+<h4 id="Bagging-Idea"><a href="#Bagging-Idea" class="headerlink" title="Bagging: Idea"></a>Bagging: Idea</h4><p>上面的分析说明了问题所在，只要有很多独立的数据集那么我的结果肯定会很好，因为我可以训练很多预测器然后综合起来，减小方差啊！~</p>
+<p>但是现实是残酷的，如下：</p>
+<ol>
+<li>我们往往得不到数据生成分布$P_{(data)}$；</li>
+<li>收集独立的大量数据集是耗费资源的；</li>
+</ol>
+<p>基于这样的情况，Bagging（或称为<strong>bootstrap aggregation</strong>）算法怎么考虑的呢？</p>
+<p>我只有一个训练集$D$，里面有$n$个样本；好，这样的话，我利用$D$生成$m$个新的数据集，通过在$D$中进行$n$次有放回的采样方法，因此我的$m$个数据集里，每个里面都有数目相同的样本$n$个。之后就和上面的分析一样了，我就在每一个新的数据集上训练它$m$个预测器。</p>
+<p>注意：往往数据集这种情况下，并非满足$i.i.d$，因此不可能得到方差降为$1/m$ 倍这么多。</p>
+<p>加入训练的预测器有方差$\sigma^2$和相关系数$p$，那么我们最后计算的结果是：</p>
+<script type="math/tex; mode=display">
+\text{Var} (\frac{1}{m}\sum_{i=1}^mh_i(x)) = \frac{1}{m}(1-p)\sigma^2 + p\sigma^2</script><p>上面的公式咋来的，我还没明白，懂的人麻烦给我说说。</p>
+<p>但是<strong>总的来说，在算法中引入额外的可变性是有利的，只要它降低了样本之间的相关性。</strong></p>
+<h4 id="随机森林"><a href="#随机森林" class="headerlink" title="随机森林"></a>随机森林</h4><p>随机森林的公式为：</p>
+<script type="math/tex; mode=display">
+\text{Random forests} = \text{bagged decision trees}  +  \text{extra trick to
+decorrelate the predictions}</script><p>也就是说随机森林不是别的，就是加入了bagging思想的一堆决策树的联合体，在实际操作的时候，当选择决策树的每一个节点时，选择大小为 $d$ 的输入特征的一个随机子集，然后只考虑在这些子集特征上做分割；</p>
+<p>囧：他评价随机森林可能是最好的黑盒子机器学习算法，因为它们通常在没有任何调优的情况下工作得很好。</p>
+<h4 id="贝叶斯最优理论（Bayes-Optimality）"><a href="#贝叶斯最优理论（Bayes-Optimality）" class="headerlink" title="贝叶斯最优理论（Bayes Optimality）"></a>贝叶斯最优理论（Bayes Optimality）</h4><p>该理论想告诉我们一件事，不管你是什么分类器，你的性能上限永远是它，称为<strong>贝叶斯最优</strong>。</p>
+<p>上面的分析里假设给定了测试点$X$，那么我的对应值$t$是固定的，但是现实是$t$也不是固定的，它作为$X$的条件概率为$p(t|X)$。</p>
+<p>现在我们的预测值是一个分布的情况，那么可以测量它的期望是什么。设 $y_{\ast} = \mathbb E[t|X]$，下面的公式为在给定$X$ 的条件下，训练结果$y$与真实结果$t$的期望损失，其中后面的计算省掉了符号$\text{argmin}_y\mathbb E[(y-t)^2]$ 里的$\text{argmin}_y$:</p>
+<script type="math/tex; mode=display">
+\text{argmin}_y\mathbb E[(y-t)^2] = \mathbb E_t[y^2 - 2 yt +t^2]  \\\\
+=y^2 - 2y\mathbb E_t[t] + \mathbb E_t[t^2] \\\\
+ = y^2 - 2y\mathbb E_t[t] + \mathbb E_t[t]^2 + \text{Var}[t|X] \\\\
+ = y^2 - 2yy_{\ast} + y_{\ast}^2 + \text{Var}[t|X]  \\\\ 
+  = (y - y_{\ast})^2 + \text{Var}[t|x]</script><p>可以看到公式最后一行的左边是非负的， 当我们的预测器学习得到分类结果 $y_{\ast}$时，第一项为0；而第二项是和$y$无关的，也就是和我们学习的$y$居然无关；对它的解释是这是targets天生带有的不确定性，或不可预知性（unpredictability）或噪声，称为贝叶斯误差(<strong>Bayes error</strong>)。</p>
+<p>分类算法学习得到$y_{\ast}$就了不得了，称为贝叶斯最优（<strong>Bayes optimal</strong>），这也是最好的预测，因为它将预期损失最小化。</p>
+<p>再一次对期望损失做分解，但是这次视$t$为随机变量：</p>
+<script type="math/tex; mode=display">
+\mathbb E_{(X,D,t)}\left[(h_D(X)-t)^2\right] = \mathbb E_{(X,D)}\left[(h_D(X) - \mathbb E_D\left[(h_D(X)\right])^2\right] +  \\\\
+\mathbb E_{(X,D, t)}\left[(\mathbb E_D[h_D(X)] - t)(2h_D(X)-t-E_D[h_D(X)])\right]\\\\
+=\mathbb E_{(X,D)}\left[(h_D(X) - \mathbb E_D\left[(h_D(X)\right])^2\right] + 
+\mathbb E_{(X,t)}\left[(\mathbb E_D[h_D(X)] - t)(\mathbb E_D[h_D(X)]-t)\right] \\\\
+=\mathbb E_{(X,D)}\left[(h_D(X) - \mathbb E_D\left[(h_D(X)\right])^2\right] + 
+\mathbb E_{(X,t)}\left[((\mathbb E_D[h_D(X)])^2 - 2t\mathbb E_D[h_D(X)] + t^2)\right] \\\\
+= \mathbb E_{(X,D)}\left[(h_D(X) - \mathbb E_D\left[(h_D(X)\right])^2\right] + 
+\mathbb E_{(X)}\left[((\mathbb E_D[h_D(X)])^2 - 2\mathbb E[t] \mathbb E_D[h_D(X)] + \mathbb E[t^2])\right] \\\\
+=\mathbb E_{(X,D)}\left[(h_D(X) - \mathbb E_D\left[(h_D(X)\right])^2\right] + 
+\mathbb E_{(X)}\left[((\mathbb E_D[h_D(X)])^2 - 2\mathbb E[t] \mathbb E_D[h_D(X)] + (\mathbb E[t])^2 + \text{Var}[t])\right] \\\\
+= \mathbb E_{(X,D)}\left[(h_D(X) - \mathbb E_D\left[(h_D(X)\right])^2\right] + \mathbb E_{(X)}\left[(\mathbb E_D[h_D(X)] - y_{\ast}(X)) ^2 \right] + \text{Var}[t|X]</script><p>对比 $t$ 不是变量的期望损失：</p>
+<script type="math/tex; mode=display">
+\mathbb E_{(X,D)}\left[(h_D(X)-t)^2\right] = \\\\
+\mathbb E_{(X,D)}\left[(h_D(X) - \mathbb E_D\left[(h_D(X)\right])^2\right] + \mathbb E_{(X)}\left[(\mathbb E_D[h_D(X)] - t) ^2 \right]</script><p>可以看到方差项未变，期望项里的 $t$ 成了假设的最优预测值$y_{\ast}$ ,然后便是贝叶斯误差。</p>
+<hr>
+<h4 id="Boosting-1"><a href="#Boosting-1" class="headerlink" title="Boosting"></a>Boosting</h4><ul>
+<li>Boosting：按序训练分类器，每次集中训练之前分类错误的数据点</li>
+</ul>
+<p>Commonsense：</p>
+<p>加权的训练集：误分类率（损失函数）$\sum_{n = 1}^N[h(x^{(N)}) \ne t^{(n)}]$在一开始对每一个训练样本是相等的；但之后样本被误分类的权重改变了，被误分为错误类的样本带来cost，因此考虑对这部分样本做加权处理，使得分类器更关注之前被错误分类的样本，损失函数成为：</p>
+<script type="math/tex; mode=display">
+\sum_{n=1}^N\mathbf w^{(n)}\mathbb I[h(x^{(n)}) \ne t^{(n)}] \\\\
+\text{s.t.,} \mathbf w^{(n)} > 0,\  \sum_{n=1}^N\mathbf w^{(n)} = 1.</script><p>弱学习器（<strong>weak Learner</strong>）：性能稍微好于随机猜测的学习算法，所以对于加权训练集，得到的误差略小于0.5：</p>
+<script type="math/tex; mode=display">
+\text{err} = \sum_{n=1}^N\mathbf w^{(n)}\mathbb I[h(x^{(n)}) \ne t^{(n)}] \le \frac{1}{2}-\gamma, \gamma > 0.</script><p>关注它的原因更多是因为有很高的计算效率，比如决策树，或决策树桩（<strong>decision stump</strong>），即只有一个分割的决策树。</p>
+<h4 id="AdaBoost-自适应提升"><a href="#AdaBoost-自适应提升" class="headerlink" title="AdaBoost(自适应提升)"></a>AdaBoost(自适应提升)</h4><ul>
+<li>AdaBoost的关键步骤:<ul>
+<li>一、每轮迭代重新分配训练样本的权重，使得分类不正确的样本权重更大；</li>
+<li>二、在新权重样本上训练弱分类器；</li>
+<li>三、把所有的弱分类器集成为新分类器；</li>
+<li>四、重复该过程很多次；</li>
+</ul>
+</li>
+<li>实际上弱学习器将加权误差最小化，因此AdaBoost使每个分类器更关注上一次的错误分类，从而降低了<strong>bias</strong>.</li>
+</ul>
+<p>AdaBoost算法如下：</p>
+<ul>
+<li><p>Input：</p>
+<ul>
+<li>数据集$D_N={(x^{(n)}, t^{(n)})},n=1,2,…,N$ 。</li>
+<li>弱分类器 $\text{WeakLearn}$，迭代次数$T$。</li>
+</ul>
+</li>
+<li><p>Output：分类器$H(x)$。</p>
+</li>
+<li><p>Initialize：采样权重$\mathbf w^{(n)} = \frac{1}{N},n =1 ,2,3…,N$。</p>
+</li>
+<li><p>For $t= 1,….,T$</p>
+<ul>
+<li><p>用$\mathbf w^{(n)}$的权重化样本训练一个弱分类器：</p>
+<script type="math/tex; mode=display">
+h_t = \text{argmin}_{h\in\mathcal H}\sum_{n=1}^N \mathbf w^{(n)}\mathbb I\{h(x^{(n)})\ne t^{(n)}\}</script></li>
+<li><p>计算权重误差（weighted error）：</p>
+<script type="math/tex; mode=display">
+\text{err}_t = \frac{\sum_{n=1}^N\mathbf w^{(n)}\mathbb I\{h(x^{(n)})\ne t^{(n)}\}}{\sum_{n=1}^N\mathbf w^{(n)}}</script></li>
+<li><p>计算分类器系数（classifier coefficient）：</p>
+<script type="math/tex; mode=display">
+\alpha_t =\frac{1}{2}\log \frac{1-\text{err}_t}{\text{err}_t}</script></li>
+<li><p>更新数据集的权重：</p>
+<script type="math/tex; mode=display">
+\mathbf w^{(n)} \longleftarrow \mathbf w^{(n)}\exp(-\alpha_t t^{(n)}h_t(x^{(n)}))</script></li>
+</ul>
+</li>
+<li><p>Return：</p>
+<script type="math/tex; mode=display">
+H(x) = \text{sign} (\sum_{t = 1}^T\alpha_t h_t(x))</script></li>
+</ul>
+<hr>
+<ul>
+<li>Reference：<ol>
+<li><a href="http://scott.fortmann-roe.com/docs/BiasVariance.html" target="_blank" rel="noopener">http://scott.fortmann-roe.com/docs/BiasVariance.html</a></li>
+<li><a href="https://www.cs.toronto.edu/~mren/teach/csc411_19s/lec/lec04_matt.pdf" target="_blank" rel="noopener">https://www.cs.toronto.edu/~mren/teach/csc411_19s/lec/lec04_matt.pdf</a></li>
+</ol>
+</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+        
+      
+
+      <footer class="post-footer">
+          
+            
+          
+          <div class="post-tags">
+            
+              <a href="/tags/MachineLearning/" rel="tag"># MachineLearning</a>
+            
+          </div>
+        
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/2020/06/20/Scala/Scala-part4/" rel="next" title="Scala-part4">
+                  <i class="fa fa-chevron-left"></i> Scala-part4
+                </a>
+              
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+                <a href="/2020/06/21/CodeWar/CodeWar/" rel="prev" title="CodeWar">
+                  CodeWar <i class="fa fa-chevron-right"></i>
+                </a>
+              
+            </div>
+          </div>
+        
+      </footer>
+    
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+    
+    <div class="comments" id="gitalk-container"></div>
+  
+
+        </div>
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image"
+      src="/images/avatar/jojo3.jpg"
+      alt="Zheng Chu">
+  <p class="site-author-name" itemprop="name">Zheng Chu</p>
+  <div class="site-description motion-element" itemprop="description"></div>
+</div>
+  <nav class="site-state motion-element">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives">
+        
+          <span class="site-state-item-count">82</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-name">categories</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">tags</span>
+        </a>
+      </div>
+    
+  </nav>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://github.com/zhengchu1994" title="GitHub &rarr; https://github.com/zhengchu1994" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://www.jianshu.com/u/d4875c485cff" title="简书 &rarr; https://www.jianshu.com/u/d4875c485cff" rel="noopener" target="_blank"><i class="fa fa-fw fa-heartbeat"></i>简书</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://blog.csdn.net/NockinOnHeavensDoor" title="CSDN &rarr; https://blog.csdn.net/NockinOnHeavensDoor" rel="noopener" target="_blank"><i class="fa fa-fw fa-globe"></i>CSDN</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="mailto:zhengchu@tju.edu.cn" title="E-Mail &rarr; mailto:zhengchu@tju.edu.cn" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+    
+  </div>
+
+
+
+        </div>
+      </div>
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Voting：利用投票做分类"><span class="nav-number">1.</span> <span class="nav-text">Voting：利用投票做分类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Bagging：（Bootstrap-aggregating）：有放回采样训练集"><span class="nav-number">2.</span> <span class="nav-text">Bagging：（Bootstrap aggregating）：有放回采样训练集</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Boosting"><span class="nav-number">3.</span> <span class="nav-text">Boosting</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#AdaBoost：给每个训练样本学习一个权重"><span class="nav-number">3.1.</span> <span class="nav-text">AdaBoost：给每个训练样本学习一个权重</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Gradient-Boosting"><span class="nav-number">3.2.</span> <span class="nav-text">Gradient Boosting</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#overview"><span class="nav-number"></span> <span class="nav-text">overview</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#方差偏差理论"><span class="nav-number">0.1.</span> <span class="nav-text">方差偏差理论</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Bagging-Motivation"><span class="nav-number">0.2.</span> <span class="nav-text">Bagging: Motivation</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Bagging-Idea"><span class="nav-number">0.3.</span> <span class="nav-text">Bagging: Idea</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#随机森林"><span class="nav-number">0.4.</span> <span class="nav-text">随机森林</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#贝叶斯最优理论（Bayes-Optimality）"><span class="nav-number">0.5.</span> <span class="nav-text">贝叶斯最优理论（Bayes Optimality）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Boosting-1"><span class="nav-number">0.6.</span> <span class="nav-text">Boosting</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#AdaBoost-自适应提升"><span class="nav-number">0.7.</span> <span class="nav-text">AdaBoost(自适应提升)</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Zheng Chu</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.2.1</div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.3.0</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="Total Visitors">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+    <span class="post-meta-divider">|</span>
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="Total Views">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+      </div>
+
+    
+
+  </div>
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+<script src="/js/utils.js?v=7.3.0"></script>
+  <script src="/js/motion.js?v=7.3.0"></script>
+
+
+  <script src="/js/affix.js?v=7.3.0"></script>
+  <script src="/js/schemes/pisces.js?v=7.3.0"></script>
+
+
+<script src="/js/next-boot.js?v=7.3.0"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+    
+      
+<script type="text/x-mathjax-config">
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') {
+          next = next.nextSibling;
+        }
+        if (next && next.nodeName.toLowerCase() === 'br') {
+          next.parentNode.removeChild(next);
+        }
+      }
+    });
+  });
+
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      element = document.getElementById(all[i].inputID + '-Frame').parentNode;
+      if (element.nodeName.toLowerCase() == 'li') {
+        element = element.parentNode;
+      }
+      element.classList.add('has-jax');
+    }
+  });
+</script>
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML', function() {
+    MathJax.Hub.Typeset();
+  }, window.MathJax);
+</script>
+
+    
+  
+
+  
+
+  
+
+
+  
+  <script src="/js/scrollspy.js?v=7.3.0"></script>
+<script src="/js/post-details.js?v=7.3.0"></script>
+
+
+    
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', function() {
+    var gitalk = new Gitalk({
+      clientID: '0911ce8ceab7f12409f0',
+      clientSecret: '6fa693e25bfc0f98e5cc0907c97cb2fe9f54bb5e',
+      repo: 'Gitalk',
+      owner: 'zhengchu1994',
+      admin: ['zhengchu1994'],
+      id: '671ebc750f532f887e4f6e3c20b69f4d',
+        language: window.navigator.language || window.navigator.userLanguage,
+      
+      distractionFreeMode: 'true'
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+</script>
+
+</body>
+</html>

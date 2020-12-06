@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="generator" content="Hexo 4.2.1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon-moon_32px.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-moon_32px.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-moon_16px.png?v=7.3.0">
+  <link rel="mask-icon" href="/images/favicon-moon_32px.png?v=7.3.0" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.3.0">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.3.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    save_scroll: false,
+    copycode: {"enable":false,"show_result":false,"style":"mac"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: 'Copy',
+      copy_success: 'Copied',
+      copy_failure: 'Copy failed'
+    }
+  };
+</script>
+
+  <meta name="description" content="引入this调用一个成员函数，编译器用请求该函数的对象地址初始化this，所以this的目的总是指向这个对象，因此this是一个常量指针。  引入const成员函数以下是Sales_data类的一个成员函数的定义,参数列表之后的const作用是修改隐式this指针的类型，因为默认情况下，this的类型是指向类类型非常量版本的常量指针。所以默认情况不能把this绑定到一个常量对象上。这样使用con">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C++---CHAPTER-7---CLASS">
+<meta property="og:url" content="http://yoursite.com/2019/09/04/Primer/C++---CHAPTER-7--CLASS/index.html">
+<meta property="og:site_name" content="Zheng Chu&#39;s Blog">
+<meta property="og:description" content="引入this调用一个成员函数，编译器用请求该函数的对象地址初始化this，所以this的目的总是指向这个对象，因此this是一个常量指针。  引入const成员函数以下是Sales_data类的一个成员函数的定义,参数列表之后的const作用是修改隐式this指针的类型，因为默认情况下，this的类型是指向类类型非常量版本的常量指针。所以默认情况不能把this绑定到一个常量对象上。这样使用con">
+<meta property="article:published_time" content="2019-09-04T13:53:32.000Z">
+<meta property="article:modified_time" content="2020-12-06T12:34:07.777Z">
+<meta property="article:author" content="Zheng Chu">
+<meta property="article:tag" content="PRIMER">
+<meta name="twitter:card" content="summary">
+  <link rel="canonical" href="http://yoursite.com/2019/09/04/Primer/C++---CHAPTER-7--CLASS/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>C++---CHAPTER-7---CLASS | Zheng Chu's Blog</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?<622a1a023f2bb8cdefcf61e3855bf317>";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <div class="container sidebar-position-left">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Zheng Chu's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">让希望永驻</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-主页">
+      
+    
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home  //"></i> <br>主页</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-所有专栏">
+      
+    
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th //"></i> <br>所有专栏</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-历史文章">
+      
+    
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive //"></i> <br>历史文章</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-标签">
+      
+    
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags  //"></i> <br>标签</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-关于我">
+      
+    
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user //"></i> <br>关于我</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+
+  <a href="https://github.com/zhengchu1994" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+            
+
+          <div id="content" class="content page-post-detail">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/04/Primer/C++---CHAPTER-7--CLASS/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zheng Chu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar/jojo3.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zheng Chu's Blog">
+    </span>
+      <header class="post-header">
+
+        
+          <h1 class="post-title" itemprop="name headline">C++---CHAPTER-7---CLASS
+
+            
+          </h1>
+        
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              
+                
+              
+
+              <time title="Created: 2019-09-04 21:53:32" itemprop="dateCreated datePublished" datetime="2019-09-04T21:53:32+08:00">2019-09-04</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-12-06 20:34:07" itemprop="dateModified" datetime="2020-12-06T20:34:07+08:00">2020-12-06</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/C/" itemprop="url" rel="index"><span itemprop="name">C++</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            <span class="post-meta-item" title="Views">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <ul>
+<li><p>引入<code>this</code><br>调用一个成员函数，编译器用请求该函数的对象地址初始化<code>this</code>，所以<code>this</code>的目的总是指向这个对象，因此<code>this</code>是一个常量指针。</p>
+</li>
+<li><p>引入<code>const</code>成员函数<br>以下是<code>Sales_data</code>类的一个成员函数的定义,参数列表之后的<code>const</code>作用是修改隐式<code>this</code>指针的类型，因为默认情况下，<code>this</code>的类型是指向类类型非常量版本的常量指针。所以默认情况不能把<code>this</code>绑定到一个常量对象上。这样使用<code>const</code>的成员函数被称为常量成员函数。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">std::string isbn() const &#123;return bookNo;&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>类作用域<br>编译器首先编译成员的声明，然后是成员函数体，所以成员函数体可以随意使用类中的其他成员无须在意成员的顺序。</p>
+</li>
+<li><p>定义一个返回<code>this</code>对象的函数<br>函数类似于某个内置运算符时，应该令该函数的行为尽量模仿这个运算符。内置赋值运算符把它的左侧运算对当左值返回，意味着这些函数返回的是对象本身而非对象的副本，因此combine必须返回引用类型。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Sales_data&amp; Sales_data::combine(const Sales_data &amp;rhs)</span><br><span class="line">&#123;</span><br><span class="line">  units_sold +&#x3D; rhs.units_sold;</span><br><span class="line">  revenue +&#x3D; rhs.revenue;</span><br><span class="line">  return *this;  &#x2F;&#x2F;解引用指针获取执行该函数的对象。</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>类相关的非成员函数<br>如果函数在概念上属于类但是不定义在类中，则它一般应与类声明在同一个头文件。<br>默认情况下拷贝类的对象，拷贝的是对象的数据成员。</li>
+</ul><a id="more"></a>
+<ul>
+<li><p>构造函数<br>构造函数不能声明为<code>const</code>,直到构造函数完成初始化过程，对象才能取得”常量”属性。因此，构造函数在<code>const</code>对象的构造过程中可以向其写值。</p>
+<ul>
+<li><p>合成的默认构造函数：类没有显示的定义构造函数，那么编译器会为我们隐式地定义一个合成的默认构造函数，安照类内初始值初始化成员，没有的话则默认初始化成员。只有当类没有声明任何构造函数的时候，才会默认构造函数。使用<code>= default</code>要求编译器生成构造函数。</p>
+</li>
+<li><p>构造函数初始值列表：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Sales_data &#x3D; (const std::string &amp;s, unsigned n, double p): bookNo(s), units_sold(n), revenue(p*n) &#123;&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>一个<code>const</code>成员函数如果以引用的形式返回<code>*this</code>指针，那么它的返回类型将是常量引用。</li>
+</ul>
+<p>基于<code>const</code>的重载<br>如下，当一个成员调用另一个成员的时候，<code>this</code>指针在其中隐式地传递，当<code>display</code>的非常量版本调用<code>do_display</code>的时候，它的<code>this</code>指针隐式地从指向非常量的指针转换成指向常量的指针。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;iostream&gt;</span><br><span class="line">#include &lt;string&gt;</span><br><span class="line">using namespace std;</span><br><span class="line"></span><br><span class="line">class Screen&#123;</span><br><span class="line">public:</span><br><span class="line">  typedef std::string::size_type pos;</span><br><span class="line">  </span><br><span class="line">  Screen() &#x3D; default; &#x2F;&#x2F; 因为要写另一个构造函数</span><br><span class="line">  Screen(pos ht, pos wd, char c): height(ht), width(wd), contents(ht* wd, c) &#123;&#125;</span><br><span class="line">  </span><br><span class="line">  char get() const</span><br><span class="line">  &#123;return contents[cursor];&#125; &#x2F;&#x2F; 类内部声明定义的隐式内联函数</span><br><span class="line">  </span><br><span class="line">  inline char get(pos ht, pos wd) const; &#x2F;&#x2F; 显示内联</span><br><span class="line"></span><br><span class="line">  Screen &amp;set(char);</span><br><span class="line">  SCreen &amp;set(pos, pos, char);</span><br><span class="line">  </span><br><span class="line">  Screen &amp;move(pos r, pos c); &#x2F;&#x2F;能在之后被设为内联函数</span><br><span class="line"></span><br><span class="line">  Screen &amp;display(std::ostream &amp;os)</span><br><span class="line">  &#123;do_display(os); return *this;&#125;</span><br><span class="line"></span><br><span class="line">  const Screen &amp;display(std::ostream &amp;os) const</span><br><span class="line">  &#123;do_display(os); return *this;&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">private:</span><br><span class="line">  pos cursor &#x3D; 0;  &#x2F;&#x2F;光标的意思</span><br><span class="line">  pos height &#x3D; 0, width &#x3D; 0;</span><br><span class="line">  std::string contents;</span><br><span class="line"></span><br><span class="line">  void do_display(std::ostream &amp;os) const&#123;os &lt;&lt; contents;&#125;</span><br><span class="line"></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">inline  &#x2F;&#x2F; 在函数的定义处指定为内联函数</span><br><span class="line">Screen &amp;Screen::move(pos r, pos c)</span><br><span class="line">&#123;</span><br><span class="line">  pos row &#x3D; r * width;</span><br><span class="line">  cursor &#x3D; row + c; </span><br><span class="line">  return *this;  &#x2F;&#x2F;左值</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">char Screen::get(pos r, pos c) const</span><br><span class="line">&#123;</span><br><span class="line">  pos row &#x3D; r * width;</span><br><span class="line">  return contents[row + c];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">inline</span><br><span class="line">Screen &amp;Screen::set(char c)</span><br><span class="line">&#123;</span><br><span class="line">  contents[cursor] &#x3D; c;</span><br><span class="line">  return *this;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">inline </span><br><span class="line">Screen &amp;Screen::set(pos r, pos col, char ch)</span><br><span class="line">&#123;</span><br><span class="line">  contents[r*width +col] &#x3D;ch;</span><br><span class="line">  return *this;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int main() &#123;</span><br><span class="line">  Screen myscreen(5, 5, &#39;F&#39;);</span><br><span class="line">  char ch &#x3D;myscreen.get();</span><br><span class="line">  ch &#x3D; myscreen.get(0, 0);</span><br><span class="line">  cout &lt;&lt; ch &lt;&lt; endl;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><br>注：转换成常量：指向T类型的指针或引用分别转换成指向<code>const T</code>的指针或引用：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">int i ;</span><br><span class="line">const int &amp; j &#x3D; i; &#x2F;&#x2F;非常量转换成const int 的引用</span><br><span class="line">const int *p &#x3D; &amp;i; &#x2F;&#x2F;非常量的地址转换成const的地址</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>类的声明</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">class Screen; &#x2F;&#x2F; Screen类的声明</span><br></pre></td></tr></table></figure>
+<p>前项声明（是一种不完全类型）的使用：可以定义指向这种类型的指针或者引用，声明（但不能定义）以不完全类型作为参数或者返回类型的函数。<br>必须完成类的定义，编译器才能知道存储数据成员需要多少空间。因为只有当类全部完成后才算被定义，因此不能有一个类的成员类型是该类自己。<br>但是类的名字出现后，声明了该类，因此类允许包含自身类型的引用或者指针：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">class Link_Screen&#123;</span><br><span class="line">  Screen window;</span><br><span class="line">  Link_Screen *next;</span><br><span class="line">  Link_Screen *prev;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>友元函数<br>一个类指定了友元类，则友元类的成员函数可以访问此类的所有成员。</p>
+</li>
+<li><p>类的作用域</p>
+</li>
+<li><p>构造函数再谈</p>
+</li>
+</ul>
+<p>构造函数初始值列表的必要性：如果成员是<code>const</code>、引用，或者属于某种未提供默认构造函数的类类型，必须通过构造函数初始值列表为这些成员提供初值。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">class ConstRef&#123;</span><br><span class="line">public:</span><br><span class="line">  ConstRef(int ii);</span><br><span class="line">private:</span><br><span class="line">  int i;</span><br><span class="line">  const int c;</span><br><span class="line">  int &amp;ri;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">ConstRef::ConstRef(int ii)</span><br><span class="line">&#123;</span><br><span class="line">  i &#x3D; ii; &#x2F;&#x2F;正确</span><br><span class="line">  c &#x3D; ii; &#x2F;&#x2F;错误 ：不能给const复制</span><br><span class="line">  ri &#x3D; i; &#x2F;&#x2F;错误 ：ri没被初始化</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><br>那么成员初始化的顺序是：与他们在类中的定义一致。</p>
+<p>默认实参与构造函数：可以重写一个使用默认实参的构造函数<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">class Sales_data&#123;</span><br><span class="line">public:</span><br><span class="line">  &#x2F;&#x2F;定义默认构造函数,接受一个字符串初始值</span><br><span class="line">  Sales_data(std::string s &#x3D; &quot; &quot;) bookNo(s) &#123;&#125;</span><br><span class="line">private:</span><br><span class="line">  ....</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>委托构造函数：delegating constructor,委托构造函数就是把自己的初始化全部交给其他构造函数，受委托的构造函数初始值列表和函数体执行后才轮到委托构造函数。</li>
+</ul>
+<ul>
+<li><p>类的静态成员：与类直接相关的成员，不包含<code>this</code>指针，静态成员函数不能声明为<code>const</code>的，不能再<code>static</code>函数体内使用<code>this</code>指针。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">class Account&#123;</span><br><span class="line">  public:</span><br><span class="line">    void calculate() &#123;amount +&#x3D; amount * interestRate;&#125;</span><br><span class="line">    static double rate() &#123;return interestRate;&#125;</span><br><span class="line">    static void rate(double);</span><br><span class="line">  private:</span><br><span class="line">    std::string owner;</span><br><span class="line">    double amount;</span><br><span class="line">    static constexpr int period &#x3D; 30;  &#x2F;&#x2F;period是常量表达式</span><br><span class="line">    static double interestRate;</span><br><span class="line">    static double initRate();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; static关键字出现在类内部</span><br><span class="line">void Account::rate(double newRate)  </span><br><span class="line">&#123;</span><br><span class="line">  interestRate &#x3D; newRate;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>由上看出，必须在内外初始化每个静态成员。<br>类内初始化必须要求静态成员是字面值常量类型的<code>constexpr</code>。</p>
+</li>
+<li><p>静态成员与普通成员的不同：</p>
+</li>
+</ul>
+<ol>
+<li>静态数据成员的类型可以就是她所属的类类型；<br>2.可使用静态成员做默认实参；<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">class Account&#123;</span><br><span class="line">  public:</span><br><span class="line">    void calculate() &#123;amount +&#x3D; amount * interestRate;&#125;</span><br><span class="line">    static double rate() &#123;return interestRate;&#125;</span><br><span class="line">    static void rate(double);</span><br><span class="line">  private:</span><br><span class="line">    std::string owner;</span><br><span class="line">    double amount;</span><br><span class="line">    static double interestRate;</span><br><span class="line">    static double initRate();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">void Account::rate(double newRate)</span><br><span class="line">&#123;</span><br><span class="line">  interestRate &#x3D; newRate;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+        
+      
+
+      <footer class="post-footer">
+          
+            
+          
+          <div class="post-tags">
+            
+              <a href="/tags/PRIMER/" rel="tag"># PRIMER</a>
+            
+          </div>
+        
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/2019/09/04/C++Cook/%E5%89%91%E6%8C%87offer/" rel="next" title="剑指offer--c++">
+                  <i class="fa fa-chevron-left"></i> 剑指offer--c++
+                </a>
+              
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+                <a href="/2019/09/04/C++Cook/%E4%BB%8Emap%E4%B8%AD%E6%89%BE%E5%88%B0value%E6%88%96%E8%80%85key%E6%9C%80%E5%A4%A7%E7%9A%84iterator/" rel="prev" title="从map中找到value或者key最大的iterator">
+                  从map中找到value或者key最大的iterator <i class="fa fa-chevron-right"></i>
+                </a>
+              
+            </div>
+          </div>
+        
+      </footer>
+    
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+    
+    <div class="comments" id="gitalk-container"></div>
+  
+
+        </div>
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image"
+      src="/images/avatar/jojo3.jpg"
+      alt="Zheng Chu">
+  <p class="site-author-name" itemprop="name">Zheng Chu</p>
+  <div class="site-description motion-element" itemprop="description"></div>
+</div>
+  <nav class="site-state motion-element">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives">
+        
+          <span class="site-state-item-count">82</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-name">categories</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">tags</span>
+        </a>
+      </div>
+    
+  </nav>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://github.com/zhengchu1994" title="GitHub &rarr; https://github.com/zhengchu1994" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://www.jianshu.com/u/d4875c485cff" title="简书 &rarr; https://www.jianshu.com/u/d4875c485cff" rel="noopener" target="_blank"><i class="fa fa-fw fa-heartbeat"></i>简书</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://blog.csdn.net/NockinOnHeavensDoor" title="CSDN &rarr; https://blog.csdn.net/NockinOnHeavensDoor" rel="noopener" target="_blank"><i class="fa fa-fw fa-globe"></i>CSDN</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="mailto:zhengchu@tju.edu.cn" title="E-Mail &rarr; mailto:zhengchu@tju.edu.cn" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+    
+  </div>
+
+
+
+        </div>
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Zheng Chu</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.2.1</div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.3.0</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="Total Visitors">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+    <span class="post-meta-divider">|</span>
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="Total Views">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+      </div>
+
+    
+
+  </div>
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+<script src="/js/utils.js?v=7.3.0"></script>
+  <script src="/js/motion.js?v=7.3.0"></script>
+
+
+  <script src="/js/affix.js?v=7.3.0"></script>
+  <script src="/js/schemes/pisces.js?v=7.3.0"></script>
+
+
+<script src="/js/next-boot.js?v=7.3.0"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+    
+      
+<script type="text/x-mathjax-config">
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') {
+          next = next.nextSibling;
+        }
+        if (next && next.nodeName.toLowerCase() === 'br') {
+          next.parentNode.removeChild(next);
+        }
+      }
+    });
+  });
+
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      element = document.getElementById(all[i].inputID + '-Frame').parentNode;
+      if (element.nodeName.toLowerCase() == 'li') {
+        element = element.parentNode;
+      }
+      element.classList.add('has-jax');
+    }
+  });
+</script>
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML', function() {
+    MathJax.Hub.Typeset();
+  }, window.MathJax);
+</script>
+
+    
+  
+
+  
+
+  
+
+
+  
+  <script src="/js/scrollspy.js?v=7.3.0"></script>
+<script src="/js/post-details.js?v=7.3.0"></script>
+
+
+    
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', function() {
+    var gitalk = new Gitalk({
+      clientID: '0911ce8ceab7f12409f0',
+      clientSecret: '6fa693e25bfc0f98e5cc0907c97cb2fe9f54bb5e',
+      repo: 'Gitalk',
+      owner: 'zhengchu1994',
+      admin: ['zhengchu1994'],
+      id: '7e3d285fdb455098774545aaa312bd28',
+        language: window.navigator.language || window.navigator.userLanguage,
+      
+      distractionFreeMode: 'true'
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+</script>
+
+</body>
+</html>
