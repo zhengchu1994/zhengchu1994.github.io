@@ -284,20 +284,6 @@ def build_nn_model():
 
 
 
-#### 后续步骤
-
-
-
-base lines：concat \.   mean. 
-
-识别量；
-
-增量；
-
-差评率；
-
-数据加特征；
-
 
 
 
