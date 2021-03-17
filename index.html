@@ -246,90 +246,6 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/12/06/Tensorflow2/Tensorflow-anomie/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Zheng Chu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar/jojo3.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Zheng Chu's Blog">
-    </span>
-      <header class="post-header">
-
-        
-          <h1 class="post-title" itemprop="name headline">
-              
-              <a href="/2020/12/06/Tensorflow2/Tensorflow-anomie/" class="post-title-link" itemprop="url">Tensorflow2/Tensorflow-anomie</a>
-            
-          </h1>
-        
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              
-                
-              
-
-              <time title="Created: 2020-12-06 20:34:07" itemprop="dateCreated datePublished" datetime="2020-12-06T20:34:07+08:00">2020-12-06</time>
-            </span>
-          
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="三种计算图"><a href="#三种计算图" class="headerlink" title="三种计算图"></a>三种计算图</h1><p>有三种计算图的构建方式：静态计算图，动态计算图，以及Autograph.</p><p>在TensorFlow1.0时代，采用的是静态计算图，需要先使用TensorFlow的各种算子创建计算图，然后再开启一个会话Session，显式执行计算图。</p><p>而在TensorFlow2.0时代，采用的是动态计算图，即每使用一个算子后，该算子会被动态加入到隐含的默认计算图中立即执行得到结果，而无需开启Session</p>
-          <!--noindex-->
-          
-            <div class="post-button text-center">
-              <a class="btn" href="/2020/12/06/Tensorflow2/Tensorflow-anomie/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-          <div class="post-eof"></div>
-        
-      </footer>
-  </div>
-  
-  
-  
-  </article>
-
-     
-    
-     
-       
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/12/06/%E4%B8%96%E7%95%8C/PythonTricks-%E5%B9%B6%E5%8F%91%E4%B8%8E%E5%B9%B6%E8%A1%8C/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -978,7 +894,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-12-06 21:13:37" itemprop="dateModified" datetime="2020-12-06T21:13:37+08:00">2020-12-06</time>
+                <time title="Modified: 2021-03-17 09:14:00" itemprop="dateModified" datetime="2021-03-17T09:14:00+08:00">2021-03-17</time>
               </span>
             
           
@@ -1007,11 +923,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h3 id="一，Autograph编码规范总结"><a href="#一，Autograph编码规范总结" class="headerlink" title="一，Autograph编码规范总结"></a>一，Autograph编码规范总结</h3><ul>
-<li>1，被<code>@tf.function</code>修饰的函数应尽可能使用TensorFlow中的函数而不是Python中的其他函数。例如使用<code>tf.print</code>而不是<code>print</code>，使用<code>tf.range</code>而不是<code>range</code>，使用<code>tf.constant(True)</code>而不是<code>True</code>.</li>
-<li>2，避免在<code>@tf.function</code>修饰的函数内部定义<code>tf.Variable.</code></li>
-<li>3，被<code>@tf.function</code>修饰的函数不可修改该函数外部的Python列表或字典等数据结构变量。</li>
-</ul>
+          <h1 id="三种计算图"><a href="#三种计算图" class="headerlink" title="三种计算图"></a>三种计算图</h1><p>有三种计算图的构建方式：静态计算图，动态计算图，以及Autograph.</p><p>在TensorFlow1.0时代，采用的是静态计算图，需要先使用TensorFlow的各种算子创建计算图，然后再开启一个会话Session，显式执行计算图。</p><p>而在TensorFlow2.0时代，采用的是动态计算图，即每使用一个算子后，该算子会被动态加入到隐含的默认计算图中立即执行得到结果，而无需开启Session</p>
           <!--noindex-->
           
             <div class="post-button text-center">
@@ -1048,7 +960,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/10/01/Tensorflow2/Tensorflow-ParameterServer/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/10/01/Tensorflow2/Tensorflow-DistributedTraining/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Zheng Chu">
@@ -1064,7 +976,7 @@
         
           <h1 class="post-title" itemprop="name headline">
               
-              <a href="/2020/10/01/Tensorflow2/Tensorflow-ParameterServer/" class="post-title-link" itemprop="url">Tensorflow2-ParameterServer</a>
+              <a href="/2020/10/01/Tensorflow2/Tensorflow-DistributedTraining/" class="post-title-link" itemprop="url">Tensorflow2-DistributedTraining</a>
             
           </h1>
         
@@ -1091,7 +1003,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-12-06 21:16:15" itemprop="dateModified" datetime="2020-12-06T21:16:15+08:00">2020-12-06</time>
+                <time title="Modified: 2021-03-14 09:59:25" itemprop="dateModified" datetime="2021-03-14T09:59:25+08:00">2021-03-14</time>
               </span>
             
           
@@ -1120,13 +1032,124 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p><strong>数据并行化</strong></p><p>整个计算图被保存在一个或多个参数服务器（ps）中。训练操作在多个机器上被执行，这些机器被称作worker。这些worker读取不同的数据(data batches），计算梯度，并将更新操作发送给参数服务器。</p><p>数据并行化有两种主要的方案：</p><ul>
-<li><strong>同步训练：</strong>所有的worker服务器同时读取参数，执行训练操作，等待所有的worker服务器都完成当前训练操作后，梯度被平均后变成一个单独的更新请求并被发送到参数服务器中。所以在任何时候，每个worker服务器看到的计算图参数都是相同的。</li>
+          <h2 id="分布式训练"><a href="#分布式训练" class="headerlink" title="分布式训练"></a>分布式训练</h2><p>The code here is similar to the <a href="https://www.tensorflow.org/tutorials/distribute/keras" target="_blank" rel="noopener">multi-GPU training tutorial</a> with one key difference: </p><p>when using Estimator for multi-worker training, it is necessary to shard the dataset by the number of workers to ensure model convergence. （ multi-worker 模式下的分布式模式下，作为包证模型收敛的手段，数据集切割分配到多个worker上。）</p>
+          <!--noindex-->
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/2020/10/01/Tensorflow2/Tensorflow-DistributedTraining/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+          <div class="post-eof"></div>
+        
+      </footer>
+  </div>
+  
+  
+  
+  </article>
+
+     
+    
+     
+       
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/10/01/Tensorflow2/Tensorflow-Callbacks/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zheng Chu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar/jojo3.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zheng Chu's Blog">
+    </span>
+      <header class="post-header">
+
+        
+          <h1 class="post-title" itemprop="name headline">
+              
+              <a href="/2020/10/01/Tensorflow2/Tensorflow-Callbacks/" class="post-title-link" itemprop="url">Tensorflow2-CallBack</a>
+            
+          </h1>
+        
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              
+                
+              
+
+              <time title="Created: 2020-10-01 21:53:32" itemprop="dateCreated datePublished" datetime="2020-10-01T21:53:32+08:00">2020-10-01</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2021-03-17 09:14:14" itemprop="dateModified" datetime="2021-03-17T09:14:14+08:00">2021-03-17</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Tensorflow/" itemprop="url" rel="index"><span itemprop="name">Tensorflow</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="Keras-callbacks-overview"><a href="#Keras-callbacks-overview" class="headerlink" title="Keras callbacks overview"></a>Keras callbacks overview</h2><p>所有的callbacks子类都继承自 <code>keras.callbacks.Callback</code> 类；</p><p>可以把callbacks的lists传递给如下的接口： （参数名为 <code>callbacks</code>）</p><ul>
+<li><code>keras.Model.fit()</code></li>
+<li><code>keras.Model.evaluate()</code></li>
+<li><code>keras.Model.predict()</code></li>
 </ul>
           <!--noindex-->
           
             <div class="post-button text-center">
-              <a class="btn" href="/2020/10/01/Tensorflow2/Tensorflow-ParameterServer/#more" rel="contents">
+              <a class="btn" href="/2020/10/01/Tensorflow2/Tensorflow-Callbacks/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
@@ -1155,7 +1178,7 @@
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="extend next" rel="next" href="/page/2/">&gt;</a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/2/">&gt;</a>
   </nav>
 
 
@@ -1191,7 +1214,7 @@
         
           <a href="/archives">
         
-          <span class="site-state-item-count">91</span>
+          <span class="site-state-item-count">90</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -1379,7 +1402,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
   <span class="with-love" id="animate">
     <i class="fa fa-user"></i>
   </span>
@@ -1492,9 +1515,9 @@
       
     
       
-    
-      
         
+      
+    
       
     
       

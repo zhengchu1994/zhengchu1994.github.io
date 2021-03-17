@@ -55,14 +55,14 @@
   };
 </script>
 
-  <meta name="description" content="一，Autograph编码规范总结 1，被@tf.function修饰的函数应尽可能使用TensorFlow中的函数而不是Python中的其他函数。例如使用tf.print而不是print，使用tf.range而不是range，使用tf.constant(True)而不是True. 2，避免在@tf.function修饰的函数内部定义tf.Variable. 3，被@tf.function修饰的函">
+  <meta name="description" content="三种计算图有三种计算图的构建方式：静态计算图，动态计算图，以及Autograph.在TensorFlow1.0时代，采用的是静态计算图，需要先使用TensorFlow的各种算子创建计算图，然后再开启一个会话Session，显式执行计算图。而在TensorFlow2.0时代，采用的是动态计算图，即每使用一个算子后，该算子会被动态加入到隐含的默认计算图中立即执行得到结果，而无需开启Session">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Tensorflow2-AutoGraph">
 <meta property="og:url" content="http://yoursite.com/2020/10/01/Tensorflow2/Tensorflow-AutoGraph/index.html">
 <meta property="og:site_name" content="Zheng Chu&#39;s Blog">
-<meta property="og:description" content="一，Autograph编码规范总结 1，被@tf.function修饰的函数应尽可能使用TensorFlow中的函数而不是Python中的其他函数。例如使用tf.print而不是print，使用tf.range而不是range，使用tf.constant(True)而不是True. 2，避免在@tf.function修饰的函数内部定义tf.Variable. 3，被@tf.function修饰的函">
+<meta property="og:description" content="三种计算图有三种计算图的构建方式：静态计算图，动态计算图，以及Autograph.在TensorFlow1.0时代，采用的是静态计算图，需要先使用TensorFlow的各种算子创建计算图，然后再开启一个会话Session，显式执行计算图。而在TensorFlow2.0时代，采用的是动态计算图，即每使用一个算子后，该算子会被动态加入到隐含的默认计算图中立即执行得到结果，而无需开启Session">
 <meta property="article:published_time" content="2020-10-01T13:53:32.000Z">
-<meta property="article:modified_time" content="2020-12-06T13:13:37.443Z">
+<meta property="article:modified_time" content="2021-03-17T01:14:00.824Z">
 <meta property="article:author" content="Zheng Chu">
 <meta property="article:tag" content="Tensorflow">
 <meta name="twitter:card" content="summary">
@@ -293,7 +293,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-12-06 21:13:37" itemprop="dateModified" datetime="2020-12-06T21:13:37+08:00">2020-12-06</time>
+                <time title="Modified: 2021-03-17 09:14:00" itemprop="dateModified" datetime="2021-03-17T09:14:00+08:00">2021-03-17</time>
               </span>
             
           
@@ -330,11 +330,20 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h3 id="一，Autograph编码规范总结"><a href="#一，Autograph编码规范总结" class="headerlink" title="一，Autograph编码规范总结"></a>一，Autograph编码规范总结</h3><ul>
+        <h1 id="三种计算图"><a href="#三种计算图" class="headerlink" title="三种计算图"></a>三种计算图</h1><p>有三种计算图的构建方式：静态计算图，动态计算图，以及Autograph.</p><p>在TensorFlow1.0时代，采用的是静态计算图，需要先使用TensorFlow的各种算子创建计算图，然后再开启一个会话Session，显式执行计算图。</p><p>而在TensorFlow2.0时代，采用的是动态计算图，即每使用一个算子后，该算子会被动态加入到隐含的默认计算图中立即执行得到结果，而无需开启Session</p><a id="more"></a>
+
+
+<p>因为使用动态图会有许多次Python进程和TensorFlow的C++进程之间的通信。而静态计算图构建完成之后几乎全部在TensorFlow内核上使用C++代码执行，效率更高。此外静态图会对计算步骤进行一定的优化，剪去和结果无关的计算步骤。</p>
+<p>如果需要在TensorFlow2.0中使用静态图，可以使用@tf.function装饰器将普通Python函数转换成对应的TensorFlow计算图构建代码。运行该函数就相当于在TensorFlow1.0中用Session执行代码。使用tf.function构建静态图的方式叫做 Autograph.</p>
+<p>在TensorFlow2.0中，使用的是动态计算图和Autograph.</p>
+<p>实践中，我们一般会先用动态计算图调试代码，然后在需要提高性能的的地方利用@tf.function切换成Autograph获得更高的效率。</p>
+<h3 id="一，Autograph编码规范总结"><a href="#一，Autograph编码规范总结" class="headerlink" title="一，Autograph编码规范总结"></a>一，Autograph编码规范总结</h3><p>a function with <em>@tf.fuction</em> such that the whole function will be compiled, optimized, and run as a single computational graph</p>
+<p>Python “assert” within a <em>@tf.function</em> function will throw an exception. Use <em>tf.debugging.assert_{condition}</em> instead for both modes.</p>
+<ul>
 <li>1，被<code>@tf.function</code>修饰的函数应尽可能使用TensorFlow中的函数而不是Python中的其他函数。例如使用<code>tf.print</code>而不是<code>print</code>，使用<code>tf.range</code>而不是<code>range</code>，使用<code>tf.constant(True)</code>而不是<code>True</code>.</li>
 <li>2，避免在<code>@tf.function</code>修饰的函数内部定义<code>tf.Variable.</code></li>
 <li>3，被<code>@tf.function</code>修饰的函数不可修改该函数外部的Python列表或字典等数据结构变量。</li>
-</ul><a id="more"></a>
+</ul>
 <h3 id="二，Autograph编码规范解析"><a href="#二，Autograph编码规范解析" class="headerlink" title="二，Autograph编码规范解析"></a>二，Autograph编码规范解析</h3><p><strong>1，被@tf.function修饰的函数应尽量使用TensorFlow中的函数而不是Python中的其他函数。</strong></p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line"></span><br><span class="line"><span class="meta">@tf.function</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">np_random</span><span class="params">()</span>:</span></span><br><span class="line">    a = np.random.randn(<span class="number">3</span>,<span class="number">3</span>)</span><br><span class="line">    tf.print(a)</span><br><span class="line"></span><br><span class="line"><span class="meta">@tf.function</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">tf_random</span><span class="params">()</span>:</span></span><br><span class="line">    a = tf.random.normal((<span class="number">3</span>,<span class="number">3</span>))</span><br><span class="line">    tf.print(a)</span><br></pre></td></tr></table></figure>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#np_random每次执行都是一样的结果。</span></span><br><span class="line">np_random()</span><br><span class="line">np_random()</span><br><span class="line"></span><br><span class="line">array([[ <span class="number">0.22619201</span>, <span class="number">-0.4550123</span> , <span class="number">-0.42587565</span>],</span><br><span class="line">       [ <span class="number">0.05429906</span>,  <span class="number">0.2312667</span> , <span class="number">-1.44819738</span>],</span><br><span class="line">       [ <span class="number">0.36571796</span>,  <span class="number">1.45578986</span>, <span class="number">-1.05348983</span>]])</span><br><span class="line">array([[ <span class="number">0.22619201</span>, <span class="number">-0.4550123</span> , <span class="number">-0.42587565</span>],</span><br><span class="line">       [ <span class="number">0.05429906</span>,  <span class="number">0.2312667</span> , <span class="number">-1.44819738</span>],</span><br><span class="line">       [ <span class="number">0.36571796</span>,  <span class="number">1.45578986</span>, <span class="number">-1.05348983</span>]])</span><br></pre></td></tr></table></figure>
@@ -382,8 +391,8 @@
           <div class="post-nav">
             <div class="post-nav-next post-nav-item">
               
-                <a href="/2020/10/01/Tensorflow2/Tensorflow-ParameterServer/" rel="next" title="Tensorflow2-ParameterServer">
-                  <i class="fa fa-chevron-left"></i> Tensorflow2-ParameterServer
+                <a href="/2020/10/01/Tensorflow2/Tensorflow-DistributedTraining/" rel="next" title="Tensorflow2-DistributedTraining">
+                  <i class="fa fa-chevron-left"></i> Tensorflow2-DistributedTraining
                 </a>
               
             </div>
@@ -454,7 +463,7 @@
         
           <a href="/archives">
         
-          <span class="site-state-item-count">91</span>
+          <span class="site-state-item-count">90</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -641,7 +650,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一，Autograph编码规范总结"><span class="nav-number">1.</span> <span class="nav-text">一，Autograph编码规范总结</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二，Autograph编码规范解析"><span class="nav-number">2.</span> <span class="nav-text">二，Autograph编码规范解析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#一，Autograph的机制原理"><span class="nav-number">3.</span> <span class="nav-text">一，Autograph的机制原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#一，Autograph和tf-Module概述"><span class="nav-number">4.</span> <span class="nav-text">一，Autograph和tf.Module概述</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#五、TensorFlow的中阶API"><span class="nav-number"></span> <span class="nav-text">五、TensorFlow的中阶API</span></a></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#三种计算图"><span class="nav-number">1.</span> <span class="nav-text">三种计算图</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#一，Autograph编码规范总结"><span class="nav-number">1.0.1.</span> <span class="nav-text">一，Autograph编码规范总结</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二，Autograph编码规范解析"><span class="nav-number">1.0.2.</span> <span class="nav-text">二，Autograph编码规范解析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#一，Autograph的机制原理"><span class="nav-number">1.0.3.</span> <span class="nav-text">一，Autograph的机制原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#一，Autograph和tf-Module概述"><span class="nav-number">1.0.4.</span> <span class="nav-text">一，Autograph和tf.Module概述</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#五、TensorFlow的中阶API"><span class="nav-number">2.</span> <span class="nav-text">五、TensorFlow的中阶API</span></a></li></ol></div>
             
 
           </div>
@@ -659,7 +668,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
   <span class="with-love" id="animate">
     <i class="fa fa-user"></i>
   </span>

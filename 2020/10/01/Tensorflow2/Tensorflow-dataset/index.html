@@ -62,7 +62,7 @@
 <meta property="og:site_name" content="Zheng Chu&#39;s Blog">
 <meta property="og:description" content="tf.data建立tf.data.Dataset代表数据：建立方法：tf.data.Dataset.from_tensors()或tf.data.Dataset.from_tensor_slices()，或tf.data.TFRecordDataset().只要建立了Dataset后，就可以像Scala一样进行数据变换生成新的数据；此外，Dataset是可迭代的：">
 <meta property="article:published_time" content="2020-10-01T13:53:32.000Z">
-<meta property="article:modified_time" content="2020-12-06T13:14:32.014Z">
+<meta property="article:modified_time" content="2021-03-08T12:12:18.776Z">
 <meta property="article:author" content="Zheng Chu">
 <meta property="article:tag" content="Tensorflow">
 <meta name="twitter:card" content="summary">
@@ -293,7 +293,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-12-06 21:14:32" itemprop="dateModified" datetime="2020-12-06T21:14:32+08:00">2020-12-06</time>
+                <time title="Modified: 2021-03-08 20:12:18" itemprop="dateModified" datetime="2021-03-08T20:12:18+08:00">2021-03-08</time>
               </span>
             
           
@@ -366,7 +366,9 @@
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> scipy.ndimage <span class="keyword">as</span> ndimage</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">random_rotate_image</span><span class="params">(image)</span>:</span></span><br><span class="line">  image = ndimage.rotate(image, np.random.uniform(<span class="number">-30</span>, <span class="number">30</span>), reshape=<span class="literal">False</span>)</span><br><span class="line">  <span class="keyword">return</span> image</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">tf_random_rotate_image</span><span class="params">(image, label)</span>:</span></span><br><span class="line">  im_shape = image.shape</span><br><span class="line">  [image,] = tf.py_function(random_rotate_image, [image], [tf.float32])</span><br><span class="line">  image.set_shape(im_shape)</span><br><span class="line">  <span class="keyword">return</span> image, label</span><br><span class="line"></span><br><span class="line">rot_ds = images_ds.map(tf_random_rotate_image)</span><br></pre></td></tr></table></figure>
 <p>加载数据集时，可以选择从训练集的某部分开始：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">range_ds = tf.data.Dataset.range(<span class="number">20</span>)</span><br><span class="line"></span><br><span class="line">iterator = iter(range_ds)</span><br><span class="line">ckpt = tf.train.Checkpoint(step=tf.Variable(<span class="number">0</span>), iterator=iterator)</span><br><span class="line">manager = tf.train.CheckpointManager(ckpt, <span class="string">'./'</span>, max_to_keep=<span class="number">3</span>)</span><br><span class="line"></span><br><span class="line">print([next(iterator).numpy() <span class="keyword">for</span> _ <span class="keyword">in</span> range(<span class="number">5</span>)])</span><br><span class="line"></span><br><span class="line">save_path = manager.save()</span><br><span class="line"></span><br><span class="line">print([next(iterator).numpy() <span class="keyword">for</span> _ <span class="keyword">in</span> range(<span class="number">5</span>)])</span><br><span class="line"></span><br><span class="line">ckpt.restore(manager.latest_checkpoint)</span><br><span class="line"></span><br><span class="line">print([next(iterator).numpy() <span class="keyword">for</span> _ <span class="keyword">in</span> range(<span class="number">5</span>)])</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">---</span><br><span class="line">[<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>]</span><br><span class="line">[<span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>]</span><br><span class="line"><span class="comment"># 又回来了第一次print之后的数据轮次</span></span><br><span class="line">[<span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>]</span><br></pre></td></tr></table></figure>
-<h2 id="tf-data-TextLineDataset"><a href="#tf-data-TextLineDataset" class="headerlink" title="tf.data.TextLineDataset"></a><a href="https://www.tensorflow.org/api_docs/python/tf/data/TextLineDataset" target="_blank" rel="noopener"><code>tf.data.TextLineDataset</code></a></h2>
+<h2 id="tf-data-TextLineDataset"><a href="#tf-data-TextLineDataset" class="headerlink" title="tf.data.TextLineDataset"></a><a href="https://www.tensorflow.org/api_docs/python/tf/data/TextLineDataset" target="_blank" rel="noopener"><code>tf.data.TextLineDataset</code></a></h2><p>读取本地文本文件：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">parse</span><span class="params">(x)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> tf.strings.to_number(tf.strings.split(x), out_type=tf.int32)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">spliter</span><span class="params">(x)</span>:</span></span><br><span class="line">    label = x[:<span class="number">2</span>]</span><br><span class="line">    length = x[<span class="number">2</span>]</span><br><span class="line">    seq = x[<span class="number">3</span>:]</span><br><span class="line">    <span class="keyword">return</span> label, length, seq</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">localDataLoader</span><span class="params">(path)</span>:</span></span><br><span class="line">    raw_data = tf.data.TextLineDataset(path)</span><br><span class="line">    dataset = raw_data.map(<span class="keyword">lambda</span> x: parse(x))</span><br><span class="line">    dataset = dataset.map(map_func=spliter)</span><br><span class="line">    <span class="keyword">return</span> dataset</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">sample_val</span><span class="params">(dataset, sample_size, reshuffle_each_iteration=True)</span>:</span></span><br><span class="line">    <span class="comment"># num = sum(1 for i in dataset)  :slow , remove</span></span><br><span class="line">    num = <span class="number">20000</span>  <span class="comment"># https://stackoverflow.com/questions/46444018/meaning-of-buffer-size-in-dataset-map-dataset-prefetch-and-dataset-shuffle</span></span><br><span class="line">    train_set = dataset.skip(sample_size).shuffle(num, reshuffle_each_iteration=reshuffle_each_iteration)</span><br><span class="line">    val_set = dataset.take(sample_size)</span><br><span class="line">    <span class="keyword">return</span> train_set, val_set</span><br></pre></td></tr></table></figure>
+
     </div>
 
     
@@ -391,8 +393,8 @@
           <div class="post-nav">
             <div class="post-nav-next post-nav-item">
               
-                <a href="/2020/10/01/Tensorflow2/Tensorflow-highLevel/" rel="next" title="Tensorflow2-highLevel">
-                  <i class="fa fa-chevron-left"></i> Tensorflow2-highLevel
+                <a href="/2020/10/01/Tensorflow2/Tensorflow-tf.function/" rel="next" title="Tensorflow2-tf.function">
+                  <i class="fa fa-chevron-left"></i> Tensorflow2-tf.function
                 </a>
               
             </div>
@@ -401,8 +403,8 @@
 
             <div class="post-nav-prev post-nav-item">
               
-                <a href="/2020/10/01/Tensorflow2/Tensorflow-DistributedTraining/" rel="prev" title="Tensorflow2-DistributedTraining">
-                  Tensorflow2-DistributedTraining <i class="fa fa-chevron-right"></i>
+                <a href="/2020/10/01/Tensorflow2/Tensorflow-QA/" rel="prev" title="Tensorflow2-QA">
+                  Tensorflow2-QA <i class="fa fa-chevron-right"></i>
                 </a>
               
             </div>
@@ -463,7 +465,7 @@
         
           <a href="/archives">
         
-          <span class="site-state-item-count">91</span>
+          <span class="site-state-item-count">90</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -668,7 +670,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
   <span class="with-love" id="animate">
     <i class="fa fa-user"></i>
   </span>
@@ -846,6 +848,11 @@
     });
     gitalk.render('gitalk-container');
   }, window.Gitalk);
+</script>
+
+</body>
+</html>
+alk);
 </script>
 
 </body>
